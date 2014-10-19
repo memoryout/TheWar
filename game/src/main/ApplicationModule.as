@@ -8,6 +8,7 @@ package main
 	import main.broadcast.UniqueId;
 	import main.broadcast.message.MessageData;
 	import main.events.ApplicationEvents;
+	import main.view.ApplicationMainLayoutModule;
 	
 	import utils.updater.Updater;
 
@@ -19,6 +20,8 @@ package main
 		private var stageContainer:Stage;
 		
 		private var bootModule:BootModule;
+		
+		private var applicationLayout:ApplicationMainLayoutModule;
 		
 		private var logView:LogView;
 		
@@ -40,6 +43,9 @@ package main
 		
 		private function initModules():void
 		{
+			applicationLayout = new ApplicationMainLayoutModule();
+			applicationLayout.initialize( stageContainer );
+			
 			logView = new LogView();
 			stageContainer.addChild(logView);			
 		}

@@ -19,7 +19,7 @@ package main
 		private function createSkin():void
 		{
 			_txt = new TextField();
-			_txt.background = true;
+			//_txt.background = true;
 			_txt.alpha = 0.7;
 			_txt.width = 800;
 			_txt.height = 500;
