@@ -1,5 +1,7 @@
 package main
 {
+	import core.data.DataContainer;
+	
 	import flash.display.Stage;
 	import flash.events.Event;
 	
@@ -7,6 +9,7 @@ package main
 	import main.broadcast.Module;
 	import main.broadcast.UniqueId;
 	import main.broadcast.message.MessageData;
+	import main.data.DataParser;
 	import main.events.ApplicationEvents;
 	
 	import utils.updater.Updater;
@@ -19,6 +22,8 @@ package main
 		private var stageContainer:Stage;
 		
 		private var bootModule:BootModule;
+		private var parseModule:DataParser;
+		private var dataContainer:DataContainer;
 		
 		private var logView:LogView;
 		
@@ -35,7 +40,10 @@ package main
 		
 			initModules();	
 			
-			bootModule = new BootModule();
+			dataContainer = new DataContainer();
+			
+			bootModule  = new BootModule();
+			parseModule = new DataParser();
 		}
 		
 		private function initModules():void
@@ -63,15 +71,21 @@ package main
 			{
 				case ApplicationEvents.SOURCES_LOADED:
 				{
-					logView.addMessage("SOURCES_LOADED");
+//					logView.addMessage("SOURCES_LOADED");
 					break;
 				}	
 					
 				case ApplicationEvents.CONFIG_LOADED:
 				{
-					logView.addMessage("CONFIG_LOADED");
+//					logView.addMessage("CONFIG_LOADED");
 					break;
 				}
+				
+				case ApplicationEvents.DATA_SAVED:
+				{
+					logView.addMessage("DATA_SAVED");
+					break;
+				}					
 			}
 		}
 	}

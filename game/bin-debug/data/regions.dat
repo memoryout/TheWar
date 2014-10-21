@@ -1,0 +1,17 @@
+@type=xml
+@table=regions
+@content=<xml>
+			<regions>
+			    <region id = "0"  money="500" growth_money="10" population="10" growth_population="10" army="500" civilization="empty" buildings="" defence="10" neighboring_regions="1,2,3,4,5"/>		
+				<region id = "1"  money="500" growth_money="10" population="10" growth_population="10" army="500" civilization="empty" buildings="" defence="10" neighboring_regions="5,6,7,2,0"/>	
+				<region id = "2"  money="500" growth_money="10" population="10" growth_population="10" army="500" civilization="empty" buildings="" defence="10" neighboring_regions="0,1,6,7,3"/>	
+				<region id = "3"  money="500" growth_money="10" population="10" growth_population="10" army="500" civilization="empty" buildings="" defence="10" neighboring_regions="8,9,4,0,2,7"/>	
+				<region id = "4"  money="500" growth_money="10" population="10" growth_population="10" army="500" civilization="empty" buildings="" defence="10" neighboring_regions="9,5,0,3"/>	
+				<region id = "5"  money="500" growth_money="10" population="10" growth_population="10" army="500" civilization="empty" buildings="" defence="10" neighboring_regions="4,0,1,6,10"/>	
+				<region id = "6"  money="500" growth_money="10" population="10" growth_population="10" army="500" civilization="empty" buildings="" defence="10" neighboring_regions="10,7,1,5"/>	 	
+				<region id = "7"  money="500" growth_money="10" population="10" growth_population="10" army="500" civilization="empty" buildings="" defence="10" neighboring_regions="6,1,2,3,8"/>	
+				<region id = "8"  money="500" growth_money="10" population="10" growth_population="10" army="500" civilization="empty" buildings="" defence="10" neighboring_regions="9,3,7"/>	
+				<region id = "9"  money="500" growth_money="10" population="10" growth_population="10" army="500" civilization="empty" buildings="" defence="10" neighboring_regions="4,3,8"/>		
+				<region id = "10" money="500" growth_money="10" population="10" growth_population="10" army="500" civilization="empty" buildings="" defence="10" neighboring_regions="5,6"/>						
+			</regions>
+		</xml>
