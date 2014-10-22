@@ -23,73 +23,76 @@ package main.data
 		
 		private function readVariables(val:Object):void
 		{
-			var vars:Array = val[0].split("@");
-			
-			vars.shift();
-			
-			var i:int, variable:String, symbol:String;
-			for(i = 0; i < vars.length; i++)
+			for (var j:int = 0; j < val.length; j++) 
 			{
-				variable = vars[i];
-				symbol = variable.charAt( variable.length - 1 );
-				while(symbol == "\n" || symbol == "\r")
+				var vars:Array = val[j].split("@");
+				
+				vars.shift();
+				
+				var i:int, variable:String, symbol:String;
+				for(i = 0; i < vars.length; i++)
 				{
-					variable = variable.slice(0, variable.length - 1);
+					variable = vars[i];
 					symbol = variable.charAt( variable.length - 1 );
+					while(symbol == "\n" || symbol == "\r")
+					{
+						variable = variable.slice(0, variable.length - 1);
+						symbol = variable.charAt( variable.length - 1 );
+					}
+					
+					vars[i] = variable;
+				}			
+				
+				var values:Array;
+				
+				for(i = 0; i < vars.length; i++)
+				{
+					values = String(vars[i]).split("=");
+					
+					variable = values.shift();
+					symbol = values.join("=");
+					
+					switch(variable)
+					{
+						case "type":
+						{
+							_type = symbol;
+							break;
+						}
+							
+						case "table":
+						{
+							_table = symbol;
+							break;
+						}
+							
+						case "content":
+						{
+							_content = symbol;
+							break;
+						}
+					}
 				}
 				
-				vars[i] = variable;
-			}			
-			
-			var values:Array;
-			
-			for(i = 0; i < vars.length; i++)
-			{
-				values = String(vars[i]).split("=");
-				
-				variable = values.shift();
-				symbol = values.join("=");
-				
-				switch(variable)
+				switch(_table)
 				{
-					case "type":
+					case "regions":
 					{
-						_type = symbol;
+						if(_type == "xml") 
+							parseRegionsXMLData(_content);		
+						
 						break;
 					}
 						
-					case "table":
+					case "scenarios":
 					{
-						_table = symbol;
-						break;
-					}
+						if(_type == "xml") 
+							parseScenariosXMLData(_content);		
 						
-					case "content":
-					{
-						_content = symbol;
 						break;
 					}
 				}
-			}
-			
-			switch(_table)
-			{
-				case "regions":
-				{
-					if(_type == "xml") 
-						parseRegionsXMLData(_content);		
-				
-					break;
-				}
-					
-				case "scenarios":
-				{
-					if(_type == "xml") 
-						parseScenariosXMLData(_content);		
-					
-					break;
-				}
-			}
+			}				
 			
 			sendMessage(ApplicationEvents.DATA_SAVED, null);
 		}

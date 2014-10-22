@@ -1,6 +1,7 @@
 package main
 {
 	import core.data.DataContainer;
+	import core.logic.LogicModule;
 	
 	import flash.display.Stage;
 	import flash.events.Event;
@@ -24,6 +25,7 @@ package main
 		private var bootModule:BootModule;
 		private var parseModule:DataParser;
 		private var dataContainer:DataContainer;
+		private var coreLogicModule:LogicModule;
 		
 		private var logView:LogView;
 		
@@ -44,6 +46,7 @@ package main
 			
 			bootModule  = new BootModule();
 			parseModule = new DataParser();
+			coreLogicModule = new LogicModule();
 		}
 		
 		private function initModules():void
