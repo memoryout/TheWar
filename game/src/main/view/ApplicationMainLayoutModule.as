@@ -5,15 +5,14 @@ package main.view
 	import main.broadcast.Module;
 	import main.broadcast.message.MessageData;
 	import main.events.ApplicationEvents;
-	import main.view.lobby.LobbyLayoutModule;
+	import main.view.application.ApplicationRootContext;
 	
 	public class ApplicationMainLayoutModule extends Module
 	{
 		public static const MODULE_NAME:		String = "app.view.main-layout";
 		
 		private var _mainLayout:				ApplicationMainLayout;
-		
-		private var _lobby:						LobbyLayoutModule;
+		private var _rootContext:				ApplicationRootContext;
 		
 		public function ApplicationMainLayoutModule()
 		{
@@ -39,17 +38,17 @@ package main.view
 				{
 					_mainLayout.initialize();
 					
-					createLobby();
+					createRootContext();
 					
 					break;
 				}
 			}
 		}
 		
-		private function createLobby():void
+		private function createRootContext():void
 		{
-			_lobby = new LobbyLayoutModule();
-			_lobby.initialize( _mainLayout.canvas );
+			_rootContext = new ApplicationRootContext();
+			_rootContext.init( _mainLayout.canvas );
 		}
 	}
 }

@@ -16,6 +16,7 @@ package main.view
 			super();
 			
 			_canvas.mouseEnabled = false;
+			this.mouseEnabled = false;
 			this.addChild( _canvas );
 		}
 		
