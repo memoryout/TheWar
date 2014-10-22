@@ -1,6 +1,8 @@
 package main.boot
-{
+{	
 	import main.MainGlobalVariables;
+	import main.boot.interfaces.ISQLManager;
+	import main.boot.sqllite.SQLManager;
 	import main.boot.task.SimpleTask;
 	import main.boot.task.TaskEvent;
 	import main.broadcast.Module;
@@ -17,6 +19,7 @@ package main.boot
 			
 			loadGameSource();
 			loadData();
+			loadSqLite();
 		}
 		
 		//load swf
@@ -44,9 +47,9 @@ package main.boot
 		private function loadData():void
 		{
 			var dataLoader:ConfigLoader = new ConfigLoader();
-			dataLoader.addListener(TaskEvent.COMPLETE, handlerErrorLoadData);
-			dataLoader.addListener(TaskEvent.ERROR, handlerLoadData);
-			dataLoader.run( MainGlobalVariables.SQL_FILE_URL/*, _mainGameController*/ );
+			dataLoader.addListener(TaskEvent.COMPLETE, handlerLoadData);
+			dataLoader.addListener(TaskEvent.ERROR, handlerErrorLoadData);
+			dataLoader.run( MainGlobalVariables.CONFIG_URL );
 		}
 		
 		private function handlerErrorLoadData(error:String):void
@@ -55,9 +58,7 @@ package main.boot
 		}
 				
 		private function handlerLoadData(task:ConfigLoader):void
-		{
-			sendMessage(ApplicationEvents.CONFIG_LOADED, null);
-			
+		{		
 			var files:Vector.<String> = task.filesData;
 			
 			task.destroy();
@@ -65,8 +66,32 @@ package main.boot
 			var i:int;
 			for(i = 0; i < files.length; i++)
 			{
-//				this.sendMessage(StaticDataManagerCommands.PARSE_STATIC_DATA, files[i]);
-			}
+				this.sendMessage(ApplicationEvents.PARSE_CONFIG, files[i]);
+			}	
+			
+			sendMessage(ApplicationEvents.CONFIG_LOADED, files);
+		}
+		
+		private function loadSqLite():void
+		{
+			SQLManager.init();
+			
+			ServicesList.addSearvice( new SQLManager() );
+			
+			var sql:ISQLManager = ServicesList.getSearvice( ServicesList.SQL_MANAGER ) as ISQLManager;
+			sql.connect(MainGlobalVariables.SQL_FILE_URL, onConnect, onErrorConnect);
+		}
+		
+		
+		private function onConnect():void
+		{
+//			this.sendNotification( ApplicationEvents.USER_DATA_PROXY_CONNECTED);
+			trace("onErrorConnect to data base");
+		}
+		
+		private function onErrorConnect():void
+		{
+			trace("onErrorConnect to data base");
 		}
 	}
 }

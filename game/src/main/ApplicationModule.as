@@ -1,5 +1,7 @@
 package main
 {
+	import core.logic.LogicModule;
+	
 	import flash.display.Stage;
 	import flash.events.Event;
 	
@@ -7,6 +9,8 @@ package main
 	import main.broadcast.Module;
 	import main.broadcast.UniqueId;
 	import main.broadcast.message.MessageData;
+	import main.data.DataContainer;
+	import main.data.DataParser;
 	import main.events.ApplicationEvents;
 	import main.view.ApplicationMainLayoutModule;
 	
@@ -19,11 +23,14 @@ package main
 		private var updater:Updater;
 		private var stageContainer:Stage;
 		
-		private var bootModule:BootModule;
-		
 		private var applicationLayout:ApplicationMainLayoutModule;
 		
 		private var logView:LogView;
+		
+		private var bootModule:BootModule;
+		private var parseModule:DataParser;
+		private var dataContainer:DataContainer;
+		private var coreLogicModule:LogicModule;
 		
 		public function ApplicationModule()
 		{
@@ -37,8 +44,6 @@ package main
 			stageContainer = stage;
 		
 			initModules();	
-			
-			bootModule = new BootModule();
 		}
 		
 		private function initModules():void
@@ -47,7 +52,12 @@ package main
 			applicationLayout.initialize( stageContainer );
 			
 			logView = new LogView();
-			stageContainer.addChild(logView);			
+			stageContainer.addChild(logView);	
+			
+			dataContainer = new DataContainer();			
+			bootModule  = new BootModule();
+			parseModule = new DataParser();
+			coreLogicModule = new LogicModule();
 		}
 		
 		private function initUpdater(stage:Stage):void

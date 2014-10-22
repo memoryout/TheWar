@@ -14,7 +14,7 @@ package main.boot
 
 	public class ConfigLoader extends SimpleTask
 	{
-		private var _urls:							String;
+		private var _urls:							Vector.<String>;
 		private var _files:							Vector.<String>;
 		
 		private var _loader:						URLLoader;
@@ -47,7 +47,7 @@ package main.boot
 				_loader = new URLLoader();
 				_loader.addEventListener(Event.COMPLETE, handlerLoadData);
 				_loader.addEventListener(IOErrorEvent.IO_ERROR, handlerErrorLoadData);
-				_loader.load( new URLRequest(_urls) );
+				_loader.load( new URLRequest(_urls.shift()) );
 			}
 			else
 			{
@@ -63,7 +63,7 @@ package main.boot
 			
 			_loader = null;
 			
-			this.dispachLocalEvent( TaskEvent.ERROR, ErrorEvents.ERROR_LOAD_GAME_DATA);
+			this.dispachLocalEvent( TaskEvent.ERROR, ErrorEvents.ERROR_LOAD_GAME_DATA );
 			this.destroy();
 		}
 		

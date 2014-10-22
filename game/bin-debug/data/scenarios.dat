@@ -1,0 +1,11 @@
+@type=xml
+@table=scenarios
+@content=<xml>
+			<scenarios>
+			    <scenario id = "0" name = "Present World">			
+					<civilization id="0" name="Ukraine"  flag="" region="10" money="100" population="1000" army=""/>
+					<civilization id="1" name="Austrian" flag="" region="8"  money="100" population="1000" army=""/>
+					<civilization id="2" name="Poland"   flag="" region="4"  money="100" population="1000" army=""/>
+				</scenario>
+			</scenarios>
+		</xml>
