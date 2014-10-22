@@ -20,9 +20,9 @@ package core.logic
 		
 		private function locateCivilizationOnPositions():void
 		{
-			for (var i:int = 0; i < DataContainer.Get().civilizationsDataContainer.length; i++) 
+			for (var i:int = 0; i < DataContainer.Get().regions.length; i++) 
 			{
-				var randNumber:int = Math.random()*DataContainer.Get().civilizationsDataContainer.length;
+				var randNumber:int = Math.random()*DataContainer.Get().regions.length;
 				
 //				DataContainer.Get().civilizationsDataContainer[].
 				

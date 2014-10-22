@@ -3,6 +3,7 @@ package main.data
 	import core.data.Civilization;
 	import core.data.DataContainer;
 	import core.data.Region;
+	import core.data.Scenario;
 	
 	import main.broadcast.Module;
 	import main.broadcast.message.MessageData;
@@ -129,24 +130,29 @@ package main.data
 		{
 			var xml:XML = new XML(str);
 			
-			var par:String, scenarios:XMLList, scenariosList:XML, scenarioItem:Civilization;
+			var par:String, civilization:XMLList, civilizationList:XML, civilizationItem:Civilization, scenario:Scenario = new Scenario();
 			
-			scenarios = xml.scenarios.scenario;
+			scenario.id		= xml.scenarios.scenario.@id;
+			scenario.name	= xml.scenarios.scenario.@name;
 			
-			for(par in scenarios.*)
+			civilization = xml.scenarios.scenario;
+			
+			for(par in civilization.*)
 			{
-				scenariosList = scenarios.*[par];
+				civilizationList = civilization.*[par];
 				
-				scenarioItem = new Civilization();
-				scenarioItem.id 				= Number( scenariosList.@id );
-				scenarioItem.money 				= Number( scenariosList.@money );
-				scenarioItem.population 		= Number( scenariosList.@population );	
-				scenarioItem.flag				= String( scenariosList.@flag);					
+				civilizationItem = new Civilization();
+				civilizationItem.id 				= Number( civilizationList.@id );
+				civilizationItem.money 				= Number( civilizationList.@money );
+				civilizationItem.population 		= Number( civilizationList.@population );	
+				civilizationItem.flag				= String( civilizationList.@flag);					
 				
-				scenarioItem.regions 	= scenariosList.@regions.split(",");
+				civilizationItem.regions 	= civilizationList.@regions.split(",");
 				
-				DataContainer.Get().addCivilization(scenarioItem);
+				scenario.civilizations.push(civilizationItem);
 			}
+			
+			DataContainer.Get().addScenario(scenario);
 		}
 		
 		override public function receiveMessage(message:MessageData):void

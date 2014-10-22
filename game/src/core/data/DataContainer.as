@@ -4,8 +4,8 @@ package core.data
 	{
 		private static const _instance	:DataContainer = new DataContainer();
 		
-		public var regionsDataContainer:Vector.<Region> = new Vector.<Region>();
-		public var civilizationsDataContainer:Vector.<Civilization> = new Vector.<Civilization>();
+		public var regions:Vector.<Region> = new Vector.<Region>();
+		public var scenarios:Vector.<Scenario> = new Vector.<Scenario>();
 		
 		public function DataContainer()
 		{
@@ -18,13 +18,13 @@ package core.data
 		
 		public function addRegion(val:Region):void
 		{
-			regionsDataContainer.push(val);
+			regions.push(val);
 		}
 		
 		
-		public function addCivilization(val:Civilization):void
+		public function addScenario(val:Scenario):void
 		{
-			civilizationsDataContainer.push(val);
+			scenarios.push(val);
 		}			
 	}
 }

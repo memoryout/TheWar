@@ -2,7 +2,7 @@
 @table=scenarios
 @content=<xml>
 			<scenarios>
-			    <scenario id = "0">			
+			    <scenario id = "0" name = "Present World">			
 					<civilization id="0" name="Ukraine"  flag="" regions="" money="100" population=""/>
 					<civilization id="1" name="Austrian" flag="" regions="" money="100" population=""/>
 					<civilization id="2" name="Poland"   flag="" regions="" money="100" population=""/>
