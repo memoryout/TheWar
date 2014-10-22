@@ -1,9 +1,5 @@
 package main.data
 {
-	import core.data.Civilization;
-	import core.data.DataContainer;
-	import core.data.Region;
-	import core.data.Scenario;
 	
 	import main.broadcast.Module;
 	import main.broadcast.message.MessageData;

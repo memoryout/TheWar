@@ -1,4 +1,4 @@
-package core.data
+package main.data
 {
 	public class Scenario
 	{

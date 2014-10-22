@@ -1,7 +1,7 @@
 package core.logic
 {
-	import core.data.DataContainer;
-	import core.data.Region;
+	import main.data.DataContainer;
+	import main.data.Region;
 	
 	import main.broadcast.Module;
 	import main.broadcast.message.MessageData;

@@ -1,6 +1,6 @@
 package main
 {
-	import core.data.DataContainer;
+	import main.data.DataContainer;
 	import core.logic.LogicModule;
 	
 	import flash.display.Stage;
