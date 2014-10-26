@@ -1,13 +1,14 @@
-package main.view.application
+package view.application
 {
 	import flash.display.Sprite;
 	
 	import main.broadcast.Module;
-	import main.view.application.menu.IMenuPageResultReceiver;
-	import main.view.application.menu.MenuViewStack;
-	import main.view.application.menu.PageList;
 	
-	public class ApplicationRootContext extends Module implements IMenuPageResultReceiver
+	import view.menu.IMenuPageResultReceiver;
+	import view.menu.MenuViewStack;
+	import view.menu.PageList;
+	
+	public class ApplicationRootContext extends AppViewContext implements IMenuPageResultReceiver
 	{
 		private const MODULE_NAME:			String = "view.app.root_context";
 		
@@ -56,6 +57,7 @@ package main.view.application
 		private function createSingleGameContext():void
 		{
 			var context:SingleGameContext = new SingleGameContext();
+			context.setParentConext( this );
 			context.init(_menu, "new_game");
 		}
 	}

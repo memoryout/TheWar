@@ -1,4 +1,4 @@
-package main.view.application.data
+package view.data
 {
 	public class StartupGameConfiguration
 	{
