@@ -43,6 +43,7 @@ package main
 			
 			stageContainer = stage;
 		
+			initUpdater(stageContainer);
 			initModules();	
 		}
 		

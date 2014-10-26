@@ -10,6 +10,8 @@ package core.logic
 	import main.data.Scenario;
 	import main.events.ApplicationEvents;
 	import main.view.ViewEvent;
+	
+	import utils.updater.Updater;
 
 	public class LogicModule extends Module
 	{
@@ -17,9 +19,13 @@ package core.logic
 		
 		private var regionsData:Vector.<Region> = new Vector.<Region>();
 		
+		private var stackAction:Array = new Array();
+		
 		public function LogicModule()
 		{
 			setSharedModule( MODULE_NAME, this );
+			
+			Updater.get().addListener(updateStack);
 		}
 		
 		private function setMainVariables(val:Object):void
@@ -54,6 +60,28 @@ package core.logic
 			sendMessage(CoreEvents.CIVILIZATIONS_LOCATED, LogicData.Get().locatedRegions);
 		}
 		
+		private function updateStack(e:Object):void
+		{
+			if(stackAction.length > 0)
+			{
+				determinateMethod(stackAction[0][0], stackAction[0][1]);
+				stackAction.shift();
+			}
+		}
+		
+		private function determinateMethod(name:String, data:Object):void
+		{
+			switch(name)
+			{
+				case "init":
+				{
+					setMainVariables(data);
+					locateCivilizationOnPositions();
+					break;
+				}
+			}
+		}
+		
 		override public function receiveMessage(message:MessageData):void
 		{		
 			switch(message.message)
@@ -71,8 +99,7 @@ package core.logic
 					
 				case ViewEvent.START_SINGLE_GAME:
 				{
-					setMainVariables(message.data);
-					locateCivilizationOnPositions();
+					stackAction.push(["init", message.data]);
 				}
 			}
 		}
