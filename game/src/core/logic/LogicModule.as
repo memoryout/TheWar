@@ -9,7 +9,7 @@ package core.logic
 	import main.data.Region;
 	import main.data.Scenario;
 	import main.events.ApplicationEvents;
-	import view.ViewEvent;
+	import main.view.ViewEvent;
 
 	public class LogicModule extends Module
 	{

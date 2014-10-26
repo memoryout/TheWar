@@ -12,7 +12,7 @@ package main
 	import main.data.DataContainer;
 	import main.data.DataParser;
 	import main.events.ApplicationEvents;
-	import view.ApplicationMainLayoutModule;
+	import main.view.ApplicationMainLayoutModule;
 	
 	import utils.updater.Updater;
 

@@ -1,10 +1,10 @@
-package view.menu.settings
+package main.view.application.menu.settings
 {
 	import flash.display.MovieClip;
 	import flash.events.MouseEvent;
 	
-	import view.R;
-	import view.menu.MenuPage;
+	import main.view.R;
+	import main.view.application.menu.MenuPage;
 	
 	public class GameSettingsPage extends MenuPage
 	{

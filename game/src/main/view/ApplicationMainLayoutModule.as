@@ -1,11 +1,11 @@
-package view
+package main.view
 {
 	import flash.display.Stage;
 	
 	import main.broadcast.Module;
 	import main.broadcast.message.MessageData;
 	import main.events.ApplicationEvents;
-	import view.application.ApplicationRootContext;
+	import main.view.application.ApplicationRootContext;
 	
 	public class ApplicationMainLayoutModule extends Module
 	{

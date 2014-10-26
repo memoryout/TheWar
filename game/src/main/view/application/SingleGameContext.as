@@ -1,14 +1,13 @@
-package view.application
+package main.view.application
 {
 	import main.broadcast.Module;
+	import main.view.ViewEvent;
+	import main.view.application.data.StartupGameConfiguration;
+	import main.view.application.menu.IMenuPageResultReceiver;
+	import main.view.application.menu.MenuViewStack;
+	import main.view.application.menu.PageList;
 	
-	import view.ViewEvent;
-	import view.data.StartupGameConfiguration;
-	import view.menu.IMenuPageResultReceiver;
-	import view.menu.MenuViewStack;
-	import view.menu.PageList;
-	
-	public class SingleGameContext extends AppViewContext implements IMenuPageResultReceiver
+	public class SingleGameContext extends Module implements IMenuPageResultReceiver
 	{
 		private var _menu:				MenuViewStack;
 		

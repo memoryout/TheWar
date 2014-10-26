@@ -1,10 +1,10 @@
-package view.menu.start
+package main.view.application.menu.start
 {
 	import flash.display.MovieClip;
 	import flash.events.MouseEvent;
 	
-	import view.R;
-	import view.menu.MenuPage;
+	import main.view.R;
+	import main.view.application.menu.MenuPage;
 	
 	public class StartPageMenu extends MenuPage
 	{

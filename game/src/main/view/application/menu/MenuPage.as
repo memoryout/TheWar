@@ -1,10 +1,10 @@
-package view.menu
+package main.view.application.menu
 {
 	import com.greensock.TweenLite;
 	
 	import flash.display.Sprite;
 	
-	import view.data.StartupGameConfiguration;
+	import main.view.application.data.StartupGameConfiguration;
 	
 	public class MenuPage extends Sprite
 	{

@@ -1,12 +1,12 @@
-package view.menu
+package main.view.application.menu
 {
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
 	import flash.display.Sprite;
 	import flash.utils.Dictionary;
 	
-	import view.R;
-	import view.data.StartupGameConfiguration;
+	import main.view.R;
+	import main.view.application.data.StartupGameConfiguration;
 	
 	public class MenuViewStack extends Sprite
 	{

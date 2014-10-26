@@ -1,4 +1,4 @@
-package view
+package main.view
 {
 	import flash.system.ApplicationDomain;
 

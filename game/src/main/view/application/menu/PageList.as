@@ -1,9 +1,9 @@
-package view.menu
+package main.view.application.menu
 {
 	import flash.utils.Dictionary;
 	
-	import view.menu.settings.GameSettingsPage;
-	import view.menu.start.StartPageMenu;
+	import main.view.application.menu.settings.GameSettingsPage;
+	import main.view.application.menu.start.StartPageMenu;
 
 	public class PageList
 	{
