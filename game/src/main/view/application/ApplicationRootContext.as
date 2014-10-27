@@ -56,7 +56,7 @@ package main.view.application
 		private function createSingleGameContext():void
 		{
 			var context:SingleGameContext = new SingleGameContext();
-			context.init(_menu, "new_game");
+			context.init(_menu, "new_game", _canvas);
 		}
 	}
 }
