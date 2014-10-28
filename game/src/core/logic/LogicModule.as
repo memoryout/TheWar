@@ -51,7 +51,7 @@ package core.logic
 				}				
 			}
 			
-			sendMessage(CoreEvents.CIVILIZATIONS_LOCATED, LogicData.Get().locatedRegions);
+			sendMessage(CoreEvents.GAME_READY, LogicData.Get().locatedRegions);
 		}
 		
 		override public function receiveMessage(message:MessageData):void

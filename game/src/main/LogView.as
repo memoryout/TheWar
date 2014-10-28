@@ -32,7 +32,7 @@ package main
 		
 		public function addMessage(value:String):void
 		{
-			_txt.appendText( value + "\n\n" );
+			_txt.appendText( value + "\n" );
 			_txt.scrollV = _txt.maxScrollV;
 		}
 	}

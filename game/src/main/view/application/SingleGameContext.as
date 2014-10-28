@@ -69,7 +69,7 @@ package main.view.application
 		{
 			switch(message.message)
 			{
-				case CoreEvents.CIVILIZATIONS_LOCATED:
+				case CoreEvents.GAME_READY:
 				{
 					createGameLayout();
 					break;
