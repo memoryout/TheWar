@@ -43,6 +43,24 @@ package main.view.application.menu
 		}
 		
 		
+		public function hideBackground():void
+		{
+			if(_bg && this.contains(_bg) )
+			{
+				this.removeChild(_bg);
+			}
+		}
+		
+		public function hideCurrentPage():void
+		{
+			if(_currentPage)
+			{
+				_currentPage.close( onClosePage );
+			}
+			
+			_currentPage = null;
+		}
+		
 		
 		private function createPageBackground():void
 		{

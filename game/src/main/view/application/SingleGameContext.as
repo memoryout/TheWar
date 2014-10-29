@@ -6,6 +6,7 @@ package main.view.application
 	
 	import main.broadcast.Module;
 	import main.broadcast.message.MessageData;
+	import main.data.Region;
 	import main.view.ViewEvent;
 	import main.view.application.data.StartupGameConfiguration;
 	import main.view.application.game.GameLayoutContext;
@@ -57,12 +58,19 @@ package main.view.application
 			}
 		}
 		
-		private function createGameLayout():void
+		private function createGameLayout(regions:Vector.<Region>):void
 		{
-			_menu.showPage(null,null,null);
+			trace("CoreEvents.GAME_READY нахер дважды отпарвлять ?")
 			
-			_gameContext = new GameLayoutContext();
-			_gameContext.initialize( _canvas );
+			_menu.showPage(null,null,null);
+			_menu.hideBackground();
+			
+			if(!_gameContext)
+			{
+				_gameContext = new GameLayoutContext();
+				_gameContext.initialize( _canvas, _menu );
+				_gameContext.start(regions);
+			}
 		}
 		
 		override public function receiveMessage(message:MessageData):void
@@ -71,7 +79,7 @@ package main.view.application
 			{
 				case CoreEvents.GAME_READY:
 				{
-					createGameLayout();
+					createGameLayout(message.data);
 					break;
 				}
 			}
