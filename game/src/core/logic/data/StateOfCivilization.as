@@ -1,6 +1,6 @@
-package main.data
+package core.logic.data
 {
-	public class Civilization
+	public class StateOfCivilization
 	{
 		public var id:				Number = 0;
 		public var money:			Number = 0;
@@ -9,6 +9,7 @@ package main.data
 		public var flag:			String;
 		public var name:			String;
 		
-		public var region:			int;
+		public var regions:			Array = [];
+		
 	}
 }

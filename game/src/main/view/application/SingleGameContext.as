@@ -1,5 +1,6 @@
 package main.view.application
 {
+	import core.logic.data.StateOfCivilization;
 	import core.logic.events.CoreEvents;
 	
 	import flash.display.Sprite;
@@ -58,7 +59,7 @@ package main.view.application
 			}
 		}
 		
-		private function createGameLayout(regions:Vector.<Region>):void
+		private function createGameLayout(civilizations:Vector.<StateOfCivilization>):void
 		{
 			trace("CoreEvents.GAME_READY нахер дважды отпарвлять ?")
 			
@@ -69,7 +70,7 @@ package main.view.application
 			{
 				_gameContext = new GameLayoutContext();
 				_gameContext.initialize( _canvas, _menu );
-				_gameContext.start(regions);
+				_gameContext.start(civilizations);
 			}
 		}
 		

@@ -43,11 +43,12 @@ package main.broadcast.message
 		}
 		
 		
-		public function sendMessage(message:String, modules:Dictionary, data:* = null):MessageData
+		public function sendMessage(message:String, modules:Vector.<Object>, data:* = null):MessageData
 		{				
 			var messageData:MessageData = new MessageData(message, data);
 
-			for (var key:* in modules) {
+			for (var key:* in modules) 
+			{
 				modules[key].receiveMessage( messageData );
 			}
 			

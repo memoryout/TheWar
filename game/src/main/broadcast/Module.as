@@ -11,7 +11,7 @@ package main.broadcast
 	{
 		private static const _broadcastDispacther:		Dispatcher = new Dispatcher();
 		
-		private static const MODULES:					Dictionary = new Dictionary();
+		private static const MODULES:					Vector.<Object> = new Vector.<Object>();
 		
 		private var _messages:				Object;
 		
@@ -43,13 +43,13 @@ package main.broadcast
 		
 		protected function setSharedModule(name:String, module:Module):void
 		{
-			MODULES[name] = module;
+			MODULES.push(module);
 		}
-		
-		protected function getSharedModule(name:String):Module
+		/*
+		protected function getSharedModule(name:String):Vector.<Object>
 		{
 			return MODULES[name];
-		}
+		}*/
 		
 		
 		public function receiveMessage(message:MessageData):void

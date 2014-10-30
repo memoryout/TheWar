@@ -1,5 +1,7 @@
 package core.logic
 {
+	import core.logic.data.StateOfCivilization;
+	
 	import main.data.Region;
 
 	public class LogicData
@@ -13,6 +15,10 @@ package core.logic
 		public var randomPlacement:			Boolean;
 		
 		public var locatedRegions:			Vector.<Region> = new Vector.<Region>();		
+		
+		public var civilizationList:		Vector.<StateOfCivilization> = new Vector.<StateOfCivilization>();		
+		
+		public var currentStep:				String =  "user_activity";		
 		
 		public function LogicData()
 		{

@@ -1,9 +1,14 @@
 package main.view.application.game
 {
+	import core.logic.LogicData;
+	import core.logic.data.StateOfCivilization;
+	import core.logic.events.CoreEvents;
+	
 	import flash.display.Sprite;
 	import flash.events.Event;
 	
 	import main.broadcast.Module;
+	import main.broadcast.message.MessageData;
 	import main.data.Region;
 	import main.game.GameStep;
 	import main.view.application.menu.IMenuPageResultReceiver;
@@ -16,10 +21,7 @@ package main.view.application.game
 		
 		private var _gameLayout:		GameLayout;
 		private var _menuView:			MenuViewStack;
-		
-		
-		private var _currentStep:		uint;
-		
+				
 		public function GameLayoutContext()
 		{
 			super();
@@ -38,14 +40,11 @@ package main.view.application.game
 			
 			checkCurrentStep();
 			
-			
-			_currentStep = GameStep.USER_ACTIVITY;
-			
 			_gameLayout.getHUD().addEventListener(GameHUD.CLICK_ON_NEXT_STEP, handlerUserClickNext);
 		}
 		
 		
-		public function start(regions:Vector.<Region>):void
+		public function start(regions:Vector.<StateOfCivilization>):void
 		{
 			
 		}
@@ -53,30 +52,30 @@ package main.view.application.game
 		
 		private function checkCurrentStep():void
 		{
-			switch(_currentStep)
+			switch(LogicData.Get().currentStep)
 			{
-				case GameStep.USER_ACTIVITY:
+				case CoreEvents.USER_ACTIVITY:
 				{
 					_menuView.hideCurrentPage();
 					_gameLayout.getHUD().setUserActivitySkin();
 					break;
 				}
 					
-				case GameStep.CIVILIZATION_ORDER:
+				case CoreEvents.CIVILIZATION_ORDER:
 				{
 					_menuView.showPage(PageList.GAME_CIV_ORDER, this, null);
 					_gameLayout.getHUD().setGameInfoSkin();
 					break;
 				}
 					
-				case GameStep.TREASURE:
+				case CoreEvents.TREASURE:
 				{
 					_menuView.showPage(PageList.GAME_TREASURE, this, null);
 					_gameLayout.getHUD().setGameInfoSkin();
 					break;
 				}
 					
-				case GameStep.STEP_STATISTIC:
+				case CoreEvents.STATISTIC:
 				{
 					_menuView.showPage(PageList.GAME_STEP_STATISTICS, this, null);
 					_gameLayout.getHUD().setGameInfoSkin();
@@ -87,47 +86,63 @@ package main.view.application.game
 		
 		
 		private function handlerUserClickNext(e:Event):void
-		{
-			switch(_currentStep)
+		{			
+			switch(LogicData.Get().currentStep)
 			{
-				case GameStep.USER_ACTIVITY:
-				{
-					// вставь вызов нужного сообщения
+				case CoreEvents.USER_ACTIVITY:
+				{					
+					sendMessage(CoreEvents.GET_CIVILIZATION_ORDER, null);			
 					
-					_currentStep = GameStep.CIVILIZATION_ORDER;
-					checkCurrentStep();
 					break;
 				}
 					
-				case GameStep.CIVILIZATION_ORDER:
+				case CoreEvents.CIVILIZATION_ORDER:
 				{
-					// вставь вызов нужного сообщения
-					
-					_currentStep = GameStep.TREASURE;
-					checkCurrentStep();
+					sendMessage(CoreEvents.GET_TREASURE, null);							
+	
 					break;
 				}
 					
-				case GameStep.TREASURE:
+				case CoreEvents.TREASURE:
 				{
-					// вставь вызов нужного сообщения
+					sendMessage(CoreEvents.GET_STATISTIC, null);								
 					
-					_currentStep = GameStep.STEP_STATISTIC;
-					checkCurrentStep();
 					break;
 				}
 					
-				case GameStep.STEP_STATISTIC:
+				case CoreEvents.STATISTIC:
 				{
-					// вставь вызов нужного сообщения
+					sendMessage(CoreEvents.FINISH_STEP, null);
+					checkCurrentStep();		
 					
-					_currentStep = GameStep.USER_ACTIVITY;
-					checkCurrentStep();
 					break;
 				}
 			}
 		}
 		
+		override public function receiveMessage(message:MessageData):void
+		{		
+			switch(message.message)
+			{
+				case CoreEvents.SEND_CIVILIZATION_ORDER:
+				{
+					checkCurrentStep();
+					break;
+				}
+					
+				case CoreEvents.SEND_STATISTIC:
+				{
+					checkCurrentStep();
+					break;
+				}
+					
+				case CoreEvents.SEND_TREASURE:
+				{
+					checkCurrentStep();
+					break;
+				}
+			}
+		}
 		
 		public function handleMenuPageResult(result:String):void
 		{
