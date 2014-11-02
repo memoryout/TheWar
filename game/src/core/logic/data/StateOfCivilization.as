@@ -9,7 +9,6 @@ package core.logic.data
 		public var flag:			String;
 		public var name:			String;
 		
-		public var regions:			Array = [];
-		
+		public var regions:			Array = [];		
 	}
 }

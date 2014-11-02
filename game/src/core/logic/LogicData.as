@@ -1,5 +1,6 @@
 package core.logic
 {
+	import core.logic.data.CivilizationInListOfOrder;
 	import core.logic.data.StateOfCivilization;
 	
 	import main.data.Region;
@@ -17,6 +18,8 @@ package core.logic
 		public var locatedRegions:			Vector.<Region> = new Vector.<Region>();		
 		
 		public var civilizationList:		Vector.<StateOfCivilization> = new Vector.<StateOfCivilization>();		
+		
+		public var listOfOrder:				Vector.<CivilizationInListOfOrder> = new Vector.<CivilizationInListOfOrder>();		
 		
 		public var currentStep:				String =  "user_activity";		
 		

@@ -1,5 +1,6 @@
 package core.logic
 {
+	import core.logic.data.CivilizationInListOfOrder;
 	import core.logic.data.StateOfCivilization;
 	import core.logic.events.CoreEvents;
 	
@@ -66,6 +67,30 @@ package core.logic
 			sendMessage(CoreEvents.GAME_READY, LogicData.Get().civilizationList);
 		}
 		
+		private function getRandomCivilizationOrderList():void
+		{
+			LogicData.Get().listOfOrder = new Vector.<CivilizationInListOfOrder>();
+			
+			var civilizationsContainer:Vector.<StateOfCivilization> = LogicData.Get().civilizationList.concat();
+			
+			while(civilizationsContainer.length > 0)
+			{
+				var randNumber:int 							= Math.random()*civilizationsContainer.length;
+				var singleInList:CivilizationInListOfOrder 	= new CivilizationInListOfOrder();
+				
+				singleInList.id	= civilizationsContainer[randNumber].id;
+				singleInList.flag	= civilizationsContainer[randNumber].flag;
+				singleInList.name	= civilizationsContainer[randNumber].name;
+				
+				if(singleInList.id == LogicData.Get().selectedCivilization)
+					singleInList.chosenCiviliztion	= true;
+				
+				LogicData.Get().listOfOrder.push(singleInList);
+				
+				civilizationsContainer.splice(randNumber, 1);
+			}			
+		}
+		
 		private function defineSteps():void
 		{
 			switch(LogicData.Get().currentStep)
@@ -121,7 +146,9 @@ package core.logic
 				{
 					defineSteps();				
 					
-					sendMessage(CoreEvents.SEND_CIVILIZATION_ORDER, []);
+					getRandomCivilizationOrderList();
+					
+					sendMessage(CoreEvents.SEND_CIVILIZATION_ORDER, LogicData.Get().listOfOrder);
 					break;
 				}
 					
