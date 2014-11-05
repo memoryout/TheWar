@@ -10,7 +10,7 @@ package main.view.application
 	import main.data.Region;
 	import main.view.ViewEvent;
 	import main.view.application.data.StartupGameConfiguration;
-	import main.view.application.game.GameLayoutContext;
+	import main.view.application.game.GameViewController;
 	import main.view.application.menu.IMenuPageResultReceiver;
 	import main.view.application.menu.MenuViewStack;
 	import main.view.application.menu.PageList;
@@ -22,7 +22,7 @@ package main.view.application
 		private var _menu:				MenuViewStack;
 		private var _canvas:			Sprite;
 		
-		private var _gameContext:		GameLayoutContext;
+		private var _gameContext:		GameViewController;
 		
 		private var _gameConfiguration:StartupGameConfiguration;
 		
@@ -68,7 +68,7 @@ package main.view.application
 			
 			if(!_gameContext)
 			{
-				_gameContext = new GameLayoutContext();
+				_gameContext = new GameViewController();
 				_gameContext.initialize( _canvas, _menu );
 				_gameContext.start(civilizations);
 			}

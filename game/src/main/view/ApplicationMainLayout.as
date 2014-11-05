@@ -9,6 +9,11 @@ package main.view
 	
 	public class ApplicationMainLayout extends Sprite
 	{
+		
+		private static var SCALE_FACTOR:		Number;
+		private static var VIEWPORT:			Rectangle;
+		
+		
 		private const _canvas:			Sprite = new Sprite();
 		
 		public function ApplicationMainLayout()
@@ -30,6 +35,16 @@ package main.view
 			return _canvas;
 		}
 		
+		
+		public static function getViewportRect():Rectangle
+		{
+			return VIEWPORT;
+		}
+		
+		public static function getScreenScale():Number
+		{
+			return SCALE_FACTOR;
+		}
 		
 		private function resizeCanvas():void
 		{
@@ -55,13 +70,21 @@ package main.view
 					scale = screenHeight/AppDisplaySettings.RESOURCE_HEIGHT;
 				}
 				
+				VIEWPORT = new Rectangle();
+				
+				
 				canvasWidth = AppDisplaySettings.RESOURCE_WIDTH * scale;
 				canvasHeight = AppDisplaySettings.RESOURCE_HEIGHT * scale;
 				
-				_canvas.x = (screenWidth - canvasWidth) >> 1;
-				_canvas.y = (screenHeight - canvasHeight) >> 1;
+				SCALE_FACTOR = scale;
 				
-				_canvas.scaleY = _canvas.scaleX = scale;
+				VIEWPORT.width = canvasWidth;
+				VIEWPORT.height = canvasHeight;
+				
+				VIEWPORT.x = /*_canvas.x = */ (screenWidth - canvasWidth) >> 1;
+				VIEWPORT.y = /*_canvas.y =*/ (screenHeight - canvasHeight) >> 1;
+				
+				//_canvas.scaleY = _canvas.scaleX = scale;
 				
 			}
 		}

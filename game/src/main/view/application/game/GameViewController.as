@@ -6,6 +6,7 @@ package main.view.application.game
 	
 	import flash.display.Sprite;
 	import flash.events.Event;
+	import flash.events.MouseEvent;
 	
 	import main.broadcast.Module;
 	import main.broadcast.message.MessageData;
@@ -14,15 +15,19 @@ package main.view.application.game
 	import main.view.application.menu.IMenuPageResultReceiver;
 	import main.view.application.menu.MenuViewStack;
 	import main.view.application.menu.PageList;
+	import main.view.input.IInputHandler;
+	import main.view.input.UserInputSystem;
 	
-	public class GameLayoutContext extends Module implements IMenuPageResultReceiver
+	public class GameViewController extends Module implements IMenuPageResultReceiver, IInputHandler
 	{
 		private const MODULE_NAME:		String = "game_context";
 		
 		private var _gameLayout:		GameLayout;
 		private var _menuView:			MenuViewStack;
+		
+		private var _civilizations:		Vector.<StateOfCivilization>;
 				
-		public function GameLayoutContext()
+		public function GameViewController()
 		{
 			super();
 			
@@ -36,6 +41,7 @@ package main.view.application.game
 			
 			_gameLayout = new GameLayout();
 			layout.addChildAt( _gameLayout, 0);
+			_gameLayout.init();
 			_gameLayout.load();
 			
 			checkCurrentStep();
@@ -44,9 +50,15 @@ package main.view.application.game
 		}
 		
 		
-		public function start(regions:Vector.<StateOfCivilization>):void
+		public function start(civList:Vector.<StateOfCivilization>):void
 		{
+			var i:int;
+			for(i = 0; i < civList.length; i++)
+			{
+				_gameLayout.createCivilization(civList[i]);
+			}
 			
+			UserInputSystem.get().registerInputActionHandler(this);
 		}
 		
 		
@@ -147,6 +159,21 @@ package main.view.application.game
 		public function handleMenuPageResult(result:String):void
 		{
 			
+		}
+		
+		
+		public function handlerInputAction(type:String, button:String):void
+		{
+			switch(type)
+			{
+				case MouseEvent.CLICK:
+				{
+					//processClick();
+					break;
+				}
+			}
+			
+			trace(type, button);
 		}
 	}
 }
