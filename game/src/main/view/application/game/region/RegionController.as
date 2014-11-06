@@ -68,6 +68,31 @@ package main.view.application.game.region
 			}
 		}
 		
+		
+		
+		public function highlightRegionLikeSelected(regionId:int):void
+		{
+			var region:RegionView = _regionList["area_" + regionId.toString()];
+			
+			if(region) region.select();
+		}
+		
+		public function highlightRegionLikeNeighbor(regionId:int):void
+		{
+			var region:RegionView = _regionList["area_" + regionId.toString()];
+			
+			if(region) region.highlightNeighbor();
+		}
+		
+		public function removeSelection():void
+		{
+			var par:String;
+			for(par in _regionList)
+			{
+				_regionList[par].removeSelection();
+			}
+		}
+		
 		private function handlerClick(e:MouseEvent):void
 		{
 			var name:String = e.target.name;

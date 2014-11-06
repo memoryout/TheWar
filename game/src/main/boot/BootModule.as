@@ -17,7 +17,7 @@ package main.boot
 		{
 			setSharedModule( MODULE_NAME, this );
 			
-			loadGameSource();
+			//loadGameSource();
 			loadData();
 			loadSqLite();
 		}
@@ -70,6 +70,8 @@ package main.boot
 			}	
 			
 			sendMessage(ApplicationEvents.CONFIG_LOADED, files);
+			
+			sendMessage( ApplicationEvents.BOOT_COMPLETE );
 		}
 		
 		private function loadSqLite():void

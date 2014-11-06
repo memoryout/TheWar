@@ -10,8 +10,10 @@ package main.view.application.game
 	
 	import main.broadcast.Module;
 	import main.broadcast.message.MessageData;
+	import main.data.DataContainer;
 	import main.data.Region;
 	import main.game.GameStep;
+	import main.view.application.game.civilization.CivilizationView;
 	import main.view.application.menu.IMenuPageResultReceiver;
 	import main.view.application.menu.MenuViewStack;
 	import main.view.application.menu.PageList;
@@ -25,7 +27,9 @@ package main.view.application.game
 		private var _gameLayout:		GameLayout;
 		private var _menuView:			MenuViewStack;
 		
-		private var _civilizations:		Vector.<StateOfCivilization>;
+		private var _civilizations:		Vector.<CivilizationView>;
+		
+		private var _lastSelectedRegion:int;
 				
 		public function GameViewController()
 		{
@@ -47,15 +51,23 @@ package main.view.application.game
 			checkCurrentStep();
 			
 			_gameLayout.getHUD().addEventListener(GameHUD.CLICK_ON_NEXT_STEP, handlerUserClickNext);
+			
+			_lastSelectedRegion = -1;
 		}
 		
 		
 		public function start(civList:Vector.<StateOfCivilization>):void
 		{
 			var i:int;
+			var civ:CivilizationView;
+			_civilizations = new Vector.<CivilizationView>();
 			for(i = 0; i < civList.length; i++)
 			{
-				_gameLayout.createCivilization(civList[i]);
+				civ = new CivilizationView();
+				civ.initialize(civList[i]);
+				_gameLayout.addCivilization(civ);
+				
+				_civilizations.push( civ );
 			}
 			
 			UserInputSystem.get().registerInputActionHandler(this);
@@ -70,6 +82,7 @@ package main.view.application.game
 				{
 					_menuView.hideCurrentPage();
 					_gameLayout.getHUD().setUserActivitySkin();
+					_gameLayout.getHUD().writeMessage("You turn!");
 					break;
 				}
 					
@@ -168,12 +181,168 @@ package main.view.application.game
 			{
 				case MouseEvent.CLICK:
 				{
-					//processClick();
+					processClick(button);
 					break;
 				}
 			}
 			
 			trace(type, button);
+		}
+		
+		private function processClick(button:String):void
+		{
+			var arr:Array = button.split(".");
+			
+			if(arr.length == 2)
+			{
+				if(arr[0] == "region")
+				{
+					userChooseRegion( int(arr[1]) );
+				}
+			}
+		}
+		
+		private function userChooseRegion(regionId:int):void
+		{
+			
+			var regions:Vector.<Region> = DataContainer.Get().regions;
+			var i:int;
+			var civ:CivilizationView;
+			var region:Region;
+			
+			for(i = 0; i < regions.length; i++)
+			{
+				if(regions[i].id == regionId)
+				{
+					region = regions[i];
+					break;
+				}
+			}
+			
+			
+			for(i = 0; i < _civilizations.length; i++)
+			{
+				if(_civilizations[i].hasRegion(regionId) ) 
+				{
+					civ = _civilizations[i];
+					break;
+				}
+			}
+			
+			var message:String = "";
+			
+			if(civ) message += "Civilization: " + civ.getStateInfo().name;			
+			if(region) message += "  Region: " + region.id;
+			
+			_gameLayout.getHUD().writeMessage(message);
+			
+			
+			if(civ)
+			{
+				if(civ.getStateInfo().id == 0) // типа моя цивилизация
+				{
+					_lastSelectedRegion = regionId;
+					_gameLayout.getRegionController().highlightRegionLikeSelected( regionId );
+					showNeighboors(regionId);
+				}
+				else
+				{
+					if( _lastSelectedRegion > -1 )
+					{
+						showMoveArmyInterface(regionId);
+						// show how much ui.
+					}
+					else
+					{
+						_lastSelectedRegion = -1;
+						_gameLayout.getRegionController().removeSelection();
+					}
+				}
+			}
+			else
+			{
+				if( _lastSelectedRegion > -1 )
+				{
+					showMoveArmyInterface(regionId);
+					// show how much ui.
+				}
+				else
+				{
+					// reset last selected region
+					_lastSelectedRegion = -1;
+					_gameLayout.getRegionController().removeSelection();
+				}
+			}
+		}
+		
+		
+		private function showNeighboors(regionId:int):void
+		{
+			var regions:Vector.<Region> = DataContainer.Get().regions;
+			var i:int;
+			var region:Region;
+			
+			for(i = 0; i < regions.length; i++)
+			{
+				if(regions[i].id == regionId)
+				{
+					region = regions[i];
+					break;
+				}
+			}
+			
+			for(i = 0; i < region.neighboringRegions.length; i++)
+			{
+				_gameLayout.getRegionController().highlightRegionLikeNeighbor( region.neighboringRegions[i] );
+			}
+		}
+		
+		
+		private function showMoveArmyInterface(regionId:int):void
+		{
+			var regions:Vector.<Region> = DataContainer.Get().regions;
+			var i:int;
+			var region:Region;
+			var civ:CivilizationView;
+			
+			
+			for(i = 0; i < _civilizations.length; i++)
+			{
+				if(_civilizations[i].getStateInfo().id == 0 ) 
+				{
+					civ = _civilizations[i];
+					break;
+				}
+			}
+			
+			
+			for(i = 0; i < regions.length; i++)
+			{
+				if(regions[i].id == _lastSelectedRegion)
+				{
+					region = regions[i];
+					break;
+				}
+			}
+			
+			if(civ && region)
+			{
+				if( region.neighboringRegions.indexOf(regionId.toString()) != -1)
+				{
+					trace("show ui");
+				}
+				else
+				{
+					_lastSelectedRegion = -1;
+					_gameLayout.getRegionController().removeSelection();
+				}
+			}
+			else
+			{
+				_lastSelectedRegion = -1;
+				_gameLayout.getRegionController().removeSelection();
+			}
+			
 		}
 	}
 }

@@ -77,15 +77,15 @@ package main
 		{		
 			switch(message.message)
 			{
-				case ApplicationEvents.SOURCES_LOADED:
-				{
-					logView.addMessage("SOURCES_LOADED");
-					break;
-				}	
-					
 				case ApplicationEvents.CONFIG_LOADED:
 				{
 					logView.addMessage("CONFIG_LOADED");
+					break;
+				}
+					
+				case ApplicationEvents.BOOT_COMPLETE:
+				{
+					logView.addMessage("BOOT_COMPLETE");
 					break;
 				}
 			}

@@ -2,7 +2,8 @@ package main.view.application.menu.game_step_statistics
 {
 	import flash.display.MovieClip;
 	
-	import main.view.R;
+	import main.view.AppSprite;
+	import main.view.application.asset.AssetManager;
 	import main.view.application.menu.MenuPage;
 	
 	public class GameStepStatistic extends MenuPage
@@ -16,13 +17,20 @@ package main.view.application.menu.game_step_statistics
 		
 		override protected function onCreate():void
 		{
-			var classRef:Class = R.getClass("game.ui.menu.step_statistic");
+			var classRef:Class = AssetManager.getClass("ui","game.ui.menu.step_statistic");
 			
 			if(classRef)
 			{
 				_skin = new classRef();
 				this.addChild( _skin );
+				
+				handlerChanges();
 			}
+		}
+		
+		override public function handlerChanges():void
+		{
+			_skin.scaleX = _skin.scaleY = AppSprite.getScaleFactor();
 		}
 	}
 }

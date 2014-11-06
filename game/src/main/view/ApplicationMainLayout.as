@@ -7,14 +7,14 @@ package main.view
 	import flash.events.Event;
 	import flash.geom.Rectangle;
 	
+	import utils.updater.Updater;
+	
 	public class ApplicationMainLayout extends Sprite
 	{
 		
-		private static var SCALE_FACTOR:		Number;
-		private static var VIEWPORT:			Rectangle;
-		
-		
 		private const _canvas:			Sprite = new Sprite();
+		
+		private const _updater:			Updater = new Updater();
 		
 		public function ApplicationMainLayout()
 		{
@@ -28,22 +28,14 @@ package main.view
 		public function initialize():void
 		{
 			resizeCanvas();
+			
+			this.addEventListener(Event.ENTER_FRAME, handlerEnterFrame);
+			this.stage.addEventListener(Event.RESIZE, handlerStageResize);
 		}
 		
 		public function get canvas():Sprite
 		{
 			return _canvas;
-		}
-		
-		
-		public static function getViewportRect():Rectangle
-		{
-			return VIEWPORT;
-		}
-		
-		public static function getScreenScale():Number
-		{
-			return SCALE_FACTOR;
 		}
 		
 		private function resizeCanvas():void
@@ -59,6 +51,9 @@ package main.view
 					screenHeight = stage.fullScreenWidth;
 				}
 				
+				
+				AppSprite.setScreenSize( new Rectangle(0, 0, screenWidth, screenHeight) );
+				
 				var canvasWidth:Number = AppDisplaySettings.RESOURCE_WIDTH;
 				var canvasHeight:Number = AppDisplaySettings.RESOURCE_HEIGHT;
 				
@@ -70,23 +65,34 @@ package main.view
 					scale = screenHeight/AppDisplaySettings.RESOURCE_HEIGHT;
 				}
 				
-				VIEWPORT = new Rectangle();
+				var viewport:Rectangle = new Rectangle();
 				
 				
 				canvasWidth = AppDisplaySettings.RESOURCE_WIDTH * scale;
 				canvasHeight = AppDisplaySettings.RESOURCE_HEIGHT * scale;
 				
-				SCALE_FACTOR = scale;
+				viewport.width = canvasWidth;
+				viewport.height = canvasHeight;
 				
-				VIEWPORT.width = canvasWidth;
-				VIEWPORT.height = canvasHeight;
+				viewport.x = /*_canvas.x = */ (screenWidth - canvasWidth) >> 1;
+				viewport.y = /*_canvas.y =*/ (screenHeight - canvasHeight) >> 1;
 				
-				VIEWPORT.x = /*_canvas.x = */ (screenWidth - canvasWidth) >> 1;
-				VIEWPORT.y = /*_canvas.y =*/ (screenHeight - canvasHeight) >> 1;
+				AppSprite.setViewportSize( viewport );
+				AppSprite.setScaleFactor( scale );
 				
 				//_canvas.scaleY = _canvas.scaleX = scale;
 				
 			}
+		}
+		
+		private function handlerStageResize(e:Event):void
+		{
+			resizeCanvas();
+		}
+		
+		private function handlerEnterFrame(e:Event):void
+		{
+			_updater.update();
 		}
 	}
 }

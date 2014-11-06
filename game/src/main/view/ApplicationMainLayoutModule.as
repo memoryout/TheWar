@@ -1,11 +1,16 @@
 package main.view
 {
+	import flash.display.LoaderInfo;
 	import flash.display.Stage;
+	import flash.events.Event;
+	import flash.events.IOErrorEvent;
 	
+	import main.MainGlobalVariables;
 	import main.broadcast.Module;
 	import main.broadcast.message.MessageData;
 	import main.events.ApplicationEvents;
 	import main.view.application.ApplicationRootContext;
+	import main.view.application.asset.AssetManager;
 	
 	public class ApplicationMainLayoutModule extends Module
 	{
@@ -34,15 +39,40 @@ package main.view
 		{
 			switch(message.message)
 			{
-				case ApplicationEvents.SOURCES_LOADED:
+				case ApplicationEvents.BOOT_COMPLETE:
 				{
 					_mainLayout.initialize();
 					
-					createRootContext();
+					loadUIAsset();
+					
+					//createRootContext();
 					
 					break;
 				}
 			}
+		}
+		
+		private function loadUIAsset():void
+		{
+			var loaderInfo:LoaderInfo = AssetManager.loadAsset(MainGlobalVariables.SOURCE_URL, "ui");
+			loaderInfo.addEventListener(Event.INIT, handlerUIAssetLoadComplete);
+			loaderInfo.addEventListener(IOErrorEvent.IO_ERROR, handlerUIAssetLoadError);
+		}
+		
+		private function handlerUIAssetLoadComplete(e:Event):void
+		{
+			var loaderInfo:LoaderInfo = e.currentTarget as LoaderInfo;
+			loaderInfo.removeEventListener(Event.INIT, handlerUIAssetLoadComplete);
+			loaderInfo.removeEventListener(IOErrorEvent.IO_ERROR, handlerUIAssetLoadError);
+			
+			createRootContext();
+		}
+		
+		private function handlerUIAssetLoadError(e:IOErrorEvent):void
+		{
+			var loaderInfo:LoaderInfo = e.currentTarget as LoaderInfo;
+			loaderInfo.removeEventListener(Event.INIT, handlerUIAssetLoadComplete);
+			loaderInfo.removeEventListener(IOErrorEvent.IO_ERROR, handlerUIAssetLoadError);
 		}
 		
 		private function createRootContext():void

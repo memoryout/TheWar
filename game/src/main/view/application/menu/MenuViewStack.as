@@ -5,10 +5,11 @@ package main.view.application.menu
 	import flash.display.Sprite;
 	import flash.utils.Dictionary;
 	
-	import main.view.R;
+	import main.view.AppSprite;
+	import main.view.application.asset.AssetManager;
 	import main.view.application.data.StartupGameConfiguration;
 	
-	public class MenuViewStack extends Sprite
+	public class MenuViewStack extends AppSprite
 	{
 		private var _bg:			Bitmap;
 		
@@ -64,7 +65,7 @@ package main.view.application.menu
 		
 		private function createPageBackground():void
 		{
-			var bmdClass:Class = R.getClass("ui.splash_background");
+			var bmdClass:Class = AssetManager.getClass("ui","ui.splash_background");
 			
 			if( bmdClass )
 			{
@@ -72,6 +73,8 @@ package main.view.application.menu
 				_bg = new Bitmap(bmd);
 				
 				this.addChild( _bg );
+				
+				handlerChanges();
 			}
 		}
 		
@@ -81,6 +84,16 @@ package main.view.application.menu
 			if(this.contains( page ) )
 			{
 				this.removeChild( page );
+			}
+		}
+		
+		
+		override public function handlerChanges():void
+		{
+			if( _bg )
+			{
+				_bg.x = (AppSprite.getScreenSize().width - _bg.width) >> 1;
+				_bg.y = (AppSprite.getScreenSize().height - _bg.height) >> 1;
 			}
 		}
 	}

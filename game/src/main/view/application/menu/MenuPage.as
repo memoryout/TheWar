@@ -4,9 +4,10 @@ package main.view.application.menu
 	
 	import flash.display.Sprite;
 	
+	import main.view.AppSprite;
 	import main.view.application.data.StartupGameConfiguration;
 	
-	public class MenuPage extends Sprite
+	public class MenuPage extends AppSprite
 	{
 		private var _tween:				TweenLite;
 		
