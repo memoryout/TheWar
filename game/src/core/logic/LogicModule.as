@@ -2,12 +2,14 @@ package core.logic
 {
 	import core.logic.data.CivilizationInListOfOrder;
 	import core.logic.data.StateOfCivilization;
+	import core.logic.data.StateOfProvince;
 	import core.logic.events.CoreEvents;
 	
 	import main.broadcast.Module;
 	import main.broadcast.message.MessageData;
 	import main.data.CivilizationInfo;
 	import main.data.DataContainer;
+	import main.data.MapInfo;
 	import main.data.ProvinceInfo;
 	import main.data.ScenarioInfo;
 	import main.events.ApplicationEvents;
@@ -33,40 +35,46 @@ package core.logic
 			LogicData.Get().randomPlacement 		= val.randomPlacement;
 		}
 		
+		/**
+		 * Creation of civilization object with province wich contains. 
+		 */		
 		private function locateCivilizationOnPositions():void
 		{
-			var initRegions:Vector.<ProvinceInfo> = DataContainer.Get().maps.concat();			
-			var initScenarioCivilizations:Vector.<CivilizationInfo> = DataContainer.Get().scenarios[LogicData.Get().selectedScenario].civilizations;
+			var provincesList:Vector.<ProvinceInfo> = DataContainer.Get().getMapsList()[LogicData.Get().selectedScenario].provinces;			
+			var initScenarioCivilizations:Vector.<CivilizationInfo> = DataContainer.Get().getScenariousList()[LogicData.Get().selectedScenario].civilizations;
 			
 			for (var i:int = 0; i < initScenarioCivilizations.length; i++) 
 			{
-				for (var j:int = 0; j < initRegions.length; j++) 
+				for (var j:int = 0; j < provincesList.length; j++) 
 				{
 					var stateOfCivilization:StateOfCivilization = new StateOfCivilization();
 					
-					if(initRegions[j].id == initScenarioCivilizations[i].region)
-					{
-						initRegions[j].money 		= initScenarioCivilizations[i].money;
-//						initRegions[j].population 	= initScenarioCivilizations[i].population;
-						initRegions[j].civilization	= initScenarioCivilizations[i].name;
-						
-						stateOfCivilization.flag 			= initScenarioCivilizations[i].flag;
+					if(provincesList[j].id == initScenarioCivilizations[i].province)
+					{						
 						stateOfCivilization.id 				= initScenarioCivilizations[i].id;
+						stateOfCivilization.flag 			= initScenarioCivilizations[i].flag;						
 						stateOfCivilization.money 			= initScenarioCivilizations[i].money;
-						stateOfCivilization.population 		= initScenarioCivilizations[i].population;
 						stateOfCivilization.name			= initScenarioCivilizations[i].name;
-						stateOfCivilization.regions.push(initRegions[j].id);
+						
+						var province:StateOfProvince = new StateOfProvince();
+						
+						province.id 				= provincesList[j].id;
+						province.moneyGrowth 		= provincesList[j].moneyGrowth;
+						province.neighboringRegions = provincesList[j].neighboringRegions;
+						
+						stateOfCivilization.provinces.push(province);
 						
 						LogicData.Get().civilizationList.push(stateOfCivilization);
 					}
-
-					LogicData.Get().getExtandetMapInfo.push(initRegions[j]);
 				}				
 			}
 			
 			sendMessage(CoreEvents.GAME_READY, LogicData.Get().civilizationList);
 		}
 		
+		/** 
+		 * Set random order list woth civilization action.
+		 */		
 		private function getRandomCivilizationOrderList():void
 		{
 			LogicData.Get().listOfOrder = new Vector.<CivilizationInListOfOrder>();
@@ -78,7 +86,7 @@ package core.logic
 				var randNumber:int 							= Math.random()*civilizationsContainer.length;
 				var singleInList:CivilizationInListOfOrder 	= new CivilizationInListOfOrder();
 				
-				singleInList.id	= civilizationsContainer[randNumber].id;
+				singleInList.id		= civilizationsContainer[randNumber].id;
 				singleInList.flag	= civilizationsContainer[randNumber].flag;
 				singleInList.name	= civilizationsContainer[randNumber].name;
 				
@@ -89,6 +97,16 @@ package core.logic
 				
 				civilizationsContainer.splice(randNumber, 1);
 			}			
+		}
+		
+		private function updateTotalBonusFromCrafting():void
+		{
+			
+		}
+		
+		private function updateStateOfCivilization():void
+		{
+						
 		}
 		
 		private function defineSteps():void

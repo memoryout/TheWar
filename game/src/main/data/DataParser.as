@@ -98,23 +98,23 @@ package main.data
 		{
 			var xml:XML = new XML(str);
 			
-			var par:String, maps:XMLList, provincesList:XML, provinceItem:ProvinceInfo, map:MapInfo = new MapInfo();
+			var par:String, provinces:XMLList, provincesList:XML, provinceItem:ProvinceInfo, map:MapInfo = new MapInfo();
 						
 			map.id   = xml.maps.map.@id;
 			map.name = xml.maps.map.@name;			
 			
-			maps = xml.map;
+			provinces = xml.maps.map;
 			
-			for(par in maps.*)
+			for(par in provinces.*)
 			{
-				provincesList = maps.*[par];
+				provincesList = provinces.*[par];
 				
 				provinceItem 					= new ProvinceInfo();
 				
 				provinceItem.id 				= Number( provincesList.@id );
 				provinceItem.moneyGrowth 		= Number( provincesList.@money_growth );				
 				
-				provinceItem.neighboringRegions = provincesList.@neighboring_regions.split(",");
+				provinceItem.neighboringRegions = provincesList.@neighboring_provinces.split(",");
 				
 				map.provinces.push(provinceItem);
 			}
@@ -144,7 +144,7 @@ package main.data
 				civilizationItem.flag				= String( civilizationList.@flag);		
 				civilizationItem.name				= String( civilizationList.@name);	
 				
-				civilizationItem.region 			= civilizationList.@region.split(",");
+				civilizationItem.province 			= civilizationList.@region.split(",");
 				
 				scenario.civilizations.push(civilizationItem);
 			}

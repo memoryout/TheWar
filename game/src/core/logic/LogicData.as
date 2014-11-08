@@ -21,8 +21,8 @@ package core.logic
 		
 		public var listOfOrder:				Vector.<CivilizationInListOfOrder> = new Vector.<CivilizationInListOfOrder>();		
 		
-		public var currentStep:				String =  "user_activity";		
-		
+		public var currentStep:				String =  "user_activity";
+				
 		public function LogicData()
 		{
 		}

@@ -1,6 +1,6 @@
 package main.data
 {
-	public class Civilization
+	public class CivilizationInfo
 	{
 		public var id:				Number = 0;
 		public var money:			Number = 0;
@@ -9,6 +9,6 @@ package main.data
 		public var flag:			String;
 		public var name:			String;
 		
-		public var region:			int;
+		public var province:			int;
 	}
 }
