@@ -7,7 +7,7 @@ package main
 		public static var SQL_FILE_URL:						String = "data/warship.sqlite";		
 		
 		public static const CONFIG_URL:			Vector.<String> = new <String>[
-			"data/regions.dat",
+			"data/maps.dat",
 			"data/scenarios.dat"
 		];
 	}

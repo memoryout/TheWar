@@ -4,8 +4,8 @@ package main.data
 	{
 		private static const _instance	:DataContainer = new DataContainer();
 		
-		public var regions:Vector.<Region> = new Vector.<Region>();
-		public var scenarios:Vector.<Scenario> = new Vector.<Scenario>();
+		private var maps:Vector.<MapInfo> 	 			= new Vector.<MapInfo>();
+		private var scenarios:Vector.<ScenarioInfo> 	= new Vector.<ScenarioInfo>();
 		
 		public function DataContainer()
 		{
@@ -16,15 +16,25 @@ package main.data
 			return _instance;
 		}
 		
-		public function addRegion(val:Region):void
+		public function addMap(val:MapInfo):void
 		{
-			regions.push(val);
+			maps.push(val);
 		}
 		
 		
-		public function addScenario(val:Scenario):void
+		public function addScenario(val:ScenarioInfo):void
 		{
 			scenarios.push(val);
-		}			
+		}	
+		
+		public function getScenariousList():Vector.<ScenarioInfo>
+		{
+			return scenarios;
+		}
+		
+		public function getMapsList():Vector.<MapInfo>
+		{
+			return maps;
+		}
 	}
 }

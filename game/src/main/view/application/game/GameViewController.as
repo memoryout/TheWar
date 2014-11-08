@@ -11,7 +11,7 @@ package main.view.application.game
 	import main.broadcast.Module;
 	import main.broadcast.message.MessageData;
 	import main.data.DataContainer;
-	import main.data.Region;
+	import main.data.ProvinceInfo;
 	import main.game.GameStep;
 	import main.view.application.game.civilization.CivilizationView;
 	import main.view.application.menu.IMenuPageResultReceiver;
@@ -205,10 +205,10 @@ package main.view.application.game
 		private function userChooseRegion(regionId:int):void
 		{
 			
-			var regions:Vector.<Region> = DataContainer.Get().regions;
+			var regions:Vector.<ProvinceInfo> = DataContainer.Get().getMapsList();
 			var i:int;
 			var civ:CivilizationView;
-			var region:Region;
+			var region:ProvinceInfo;
 			
 			for(i = 0; i < regions.length; i++)
 			{
@@ -278,9 +278,9 @@ package main.view.application.game
 		
 		private function showNeighboors(regionId:int):void
 		{
-			var regions:Vector.<Region> = DataContainer.Get().regions;
+			var regions:Vector.<ProvinceInfo> = DataContainer.Get().getMapsList();
 			var i:int;
-			var region:Region;
+			var region:ProvinceInfo;
 			
 			for(i = 0; i < regions.length; i++)
 			{
@@ -300,9 +300,9 @@ package main.view.application.game
 		
 		private function showMoveArmyInterface(regionId:int):void
 		{
-			var regions:Vector.<Region> = DataContainer.Get().regions;
+			var regions:Vector.<ProvinceInfo> = DataContainer.Get().getMapsList();
 			var i:int;
-			var region:Region;
+			var region:ProvinceInfo;
 			var civ:CivilizationView;
 			
 			

@@ -14,4 +14,4 @@
 				<region id = "9"  money="500" growth_money="10" population="10" growth_population="10" army="500" civilization="empty" buildings="" defence="10" neighboring_regions="4,3,8"/>		
 				<region id = "10" money="500" growth_money="10" population="10" growth_population="10" army="500" civilization="empty" buildings="" defence="10" neighboring_regions="5,6"/>						
 			</regions>
-		</xml>
+			</xml>

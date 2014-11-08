@@ -3,7 +3,7 @@ package core.logic
 	import core.logic.data.CivilizationInListOfOrder;
 	import core.logic.data.StateOfCivilization;
 	
-	import main.data.Region;
+	import main.data.ProvinceInfo;
 
 	public class LogicData
 	{
@@ -15,7 +15,7 @@ package core.logic
 		public var randomFill:				Boolean;
 		public var randomPlacement:			Boolean;
 		
-		public var locatedRegions:			Vector.<Region> = new Vector.<Region>();		
+		public var getExtandetMapInfo:		Vector.<ProvinceInfo> = new Vector.<ProvinceInfo>();		
 		
 		public var civilizationList:		Vector.<StateOfCivilization> = new Vector.<StateOfCivilization>();		
 		

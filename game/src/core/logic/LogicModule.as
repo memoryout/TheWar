@@ -6,10 +6,10 @@ package core.logic
 	
 	import main.broadcast.Module;
 	import main.broadcast.message.MessageData;
-	import main.data.Civilization;
+	import main.data.CivilizationInfo;
 	import main.data.DataContainer;
-	import main.data.Region;
-	import main.data.Scenario;
+	import main.data.ProvinceInfo;
+	import main.data.ScenarioInfo;
 	import main.events.ApplicationEvents;
 	import main.view.ViewEvent;
 
@@ -17,7 +17,7 @@ package core.logic
 	{
 		public static const MODULE_NAME:		String = "CoreLogic";
 		
-		private var regionsData:Vector.<Region> = new Vector.<Region>();
+		private var regionsData:Vector.<ProvinceInfo> = new Vector.<ProvinceInfo>();
 		
 		public function LogicModule()
 		{
@@ -35,8 +35,8 @@ package core.logic
 		
 		private function locateCivilizationOnPositions():void
 		{
-			var initRegions:Vector.<Region> = DataContainer.Get().regions.concat();			
-			var initScenarioCivilizations:Vector.<Civilization> = DataContainer.Get().scenarios[LogicData.Get().selectedScenario].civilizations;
+			var initRegions:Vector.<ProvinceInfo> = DataContainer.Get().maps.concat();			
+			var initScenarioCivilizations:Vector.<CivilizationInfo> = DataContainer.Get().scenarios[LogicData.Get().selectedScenario].civilizations;
 			
 			for (var i:int = 0; i < initScenarioCivilizations.length; i++) 
 			{
@@ -47,7 +47,7 @@ package core.logic
 					if(initRegions[j].id == initScenarioCivilizations[i].region)
 					{
 						initRegions[j].money 		= initScenarioCivilizations[i].money;
-						initRegions[j].population 	= initScenarioCivilizations[i].population;
+//						initRegions[j].population 	= initScenarioCivilizations[i].population;
 						initRegions[j].civilization	= initScenarioCivilizations[i].name;
 						
 						stateOfCivilization.flag 			= initScenarioCivilizations[i].flag;
@@ -60,7 +60,7 @@ package core.logic
 						LogicData.Get().civilizationList.push(stateOfCivilization);
 					}
 
-					LogicData.Get().locatedRegions.push(initRegions[j]);
+					LogicData.Get().getExtandetMapInfo.push(initRegions[j]);
 				}				
 			}
 			

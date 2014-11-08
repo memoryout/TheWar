@@ -73,7 +73,7 @@ package main.data
 				
 				switch(_table)
 				{
-					case "regions":
+					case "maps":
 					{
 						if(_type == "xml") 
 							parseRegionsXMLData(_content);		
@@ -98,35 +98,35 @@ package main.data
 		{
 			var xml:XML = new XML(str);
 			
-			var par:String, regions:XMLList, regionsList:XML, regionItem:Region;
+			var par:String, maps:XMLList, provincesList:XML, provinceItem:ProvinceInfo, map:MapInfo = new MapInfo();
+						
+			map.id   = xml.maps.map.@id;
+			map.name = xml.maps.map.@name;			
 			
-			regions = xml.regions;
+			maps = xml.map;
 			
-			for(par in regions.*)
+			for(par in maps.*)
 			{
-				regionsList = regions.*[par];
+				provincesList = maps.*[par];
 				
-				regionItem = new Region();
-				regionItem.id 					= Number( regionsList.@id );
-				regionItem.money 				= Number( regionsList.@money );
-				regionItem.growthMoney 			= Number( regionsList.@growth_money );
-				regionItem.population 			= Number( regionsList.population );
-				regionItem.growthPopulation 	= Number( regionsList.@growth_population );
-				regionItem.army 				= Number( regionsList.@army );
-				regionItem.civilization 		= String( regionsList.@civilization );
-				regionItem.buildings 			= String( regionsList.buildings );
-				regionItem.defence 				= Number( regionsList.defence );
-				regionItem.neighboringRegions 	= regionsList.@neighboring_regions.split(",");
+				provinceItem 					= new ProvinceInfo();
 				
-				DataContainer.Get().addRegion(regionItem);
+				provinceItem.id 				= Number( provincesList.@id );
+				provinceItem.moneyGrowth 		= Number( provincesList.@money_growth );				
+				
+				provinceItem.neighboringRegions = provincesList.@neighboring_regions.split(",");
+				
+				map.provinces.push(provinceItem);
 			}
+			
+			DataContainer.Get().addMap(map);			
 		}
 		
 		private function parseScenariosXMLData(str:String):void
 		{
 			var xml:XML = new XML(str);
 			
-			var par:String, civilization:XMLList, civilizationList:XML, civilizationItem:Civilization, scenario:Scenario = new Scenario();
+			var par:String, civilization:XMLList, civilizationList:XML, civilizationItem:CivilizationInfo, scenario:ScenarioInfo = new ScenarioInfo();
 			
 			scenario.id		= xml.scenarios.scenario.@id;
 			scenario.name	= xml.scenarios.scenario.@name;
@@ -137,14 +137,14 @@ package main.data
 			{
 				civilizationList = civilization.*[par];
 				
-				civilizationItem = new Civilization();
+				civilizationItem 					= new CivilizationInfo();
 				civilizationItem.id 				= Number( civilizationList.@id );
 				civilizationItem.money 				= Number( civilizationList.@money );
 				civilizationItem.population 		= Number( civilizationList.@population );	
 				civilizationItem.flag				= String( civilizationList.@flag);		
 				civilizationItem.name				= String( civilizationList.@name);	
 				
-				civilizationItem.region 	= civilizationList.@region.split(",");
+				civilizationItem.region 			= civilizationList.@region.split(",");
 				
 				scenario.civilizations.push(civilizationItem);
 			}

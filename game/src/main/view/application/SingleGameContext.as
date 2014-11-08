@@ -7,7 +7,7 @@ package main.view.application
 	
 	import main.broadcast.Module;
 	import main.broadcast.message.MessageData;
-	import main.data.Region;
+	import main.data.ProvinceInfo;
 	import main.view.ViewEvent;
 	import main.view.application.data.StartupGameConfiguration;
 	import main.view.application.game.GameViewController;
