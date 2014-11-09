@@ -11,6 +11,7 @@ package main.view.application.game
 	import main.broadcast.Module;
 	import main.broadcast.message.MessageData;
 	import main.data.DataContainer;
+	import main.data.MapInfo;
 	import main.data.ProvinceInfo;
 	import main.game.GameStep;
 	import main.view.application.game.civilization.CivilizationView;
@@ -30,6 +31,8 @@ package main.view.application.game
 		private var _civilizations:		Vector.<CivilizationView>;
 		
 		private var _lastSelectedRegion:int;
+		
+		private var _provinces:			Vector.<ProvinceInfo>;
 				
 		public function GameViewController()
 		{
@@ -53,6 +56,17 @@ package main.view.application.game
 			_gameLayout.getHUD().addEventListener(GameHUD.CLICK_ON_NEXT_STEP, handlerUserClickNext);
 			
 			_lastSelectedRegion = -1;
+			
+			var maps:Vector.<MapInfo> = DataContainer.Get().getMapsList();
+			
+			var i:int;
+			for(i = 0; i < maps.length; i++)
+			{
+				if(maps[i].id == 0)
+				{
+					_provinces = maps[i].provinces;
+				}
+			}
 		}
 		
 		
@@ -205,7 +219,7 @@ package main.view.application.game
 		private function userChooseRegion(regionId:int):void
 		{
 			
-			var regions:Vector.<ProvinceInfo> = DataContainer.Get().getMapsList();
+			var regions:Vector.<ProvinceInfo> = _provinces;
 			var i:int;
 			var civ:CivilizationView;
 			var region:ProvinceInfo;
@@ -278,7 +292,7 @@ package main.view.application.game
 		
 		private function showNeighboors(regionId:int):void
 		{
-			var regions:Vector.<ProvinceInfo> = DataContainer.Get().getMapsList();
+			var regions:Vector.<ProvinceInfo> = _provinces;
 			var i:int;
 			var region:ProvinceInfo;
 			
@@ -300,7 +314,7 @@ package main.view.application.game
 		
 		private function showMoveArmyInterface(regionId:int):void
 		{
-			var regions:Vector.<ProvinceInfo> = DataContainer.Get().getMapsList();
+			var regions:Vector.<ProvinceInfo> = _provinces;
 			var i:int;
 			var region:ProvinceInfo;
 			var civ:CivilizationView;

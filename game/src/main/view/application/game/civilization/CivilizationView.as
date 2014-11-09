@@ -1,6 +1,7 @@
 package main.view.application.game.civilization
 {
 	import core.logic.data.StateOfCivilization;
+	import core.logic.data.StateOfProvince;
 	
 	import flash.filters.ColorMatrixFilter;
 	import flash.utils.Dictionary;
@@ -15,7 +16,7 @@ package main.view.application.game.civilization
 		private const COLOR_G:		uint = uint(Math.random() * 0xff);
 		private const COLOR_B:		uint = uint(Math.random() * 0xff);
 		
-		private const _occupiedTerritories:			Vector.<int> = new Vector.<int>();
+		private const _occupiedTerritories:			Vector.<StateOfProvince> = new Vector.<StateOfProvince>();
 		
 		private var _regionController:		RegionController;
 		
@@ -31,9 +32,9 @@ package main.view.application.game.civilization
 			_data = data;
 			
 			var i:int;
-			for(i = 0; i < data.regions.length; i++)
+			for(i = 0; i < data.provinces.length; i++)
 			{
-				_occupiedTerritories.push(data.regions[i]);
+				_occupiedTerritories.push(data.provinces[i]);
 			}
 		}
 		
@@ -45,7 +46,13 @@ package main.view.application.game.civilization
 		
 		public function hasRegion(regionId:int):Boolean
 		{
-			return _occupiedTerritories.indexOf(regionId) != -1;
+			var i:int;
+			for(i = 0; i < _occupiedTerritories.length; i++)
+			{
+				if(_occupiedTerritories[i].id == regionId) return true;
+			}
+			
+			return false;
 		}
 		
 		public function getStateInfo():StateOfCivilization
@@ -58,7 +65,7 @@ package main.view.application.game.civilization
 			var i:int;
 			for(i = 0; i < _occupiedTerritories.length; i++)
 			{
-				_regionController.setColorForRegion(_occupiedTerritories[i], COLOR_R/0xff, COLOR_G/0xff, COLOR_B/0xff, 1)
+				_regionController.setColorForRegion(_occupiedTerritories[i].id, COLOR_R/0xff, COLOR_G/0xff, COLOR_B/0xff, 1)
 			}
 		}
 	}
