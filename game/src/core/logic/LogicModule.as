@@ -1,5 +1,11 @@
 package core.logic
 {
+	import core.logic.action.GameActionBuild;
+	import core.logic.action.GameActionBuyTechnology;
+	import core.logic.action.GameActionByArmy;
+	import core.logic.action.GameActionMoveArmy;
+	import core.logic.action.GameActionUnionAnswer;
+	import core.logic.action.GameActionUnionCancel;
 	import core.logic.data.CivilizationInListOfOrder;
 	import core.logic.data.StateOfCivilization;
 	import core.logic.data.StateOfProvince;
@@ -14,12 +20,16 @@ package core.logic
 	import main.data.ScenarioInfo;
 	import main.events.ApplicationEvents;
 	import main.view.ViewEvent;
+	
+	import mx.core.mx_internal;
 
 	public class LogicModule extends Module
 	{
 		public static const MODULE_NAME:		String = "CoreLogic";
 		
 		private var regionsData:Vector.<ProvinceInfo> = new Vector.<ProvinceInfo>();
+		
+		private var stackAction:Array = new Array();
 		
 		public function LogicModule()
 		{
@@ -99,14 +109,177 @@ package core.logic
 			}			
 		}
 		
-		private function updateTotalBonusFromCrafting():void
+		private function updateTotalBonusFromCraftingForEachCivilization():void
 		{
 			
 		}
 		
-		private function updateStateOfCivilization():void
+		
+		/**
+		 * Ежедневный доход (Daliy Income) = BV + TBC + TB * nT + D;
+			
+			BV (Basic Value) - начальное значение количества монет для конкретной территории.
+				
+			TBC (Total Bonus from Crafting) – сумма всех улучшений купленных в Дереве технологий, дающих 
+			
+			прирост дохода.
+				
+			TB (Temple Bonus) – бонус за наличие храма.
+				
+			nT (Temple Number) – количество храмов.
+			diplomacy 		   - дипломатия.
+		 * 
+		 */		
+		private function updateCivilizationsMoney():void
 		{
+			for (var i:int = 0; i < LogicData.Get().civilizationList.length; i++) 
+			{
+				updateTotalBonusFromCraftingForEachCivilization();
+								
+				for (var j:int = 0; j < LogicData.Get().civilizationList[i].provinces.length; j++) 
+				{
+					var provinceIncome:Number = 0;
+					var templateBonus:Number  = 0;
+					
+					if(LogicData.Get().civilizationList[i].provinces[j].buildingList.indexOf(ConstantParameters.TEMPLATE) != -1)
+						templateBonus = ConstantParameters.TEMPLATE_BONUS;	
+					
+					provinceIncome = LogicData.Get().civilizationList[i].provinces[j].moneyGrowth + LogicData.Get().civilizationList[i].totalBonusFromCrafting + templateBonus;
+					
+					LogicData.Get().civilizationList[i].money += LogicData.Get().civilizationList[i].totalBonusFromCrafting + LogicData.Get().civilizationList[i].totalBonusFromDiplomacyTrade + provinceIncome;
+					
+					sendMessage(ApplicationEvents.SHOW_MESSAGE, "civilization: " + LogicData.Get().civilizationList[i].name);
+					sendMessage(ApplicationEvents.SHOW_MESSAGE, "money: " 		 + LogicData.Get().civilizationList[i].money);
+				}				
+			}			
+		}
+		
+		private function setAction(action:Object):void
+		{
+			var currentCivilization:StateOfCivilization = LogicData.Get().civilizationList[LogicData.Get().selectedCivilization];
+			var currentProvince:StateOfProvince, i:int;	
 						
+			if(action.type == ConstantParameters.BUY_ARMY)			
+			{				
+				// find province
+				for (i = 0; i < currentCivilization.provinces.length; i++) 
+				{								
+					if(currentCivilization.provinces[i].id == action.sourceRegionID)
+					{
+						currentProvince = currentCivilization.provinces[i];
+						break;	
+					}
+				}				
+				
+				// set by army action
+				var gameAction:GameActionByArmy = new GameActionByArmy();
+				
+				gameAction.amount = currentProvince.armyNumber + action.amount;
+				gameAction.type = ConstantParameters.BUY_ARMY;
+				
+				gameAction.stepsLeft = 1; // need change
+				
+				stackAction.push(gameAction);
+				
+				sendMessage(ViewEvent.GET_ACTION_DATA, gameAction);
+				
+			}else if(action.type == ConstantParameters.MOVE_ARMY){
+				
+				var gameActionMove:GameActionMoveArmy = new GameActionMoveArmy();
+				
+				for (i = 0; i < currentCivilization.provinces.length; i++) 
+				{								
+					if(currentCivilization.provinces[i].id == action.sourceRegionID)
+					{
+						currentCivilization.provinces[i].armyNumber -= action.amount;	
+						gameActionMove.sourceRegionId = i;
+					
+					}else if(currentCivilization.provinces[i].id == action.destinationRegionID)
+					{
+						currentCivilization.provinces[i].armyNumber += action.amount;
+						gameActionMove.destinationRegionId = i;
+					}
+				}		
+				
+				gameActionMove.amount = i;
+				gameActionMove.type = ConstantParameters.MOVE_ARMY;
+				gameActionMove.stepsLeft = 1; // need change
+													
+				stackAction.push(gameActionMove);
+				
+				sendMessage(ViewEvent.GET_ACTION_DATA, gameActionMove);
+				
+			}else if(action.type == ConstantParameters.BUILD){
+				
+				var gameActionBuild:GameActionBuild = new GameActionBuild();
+				
+				for (i = 0; i < currentCivilization.provinces.length; i++) 
+				{								
+					if(currentCivilization.provinces[i].id == action.destinationRegionID)
+					{
+						currentCivilization.provinces[i].buildProcess.current += 1;
+						
+						//// need get total step to bild
+						
+						if(currentCivilization.provinces[i].buildProcess.current == currentCivilization.provinces[i].buildProcess.total)
+						{
+							currentCivilization.provinces[i].buildingList.push(action.buildingId);
+							currentCivilization.provinces[i].buildProcess.current = 0;
+						}
+							
+						gameActionBuild.buildingId = action.buildingId;
+						gameActionBuild.destinationRegionId = i;
+					}
+				}
+				
+				gameActionBuild.type = ConstantParameters.BUILD;
+				gameActionBuild.stepsLeft = 1; // need change
+				
+				stackAction.push(gameActionBuild);		
+				
+				sendMessage(ViewEvent.GET_ACTION_DATA, gameActionBuild);
+				
+			}else if(action.type == ConstantParameters.BUY_TECHNOLOGY){
+				
+				var gameActionByTechnology:GameActionBuyTechnology = new GameActionBuyTechnology();
+				gameActionByTechnology.type = ConstantParameters.BUILD;
+				gameActionByTechnology.stepsLeft = 1; // need change
+				
+				stackAction.push(gameActionByTechnology);			
+				
+				sendMessage(ViewEvent.GET_ACTION_DATA, gameActionByTechnology);
+				
+			}else if(action.type == ConstantParameters.UNION_OFFER){
+				
+				var gameActionUnionOffer:GameActionUnionAnswer = new GameActionUnionAnswer();
+				gameActionUnionOffer.type = ConstantParameters.UNION_OFFER;
+				
+				gameActionUnionOffer.targetCivilizationId = action.targetCivilizationId;
+				gameActionUnionOffer.sourceCivilizationId = action.sourceCivilizationId;
+				gameActionUnionOffer.stepsLeft = 1; // need change
+				
+				stackAction.push(gameActionUnionOffer);				
+				
+				sendMessage(ViewEvent.GET_ACTION_DATA, gameActionUnionOffer);
+				
+			}else if(action.type == ConstantParameters.UNION_OFFER_ANSWER){
+				
+				
+				
+			}else if(action.type == ConstantParameters.UNION_CANCEL){
+				
+								
+			}			
+		}
+		
+		private function updateStackAction():void
+		{
+			for (var i:int = 0; i < stackAction.length; i++) 
+			{
+				
+				stackAction[i].stepsLeft--;
+							
+			}			
 		}
 		
 		private function defineSteps():void
@@ -171,7 +344,10 @@ package core.logic
 				}
 					
 				case CoreEvents.GET_TREASURE:
-				{
+				{	
+//					updateStackAction();
+					updateCivilizationsMoney();
+					
 					defineSteps();
 					sendMessage(CoreEvents.SEND_TREASURE, []);
 					
@@ -188,6 +364,12 @@ package core.logic
 				case CoreEvents.FINISH_STEP:
 				{
 					defineSteps();
+					break;
+				}	
+					
+				case ViewEvent.SET_ACTION:
+				{
+					setAction(message.data);
 					break;
 				}
 			}

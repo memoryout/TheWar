@@ -14,17 +14,16 @@ package core.logic
 		public var gameLevel:				uint;
 		public var randomFill:				Boolean;
 		public var randomPlacement:			Boolean;
+				
+		public var civilizationList:		Vector.<StateOfCivilization> 		= new Vector.<StateOfCivilization>();		
 		
-		public var getExtandetMapInfo:		Vector.<ProvinceInfo> = new Vector.<ProvinceInfo>();		
+		public var listOfOrder:				Vector.<CivilizationInListOfOrder>  = new Vector.<CivilizationInListOfOrder>();		
 		
-		public var civilizationList:		Vector.<StateOfCivilization> = new Vector.<StateOfCivilization>();		
-		
-		public var listOfOrder:				Vector.<CivilizationInListOfOrder> = new Vector.<CivilizationInListOfOrder>();		
-		
-		public var currentStep:				String =  "user_activity";
+		public var currentStep:				String = "user_activity";
 				
 		public function LogicData()
 		{
+			
 		}
 		
 		public static function Get():LogicData

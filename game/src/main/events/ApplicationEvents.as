@@ -12,5 +12,7 @@ package main.events
 		public static const DATA_SAVED:					String = UniqueId.create();		
 		
 		public static const GET_REGIONS_DATA:			String = UniqueId.create();		
+		
+		public static const SHOW_MESSAGE:				String = UniqueId.create();		
 	}
 }

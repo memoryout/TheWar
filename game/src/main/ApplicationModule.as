@@ -88,6 +88,12 @@ package main
 					logView.addMessage("BOOT_COMPLETE");
 					break;
 				}
+					
+				case ApplicationEvents.SHOW_MESSAGE:
+				{
+					logView.addMessage(message.data);
+					break;
+				}
 			}
 		}
 	}

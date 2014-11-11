@@ -9,7 +9,10 @@ package core.logic.data
 		
 		public var buildingList:		Array = new Array();
 		
-		public var army:				Array = new Array();
+		public var armyNumber:			Number = 0;
+		
+		public var buildProcess: 		Object = {"current":0, "total":0};
+		public var armyProcess: 		Object = {"current":0, "total":0};
 		
 		public function StateOfProvince()
 		{
