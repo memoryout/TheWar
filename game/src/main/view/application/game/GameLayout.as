@@ -15,21 +15,24 @@ package main.view.application.game
 	import main.view.application.game.map.MapView;
 	import main.view.application.game.region.RegionController;
 	import main.view.application.game.region.RegionView;
+	import main.view.application.game.windows.GameWindowLayout;
 	import main.view.input.UserInputSystem;
 	
 	public class GameLayout extends Sprite
 	{
-		private var _skin:			MovieClip;
+		private var _skin:				MovieClip;
 		
-		private var _hudSkin:		MovieClip;
-		private var _hud:			GameHUD;
+		private var _hudSkin:			MovieClip;
+		private var _hud:				GameHUD;
 		
-		private const _regions:		Dictionary = new Dictionary();
+		private const _regions:			Dictionary = new Dictionary();
 		
-		private const _civilization:Dictionary = new Dictionary();
+		private const _civilization:	Dictionary = new Dictionary();
 		
 		private var _mapView:			MapView;
 		private var _regionController:	RegionController;
+		
+		private var _windowLayout:		GameWindowLayout;
 		
 		public function GameLayout()
 		{
@@ -67,6 +70,9 @@ package main.view.application.game
 			_hud = new GameHUD();
 			_hud.initialize();
 			this.addChild(_hud);
+			
+			_windowLayout = new GameWindowLayout();
+			this.addChild( _windowLayout );
 		}
 		
 		
@@ -78,6 +84,11 @@ package main.view.application.game
 		public function getHUD():GameHUD
 		{
 			return _hud;
+		}
+		
+		public function getWindowLayout():GameWindowLayout
+		{
+			return _windowLayout;
 		}
 		
 		public function getRegionController():RegionController

@@ -61,8 +61,6 @@ package main.view.application
 		
 		private function createGameLayout(civilizations:Vector.<StateOfCivilization>):void
 		{
-			trace("CoreEvents.GAME_READY нахер дважды отпарвлять ?")
-			
 			_menu.showPage(null,null,null);
 			_menu.hideBackground();
 			

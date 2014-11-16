@@ -14,7 +14,10 @@ package main.view.application.game
 	import main.data.MapInfo;
 	import main.data.ProvinceInfo;
 	import main.game.GameStep;
+	import main.view.ViewEvent;
+	import main.view.application.data.GameDataProvider;
 	import main.view.application.game.civilization.CivilizationView;
+	import main.view.application.game.windows.action.MakeActionWindowController;
 	import main.view.application.menu.IMenuPageResultReceiver;
 	import main.view.application.menu.MenuViewStack;
 	import main.view.application.menu.PageList;
@@ -33,6 +36,7 @@ package main.view.application.game
 		private var _lastSelectedRegion:int;
 		
 		private var _provinces:			Vector.<ProvinceInfo>;
+		private var _currentMapData:	MapInfo;
 				
 		public function GameViewController()
 		{
@@ -64,7 +68,11 @@ package main.view.application.game
 			{
 				if(maps[i].id == 0)
 				{
+					GameDataProvider.Get().initializeCurrentGame( maps[i] );
+					
 					_provinces = maps[i].provinces;
+					_currentMapData = maps[i];
+					break;
 				}
 			}
 		}
@@ -72,6 +80,8 @@ package main.view.application.game
 		
 		public function start(civList:Vector.<StateOfCivilization>):void
 		{
+			GameDataProvider.Get().setCivilizationList(civList, 0);
+			
 			var i:int;
 			var civ:CivilizationView;
 			_civilizations = new Vector.<CivilizationView>();
@@ -180,6 +190,12 @@ package main.view.application.game
 					checkCurrentStep();
 					break;
 				}
+					
+				case ViewEvent.GET_ACTION_DATA:
+				{
+					trace("ViewEvent.GET_ACTION_DATA", message.data);
+					break;
+				}
 			}
 		}
 		
@@ -207,63 +223,50 @@ package main.view.application.game
 		{
 			var arr:Array = button.split(".");
 			
+			_gameLayout.getHUD().showContextInfo(button);
+			
 			if(arr.length == 2)
 			{
 				if(arr[0] == "region")
 				{
 					userChooseRegion( int(arr[1]) );
 				}
+				else if(arr[0] == "button")
+				{
+					processButtonClick(arr[1]);
+				}
 			}
 		}
 		
-		private function userChooseRegion(regionId:int):void
+		private function userChooseRegion(provinceId:int):void
 		{
+			var civ:StateOfCivilization;
+			var province:ProvinceInfo;
 			
-			var regions:Vector.<ProvinceInfo> = _provinces;
-			var i:int;
-			var civ:CivilizationView;
-			var region:ProvinceInfo;
-			
-			for(i = 0; i < regions.length; i++)
-			{
-				if(regions[i].id == regionId)
-				{
-					region = regions[i];
-					break;
-				}
-			}
-			
-			
-			for(i = 0; i < _civilizations.length; i++)
-			{
-				if(_civilizations[i].hasRegion(regionId) ) 
-				{
-					civ = _civilizations[i];
-					break;
-				}
-			}
+			province = GameDataProvider.Get().getProvinceInfo( provinceId );
+			civ = GameDataProvider.Get().getCivilizationByProvinceId( provinceId );
 			
 			var message:String = "";
 			
-			if(civ) message += "Civilization: " + civ.getStateInfo().name;			
-			if(region) message += "  Region: " + region.id;
+			if(civ) message += "Civilization: " + civ.name		
+			if(province) message += "  Region: " + province.id;
 			
 			_gameLayout.getHUD().writeMessage(message);
 			
 			
 			if(civ)
 			{
-				if(civ.getStateInfo().id == 0) // типа моя цивилизация
+				if(civ.id == 0) // типа моя цивилизация
 				{
-					_lastSelectedRegion = regionId;
-					_gameLayout.getRegionController().highlightRegionLikeSelected( regionId );
-					showNeighboors(regionId);
+					_lastSelectedRegion = provinceId;
+					_gameLayout.getRegionController().highlightRegionLikeSelected( provinceId );
+					showNeighboors(provinceId);
 				}
 				else
 				{
 					if( _lastSelectedRegion > -1 )
 					{
-						showMoveArmyInterface(regionId);
+						showMoveArmyInterface(provinceId);
 						// show how much ui.
 					}
 					else
@@ -277,7 +280,7 @@ package main.view.application.game
 			{
 				if( _lastSelectedRegion > -1 )
 				{
-					showMoveArmyInterface(regionId);
+					showMoveArmyInterface(provinceId);
 					// show how much ui.
 				}
 				else
@@ -290,24 +293,14 @@ package main.view.application.game
 		}
 		
 		
-		private function showNeighboors(regionId:int):void
+		private function showNeighboors(id:int):void
 		{
-			var regions:Vector.<ProvinceInfo> = _provinces;
 			var i:int;
-			var region:ProvinceInfo;
+			var province:ProvinceInfo = GameDataProvider.Get().getProvinceInfo(id);
 			
-			for(i = 0; i < regions.length; i++)
+			for(i = 0; i < province.neighboringRegions.length; i++)
 			{
-				if(regions[i].id == regionId)
-				{
-					region = regions[i];
-					break;
-				}
-			}
-			
-			for(i = 0; i < region.neighboringRegions.length; i++)
-			{
-				_gameLayout.getRegionController().highlightRegionLikeNeighbor( region.neighboringRegions[i] );
+				_gameLayout.getRegionController().highlightRegionLikeNeighbor( province.neighboringRegions[i] );
 			}
 		}
 		
@@ -357,6 +350,26 @@ package main.view.application.game
 				_gameLayout.getRegionController().removeSelection();
 			}
 			
+		}
+		
+		
+		private function processButtonClick(button:String):void
+		{
+			switch(button)
+			{
+				case "make_action":
+				{
+					showMakeActionDialog();
+					break;
+				}
+			}
+		}
+		
+		
+		private function showMakeActionDialog():void
+		{
+			var win:MakeActionWindowController = new MakeActionWindowController();
+			_gameLayout.getWindowLayout().showWindow( win );
 		}
 	}
 }
