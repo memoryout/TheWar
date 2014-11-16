@@ -174,8 +174,9 @@ package core.logic
 				// set by army action
 				var gameAction:GameActionByArmy = new GameActionByArmy();
 				
-				gameAction.amount = currentProvince.armyNumber + action.amount;
-				gameAction.type = ConstantParameters.BUY_ARMY;
+				gameAction.amount 			= currentProvince.armyNumber + action.amount;
+				gameAction.type 			= ConstantParameters.BUY_ARMY;
+				gameAction.sourceRegionID	= action.sourceRegionID;
 				
 				gameAction.stepsLeft = 1; // need change
 				
@@ -201,7 +202,7 @@ package core.logic
 					}
 				}		
 				
-				gameActionMove.amount = i;
+				gameActionMove.amount = action.amount;
 				gameActionMove.type = ConstantParameters.MOVE_ARMY;
 				gameActionMove.stepsLeft = 1; // need change
 													
@@ -215,7 +216,7 @@ package core.logic
 				
 				for (i = 0; i < currentCivilization.provinces.length; i++) 
 				{								
-					if(currentCivilization.provinces[i].id == action.destinationRegionID)
+					if(currentCivilization.provinces[i].id == action.destinationRegionId)
 					{
 						currentCivilization.provinces[i].buildProcess.current += 1;
 						
@@ -228,7 +229,7 @@ package core.logic
 						}
 							
 						gameActionBuild.buildingId = action.buildingId;
-						gameActionBuild.destinationRegionId = i;
+						gameActionBuild.destinationRegionId = action.destinationRegionId;
 					}
 				}
 				
@@ -242,7 +243,8 @@ package core.logic
 			}else if(action.type == ConstantParameters.BUY_TECHNOLOGY){
 				
 				var gameActionByTechnology:GameActionBuyTechnology = new GameActionBuyTechnology();
-				gameActionByTechnology.type = ConstantParameters.BUILD;
+				gameActionByTechnology.type = ConstantParameters.BUY_TECHNOLOGY;
+				gameActionByTechnology.technologyId = action.technologyId;
 				gameActionByTechnology.stepsLeft = 1; // need change
 				
 				stackAction.push(gameActionByTechnology);			
@@ -276,9 +278,15 @@ package core.logic
 		{
 			for (var i:int = 0; i < stackAction.length; i++) 
 			{
-				
-				stackAction[i].stepsLeft--;
-							
+				if(stackAction[i])
+				{
+					stackAction[i].stepsLeft--;
+					
+					if(stackAction[i].stepsLeft==0)
+					{
+						stackAction[i] = null;							
+					}
+				}				
 			}			
 		}
 		
@@ -335,6 +343,8 @@ package core.logic
 									
 				case CoreEvents.GET_CIVILIZATION_ORDER:
 				{
+					updateStackAction();
+					
 					defineSteps();				
 					
 					getRandomCivilizationOrderList();
