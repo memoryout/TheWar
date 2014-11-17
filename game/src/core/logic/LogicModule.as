@@ -74,7 +74,9 @@ package core.logic
 						
 						stateOfCivilization.provinces.push(province);
 						
+						
 						LogicData.Get().civilizationList.push(stateOfCivilization);
+						LogicData.Get().provincesList.push(province);
 					}
 				}				
 			}
@@ -157,6 +159,7 @@ package core.logic
 		private function setAction(action:Object):void
 		{
 			var currentCivilization:StateOfCivilization = LogicData.Get().civilizationList[LogicData.Get().selectedCivilization];
+			var provincesList:Vector.<StateOfProvince>  = LogicData.Get().provincesList;
 			var currentProvince:StateOfProvince, i:int;	
 						
 			if(action.type == ConstantParameters.BUY_ARMY)			
@@ -186,25 +189,21 @@ package core.logic
 				
 			}else if(action.type == ConstantParameters.MOVE_ARMY){
 				
-				var gameActionMove:GameActionMoveArmy = new GameActionMoveArmy();
+				var gameActionMove:GameActionMoveArmy = new GameActionMoveArmy();		
 				
-				for (i = 0; i < currentCivilization.provinces.length; i++) 
-				{								
-					if(currentCivilization.provinces[i].id == action.sourceRegionID)
-					{
-						currentCivilization.provinces[i].armyNumber -= action.amount;	
-						gameActionMove.sourceRegionId = i;
+				for (var j:int = 0; j < provincesList.length; j++) 
+				{
+					if(provincesList[j].id == action.sourceRegionID)					
+						gameActionMove.sourceRegionId 		= action.sourceRegionID;					
 					
-					}else if(currentCivilization.provinces[i].id == action.destinationRegionID)
-					{
-						currentCivilization.provinces[i].armyNumber += action.amount;
-						gameActionMove.destinationRegionId = i;
-					}
-				}		
+					else if(provincesList[j].id == action.destinationRegionId)					
+						gameActionMove.destinationRegionId  = action.destinationRegionId;					
+				}
 				
 				gameActionMove.amount = action.amount;
 				gameActionMove.type = ConstantParameters.MOVE_ARMY;
-				gameActionMove.stepsLeft = 1; // need change
+				
+				gameActionMove.stepsLeft = 1; // need change ?
 													
 				stackAction.push(gameActionMove);
 				
@@ -275,11 +274,49 @@ package core.logic
 		}
 		
 		private function updateStackAction():void
-		{
+		{		
+				
 			for (var i:int = 0; i < stackAction.length; i++) 
 			{
 				if(stackAction[i])
 				{
+					var currentCivilization:StateOfCivilization = LogicData.Get().civilizationList[LogicData.Get().selectedCivilization];
+					var provincesList:Vector.<StateOfProvince>  = LogicData.Get().provincesList;
+										
+					if(stackAction[i].type == ConstantParameters.BUY_ARMY)
+					{
+						// find province
+						for (i = 0; i < currentCivilization.provinces.length; i++) 
+						{								
+							if(currentCivilization.provinces[i].id == stackAction[i].sourceRegionID)
+							{
+								currentCivilization.provinces[i].armyNumber += stackAction[i].amount;								
+								break;	
+							}
+						}		
+						
+					}else if(stackAction[i].type == ConstantParameters.MOVE_ARMY)
+					{
+						for (var j:int = 0; j < provincesList.length; j++) 
+						{
+							if(provincesList[j].id == stackAction[i].sourceRegionId && provincesList[j].armyNumber >= stackAction[i].amount)
+							{
+								provincesList[j].armyNumber -= stackAction[i].amount;
+							}
+							else if(provincesList[j].id == stackAction[i].destinationRegionId)
+							{								
+								provincesList[j].armyNumber += stackAction[i].amount;
+							}
+						}
+					}else if(stackAction[i].type == ConstantParameters.BUILD)
+					{
+						
+						
+					}else if(stackAction[i].type == ConstantParameters.BUY_ARMY)
+					{
+						
+					}						
+					
 					stackAction[i].stepsLeft--;
 					
 					if(stackAction[i].stepsLeft==0)
