@@ -19,6 +19,7 @@ package core.logic
 			PORT
 		];
 		
+		public static var ATTACK:				String = "ATTACK";
 		public static var BUY_ARMY: 			String = "BUY_ARMY";
 		public static var MOVE_ARMY:			String = "MOVE_ARMY";
 		public static var BUILD: 				String = "BUILD";

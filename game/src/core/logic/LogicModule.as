@@ -1,5 +1,6 @@
 package core.logic
 {
+	import core.logic.action.GameActionAttack;
 	import core.logic.action.GameActionBuild;
 	import core.logic.action.GameActionBuyTechnology;
 	import core.logic.action.GameActionByArmy;
@@ -190,12 +191,12 @@ package core.logic
 				var gameActionMove:GameActionMoveArmy 	= new GameActionMoveArmy();
 				gameActionMove.type 					= ConstantParameters.MOVE_ARMY;
 				
-				for (var j:int = 0; j < provincesList.length; j++) 
+				for (i = 0; i < provincesList.length; i++) 
 				{
-					if(provincesList[j].id == action.sourceRegionID)					
+					if(provincesList[i].id == action.sourceRegionID)					
 						gameActionMove.sourceRegionId 		= action.sourceRegionID;					
 					
-					else if(provincesList[j].id == action.destinationRegionId)					
+					else if(provincesList[i].id == action.destinationRegionId)					
 						gameActionMove.destinationRegionId  = action.destinationRegionId;					
 				}
 				
@@ -206,6 +207,28 @@ package core.logic
 				stackAction.push(gameActionMove);
 				
 				sendMessage(ViewEvent.GET_ACTION_DATA, gameActionMove);
+				
+			}else if(action.type == ConstantParameters.ATTACK){
+				
+				var gameActionAttack:GameActionAttack 	= new GameActionAttack();
+				gameActionMove.type 					= ConstantParameters.ATTACK;
+				
+				for (i = 0; i < provincesList.length; i++) 
+				{
+					if(provincesList[i].id == action.sourceRegionID)					
+						gameActionAttack.sourceRegionId 		= action.sourceRegionID;					
+						
+					else if(provincesList[i].id == action.destinationRegionId)					
+						gameActionAttack.destinationRegionId  = action.destinationRegionId;					
+				}
+				
+				gameActionAttack.amount 		= action.amount;		
+				gameActionAttack.stepsLeft 		= 1; 									// need change ?				
+				gameActionAttack.id 			= LogicData.Get().actionCounter;
+				
+				stackAction.push(gameActionAttack);
+				
+				sendMessage(ViewEvent.GET_ACTION_DATA, gameActionAttack);
 				
 			}else if(action.type == ConstantParameters.BUILD){
 				
