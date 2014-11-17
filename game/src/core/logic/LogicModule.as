@@ -157,7 +157,7 @@ package core.logic
 		}
 		
 		private function setAction(action:Object):void
-		{
+		{		
 			var currentCivilization:StateOfCivilization = LogicData.Get().civilizationList[LogicData.Get().selectedCivilization];
 			var provincesList:Vector.<StateOfProvince>  = LogicData.Get().provincesList;
 			var currentProvince:StateOfProvince, i:int;	
@@ -183,6 +183,8 @@ package core.logic
 				
 				gameAction.stepsLeft = 1; // need change
 				
+				gameAction.id = LogicData.Get().actionCounter;
+				
 				stackAction.push(gameAction);
 				
 				sendMessage(ViewEvent.GET_ACTION_DATA, gameAction);
@@ -204,6 +206,8 @@ package core.logic
 				gameActionMove.type = ConstantParameters.MOVE_ARMY;
 				
 				gameActionMove.stepsLeft = 1; // need change ?
+				
+				gameActionMove.id = LogicData.Get().actionCounter;
 													
 				stackAction.push(gameActionMove);
 				
@@ -235,6 +239,8 @@ package core.logic
 				gameActionBuild.type = ConstantParameters.BUILD;
 				gameActionBuild.stepsLeft = 1; // need change
 				
+				gameActionBuild.id = LogicData.Get().actionCounter;
+				
 				stackAction.push(gameActionBuild);		
 				
 				sendMessage(ViewEvent.GET_ACTION_DATA, gameActionBuild);
@@ -245,6 +251,8 @@ package core.logic
 				gameActionByTechnology.type = ConstantParameters.BUY_TECHNOLOGY;
 				gameActionByTechnology.technologyId = action.technologyId;
 				gameActionByTechnology.stepsLeft = 1; // need change
+				
+				gameActionByTechnology.id = LogicData.Get().actionCounter;
 				
 				stackAction.push(gameActionByTechnology);			
 				
@@ -259,6 +267,8 @@ package core.logic
 				gameActionUnionOffer.sourceCivilizationId = action.sourceCivilizationId;
 				gameActionUnionOffer.stepsLeft = 1; // need change
 				
+				gameActionUnionOffer.id = LogicData.Get().actionCounter;
+				
 				stackAction.push(gameActionUnionOffer);				
 				
 				sendMessage(ViewEvent.GET_ACTION_DATA, gameActionUnionOffer);
@@ -270,7 +280,9 @@ package core.logic
 			}else if(action.type == ConstantParameters.UNION_CANCEL){
 				
 								
-			}			
+			}	
+			
+			LogicData.Get().actionCounter++;
 		}
 		
 		private function updateStackAction():void

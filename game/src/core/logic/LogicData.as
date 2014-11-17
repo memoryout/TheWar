@@ -10,6 +10,8 @@ package core.logic
 	{
 		private static const _instance:		LogicData = new LogicData();
 		
+		public var actionCounter:			uint;
+		
 		public var selectedScenario:		uint;
 		public var selectedCivilization:	uint;
 		public var gameLevel:				uint;

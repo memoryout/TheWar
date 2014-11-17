@@ -4,6 +4,7 @@ package core.logic.action
 
 	public class GameAction implements IGameAction
 	{		
+		private var _id:				uint;
 		private var _type:				String;
 		private var _stepsLeft:			int;
 		
@@ -29,6 +30,16 @@ package core.logic.action
 		public function set stepsLeft(val:int):void
 		{
 			_stepsLeft = val;
+		}
+		
+		public function get id():int
+		{
+			return _id;
+		}
+		
+		public function set id(val:int):void
+		{
+			_id = val;
 		}
 		
 		public function start(price:Number, stepAmount:int):void
