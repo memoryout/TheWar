@@ -163,8 +163,7 @@ package core.logic
 			var currentProvince:StateOfProvince, i:int;	
 						
 			if(action.type == ConstantParameters.BUY_ARMY)			
-			{				
-				// find province
+			{	
 				for (i = 0; i < currentCivilization.provinces.length; i++) 
 				{								
 					if(currentCivilization.provinces[i].id == action.sourceRegionID)
@@ -172,16 +171,13 @@ package core.logic
 						currentProvince = currentCivilization.provinces[i];
 						break;	
 					}
-				}				
-				
-				// set by army action
+				}								
+			
 				var gameAction:GameActionByArmy = new GameActionByArmy();
-				
-				gameAction.amount 			= currentProvince.armyNumber + action.amount;
-				gameAction.type 			= ConstantParameters.BUY_ARMY;
-				gameAction.sourceRegionID	= action.sourceRegionID;
-				
-				gameAction.stepsLeft = 1; // need change
+				gameAction.type 				= ConstantParameters.BUY_ARMY;
+				gameAction.amount 				= currentProvince.armyNumber + action.amount;				
+				gameAction.sourceRegionID		= action.sourceRegionID;				
+				gameAction.stepsLeft 			= 1; 
 				
 				gameAction.id = LogicData.Get().actionCounter;
 				
@@ -191,7 +187,8 @@ package core.logic
 				
 			}else if(action.type == ConstantParameters.MOVE_ARMY){
 				
-				var gameActionMove:GameActionMoveArmy = new GameActionMoveArmy();		
+				var gameActionMove:GameActionMoveArmy 	= new GameActionMoveArmy();
+				gameActionMove.type 					= ConstantParameters.MOVE_ARMY;
 				
 				for (var j:int = 0; j < provincesList.length; j++) 
 				{
@@ -202,12 +199,9 @@ package core.logic
 						gameActionMove.destinationRegionId  = action.destinationRegionId;					
 				}
 				
-				gameActionMove.amount = action.amount;
-				gameActionMove.type = ConstantParameters.MOVE_ARMY;
-				
-				gameActionMove.stepsLeft = 1; // need change ?
-				
-				gameActionMove.id = LogicData.Get().actionCounter;
+				gameActionMove.amount 		= action.amount;		
+				gameActionMove.stepsLeft 	= 1; 									// need change ?				
+				gameActionMove.id 			= LogicData.Get().actionCounter;
 													
 				stackAction.push(gameActionMove);
 				
@@ -216,43 +210,42 @@ package core.logic
 			}else if(action.type == ConstantParameters.BUILD){
 				
 				var gameActionBuild:GameActionBuild = new GameActionBuild();
+				gameActionBuild.type = ConstantParameters.BUILD;
 				
 				for (i = 0; i < currentCivilization.provinces.length; i++) 
 				{								
 					if(currentCivilization.provinces[i].id == action.destinationRegionId)
 					{
-						currentCivilization.provinces[i].buildProcess.current += 1;
-						
-						//// need get total step to bild
-						
-						if(currentCivilization.provinces[i].buildProcess.current == currentCivilization.provinces[i].buildProcess.total)
-						{
-							currentCivilization.provinces[i].buildingList.push(action.buildingId);
-							currentCivilization.provinces[i].buildProcess.current = 0;
-						}
-							
-						gameActionBuild.buildingId = action.buildingId;
-						gameActionBuild.destinationRegionId = action.destinationRegionId;
+						currentProvince = currentCivilization.provinces[i];
+						break;	
 					}
 				}
 				
-				gameActionBuild.type = ConstantParameters.BUILD;
-				gameActionBuild.stepsLeft = 1; // need change
+				for (var k:int = 0; k < ConstantParameters.BUILDINGS.length; k++) 
+				{
+					if(ConstantParameters.BUILDINGS[k].id == action.buildingId)
+					{
+						currentProvince.buildProcess.total 	= ConstantParameters.BUILDINGS[k].totalStep;				
+						gameActionBuild.stepsLeft 			= ConstantParameters.BUILDINGS[k].totalStep;
+						break;
+					}
+				}			
 				
-				gameActionBuild.id = LogicData.Get().actionCounter;
+				gameActionBuild.buildingId 			= action.buildingId;
+				gameActionBuild.destinationRegionId = action.destinationRegionId;					
+				gameActionBuild.id 					= LogicData.Get().actionCounter;
 				
 				stackAction.push(gameActionBuild);		
 				
-				sendMessage(ViewEvent.GET_ACTION_DATA, gameActionBuild);
+				sendMessage(ViewEvent.GET_ACTION_DATA, gameActionBuild);					
 				
 			}else if(action.type == ConstantParameters.BUY_TECHNOLOGY){
 				
-				var gameActionByTechnology:GameActionBuyTechnology = new GameActionBuyTechnology();
-				gameActionByTechnology.type = ConstantParameters.BUY_TECHNOLOGY;
-				gameActionByTechnology.technologyId = action.technologyId;
-				gameActionByTechnology.stepsLeft = 1; // need change
-				
-				gameActionByTechnology.id = LogicData.Get().actionCounter;
+				var gameActionByTechnology:GameActionBuyTechnology 	= new GameActionBuyTechnology();
+				gameActionByTechnology.type 						= ConstantParameters.BUY_TECHNOLOGY;
+				gameActionByTechnology.technologyId 				= action.technologyId;
+				gameActionByTechnology.stepsLeft					= 1; // need change				
+				gameActionByTechnology.id 							= LogicData.Get().actionCounter;
 				
 				stackAction.push(gameActionByTechnology);			
 				
@@ -287,7 +280,8 @@ package core.logic
 		
 		private function updateStackAction():void
 		{		
-				
+			var j:int;	
+			
 			for (var i:int = 0; i < stackAction.length; i++) 
 			{
 				if(stackAction[i])
@@ -297,19 +291,18 @@ package core.logic
 										
 					if(stackAction[i].type == ConstantParameters.BUY_ARMY)
 					{
-						// find province
-						for (i = 0; i < currentCivilization.provinces.length; i++) 
+						for (j = 0; j < currentCivilization.provinces.length; j++) 
 						{								
-							if(currentCivilization.provinces[i].id == stackAction[i].sourceRegionID)
+							if(currentCivilization.provinces[j].id == stackAction[j].sourceRegionID)
 							{
-								currentCivilization.provinces[i].armyNumber += stackAction[i].amount;								
+								currentCivilization.provinces[j].armyNumber += stackAction[j].amount;								
 								break;	
 							}
 						}		
 						
 					}else if(stackAction[i].type == ConstantParameters.MOVE_ARMY)
 					{
-						for (var j:int = 0; j < provincesList.length; j++) 
+						for (j = 0; j < provincesList.length; j++) 
 						{
 							if(provincesList[j].id == stackAction[i].sourceRegionId && provincesList[j].armyNumber >= stackAction[i].amount)
 							{
@@ -322,9 +315,21 @@ package core.logic
 						}
 					}else if(stackAction[i].type == ConstantParameters.BUILD)
 					{
+						currentCivilization.provinces[i].buildProcess.current++;
 						
+						for (j = 0; j < currentCivilization.provinces.length; j++) 
+						{								
+							if(currentCivilization.provinces[j].id == stackAction[j].destinationRegionId)
+							{
+								if(currentCivilization.provinces[i].buildProcess.current == currentCivilization.provinces[i].buildProcess.total)
+								{
+									currentCivilization.provinces[i].buildingList.push(stackAction[i].buildingId);
+									currentCivilization.provinces[i].buildProcess.current = 0;
+								}
+							}
+						}					
 						
-					}else if(stackAction[i].type == ConstantParameters.BUY_ARMY)
+					}else if(stackAction[i].type == ConstantParameters.BUY_TECHNOLOGY)
 					{
 						
 					}						

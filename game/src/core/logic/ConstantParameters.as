@@ -11,13 +11,13 @@ package core.logic
 		public static var PORT:		Object = {"id":4, "totalStep":5};		
 		
 		public static var BUILDINGS:Array = 
-			[
-				TEMPLATE,
-				ACADEMY,
-				WORKSHOP,
-				FORT,
-				PORT
-			];
+		[
+			TEMPLATE,
+			ACADEMY,
+			WORKSHOP,
+			FORT,
+			PORT
+		];
 		
 		public static var BUY_ARMY: 			String = "BUY_ARMY";
 		public static var MOVE_ARMY:			String = "MOVE_ARMY";
