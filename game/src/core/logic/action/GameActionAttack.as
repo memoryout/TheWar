@@ -6,7 +6,8 @@ package core.logic.action
 	{
 		private var _sourceRegionId:int;
 		private var _destinationRegionId:int;
-		private var _amount:uint;
+		private var _amount:Number;
+		private var _win:Boolean;
 		
 		public function GameActionAttack()
 		{
@@ -32,14 +33,24 @@ package core.logic.action
 			_destinationRegionId = val;
 		}
 		
-		public function get amount():uint
+		public function get amount():Number
 		{
 			return _amount;
 		}
 		
-		public function set amount(val:uint):void
+		public function set amount(val:Number):void
 		{
 			_amount = val;
+		}
+		
+		public function get win():Boolean
+		{
+			return _win;
+		}
+		
+		public function set win(val:Boolean):void
+		{
+			_win = val;
 		}
 	}
 }

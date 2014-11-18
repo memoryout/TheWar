@@ -2,7 +2,9 @@ package core.logic
 {
 	public class ConstantParameters
 	{
-		public static var TEMPLATE_BONUS:	Number = 2;
+		public static var ARMY_PRICE		:Number = 1;
+		
+		public static var TEMPLATE_BONUS	:Number = 2;
 		
 		public static var TEMPLATE:	Object = {"id":0, "totalStep":5};		
 		public static var ACADEMY:	Object = {"id":1, "totalStep":5};		
