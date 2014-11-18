@@ -6,6 +6,6 @@ package core.logic.action.interfaces
 		
 		function get destinationRegionId():int;
 		
-		function get amount():uint;
+		function get amount():Number;
 	}
 }
