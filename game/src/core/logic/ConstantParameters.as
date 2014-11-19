@@ -24,10 +24,17 @@ package core.logic
 		public static var ATTACK:				String = "ATTACK";
 		public static var BUY_ARMY: 			String = "BUY_ARMY";
 		public static var MOVE_ARMY:			String = "MOVE_ARMY";
+	
 		public static var BUILD: 				String = "BUILD";
 		public static var BUY_TECHNOLOGY: 		String = "BUY_TECHNOLOGY";
-		public static var UNION_OFFER: 			String = "UNION_OFFER";
-		public static var UNION_OFFER_ANSWER: 	String = "UNION_OFFER_ANSWER";
-		public static var UNION_CANCEL: 		String = "UNION_CANCEL";
+		
+		public static var UNION_STATUS: 		String = "UNION_STATUS";
+		public static var UNION_STATUS_ANSWER: 	String = "UNION_STATUS_ANSWER";
+		
+		public static var TRADING_STATUS: 		String = "TRADING_STATUS";
+		public static var TRADING_STATUS_ANSWER:String = "TRADING_STATUS_ANSWER";
+		
+		public static var ARMY_MOVEMENT_STATUS: String = "ARMY_MOVEMENT_STATUS";
+		public static var ARMY_MOVEMENT_ANSWER:	String = "ARMY_MOVEMENT_ANSWER";
 	}
 }
