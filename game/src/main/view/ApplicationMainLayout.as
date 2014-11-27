@@ -16,6 +16,11 @@ package main.view
 		
 		private const _updater:			Updater = new Updater();
 		
+		private var _menuLayout:		Sprite;
+		private var _gameLayout:		Sprite;
+		private var _elementslayout:	Sprite;
+		private var _windowLayout:		Sprite;
+		
 		public function ApplicationMainLayout()
 		{
 			super();
@@ -23,19 +28,55 @@ package main.view
 			_canvas.mouseEnabled = false;
 			this.mouseEnabled = false;
 			this.addChild( _canvas );
+			
+			
 		}
+		
 		
 		public function initialize():void
 		{
+			createLayouts();
+			
 			resizeCanvas();
 			
 			this.addEventListener(Event.ENTER_FRAME, handlerEnterFrame);
 			this.stage.addEventListener(Event.RESIZE, handlerStageResize);
 		}
 		
+		private function createLayouts():void
+		{
+			_gameLayout = new Sprite();
+			_canvas.addChild( _gameLayout );
+			
+			_menuLayout = new Sprite();
+			_canvas.addChild( _menuLayout );
+			
+			_elementslayout = new Sprite();
+			_canvas.addChild( _elementslayout );
+			
+			_windowLayout = new Sprite();
+			_canvas.addChild( _windowLayout );
+		}
+		
+		
 		public function get canvas():Sprite
 		{
 			return _canvas;
+		}
+		
+		public function get menuLayout():Sprite
+		{
+			return _menuLayout;
+		}
+		
+		public function get gameLayout():Sprite
+		{
+			return _gameLayout;
+		}
+		
+		public function get elementsLayout():Sprite
+		{
+			return _elementslayout;
 		}
 		
 		private function resizeCanvas():void

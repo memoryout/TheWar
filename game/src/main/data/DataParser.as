@@ -96,12 +96,22 @@ package main.data
 		
 		private function parseRegionsXMLData(str:String):void
 		{
+			
+			/* 
+			Ты не правильно парсишь данные.
+			Даные сохраняются только по первой карте в списке.
+			Надо проходится по ноде xml.maps.* так как это список, а не ссылаться напрямую на xml.maps.map - первый елемент в списке.
+			*/
+			
 			var xml:XML = new XML(str);
 			
 			var par:String, provinces:XMLList, provincesList:XML, provinceItem:ProvinceInfo, map:MapInfo = new MapInfo();
 						
 			map.id   = xml.maps.map.@id;
-			map.name = xml.maps.map.@name;			
+			map.name = xml.maps.map.@name;
+			map.sourceLink = xml.maps.map.@source_link;
+			map.tileXNum = xml.maps.map.@tile_x_num;
+			map.tileYNum = xml.maps.map.@tile_y_num;
 			
 			provinces = xml.maps.map;
 			
@@ -124,12 +134,20 @@ package main.data
 		
 		private function parseScenariosXMLData(str:String):void
 		{
+			/* 
+				Ты не правильно парсишь данные.
+				Даные сохраняются только по первому сценарию в списке.
+				Надо проходится по ноде xml.scenarios.* так как это список, а не ссылаться напрямую на xml.scenarios.scenario - первый елемент в списке.
+			*/
+			
+			
 			var xml:XML = new XML(str);
 			
 			var par:String, civilization:XMLList, civilizationList:XML, civilizationItem:CivilizationInfo, scenario:ScenarioInfo = new ScenarioInfo();
 			
 			scenario.id		= xml.scenarios.scenario.@id;
 			scenario.name	= xml.scenarios.scenario.@name;
+			scenario.mapId 	= xml.scenarios.scenario.@nmap_id;
 			
 			civilization = xml.scenarios.scenario;
 			

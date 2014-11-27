@@ -17,6 +17,7 @@ package core.logic
 		public var gameLevel:				uint;
 		public var randomFill:				Boolean;
 		public var randomPlacement:			Boolean;
+		public var mapId:					uint;
 				
 		public var civilizationList:		Vector.<StateOfCivilization> 	= new Vector.<StateOfCivilization>();		
 		public var provincesList:			Vector.<StateOfProvince> 		= new Vector.<StateOfProvince>();	

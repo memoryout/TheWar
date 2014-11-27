@@ -2,11 +2,15 @@ package main.view.application.game.map
 {
 	import com.greensock.TweenLite;
 	
+	import flash.display.Bitmap;
 	import flash.display.DisplayObjectContainer;
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.geom.Rectangle;
+	import flash.utils.Dictionary;
+	
+	import main.view.application.asset.AssetManager;
 
 	public class MapView extends Sprite
 	{
@@ -29,6 +33,19 @@ package main.view.application.game.map
 		
 		private var _tweener:			TweenLite;
 		
+		private var _cachedTiles:		Dictionary;
+		
+		private var _bitmapMatrix:Vector.<Vector.<Bitmap>>;
+		
+		private var _tileXNum:			uint;
+		private var _tileYNum:			uint;
+		
+		private var _worldX:			Number;
+		private var _worldY:			Number;
+		
+		private var _totalBitmapWidth:	Number;
+		private var _totalBitmapHeight:	Number;
+		
 		public function MapView()
 		{
 			initCanvas();
@@ -45,14 +62,132 @@ package main.view.application.game.map
 			
 		}
 		
+		
+		public function loadMap(tileX:uint, tileY:uint, looped:Boolean):void
+		{
+			_tileXNum = tileX;
+			_tileYNum = tileY;
+			
+			_cachedTiles = new Dictionary();
+			
+			var i:int;
+			var j:int;
+			var classRef:Class;
+			
+			for(i = 0; i < tileX; i++)
+			{
+				_cachedTiles[i] = new Dictionary();
+				
+				for(j = 0; j < tileY; j++)
+				{
+					classRef = AssetManager.getClass("game", "tile_" + i.toString() + "_" + j.toString() );
+					
+					if(classRef)
+					{
+						_cachedTiles[i][j] = new classRef();
+					}
+				}
+			}
+			
+			generateBitmapMatrix();
+			
+			_worldX = 100;
+			_worldY = 780;
+			
+			renderMap();
+			
+			_canvas.addEventListener(MouseEvent.MOUSE_DOWN, handlerMouseDown);
+			_canvas.addEventListener(MouseEvent.MOUSE_UP, handlerMouseUp);
+			_canvas.addEventListener(MouseEvent.MOUSE_MOVE, handlerMoveMove);
+			
+			freeCamera(true);
+			
+		}
+		
+		private function generateBitmapMatrix():void
+		{
+			if( _cachedTiles[0][0] != null )
+			{
+				var tileWidth:uint = _cachedTiles[0][0].width;
+				var tileHeight:uint = _cachedTiles[0][0].height;
+				
+				
+				var tileXNum:uint = Math.ceil(_viewport.width/tileWidth) + 1;
+				var tileYNum:uint = Math.ceil(_viewport.height/tileHeight) + 1;
+				
+				_bitmapMatrix = new Vector.<Vector.<Bitmap>>();
+				
+				var i:int;
+				var j:int;
+				var bm:Bitmap;
+				
+				for(i = 0; i < tileXNum; i++)
+				{
+					_bitmapMatrix[i] = new Vector.<Bitmap>;
+					
+					for(j = 0; j < tileYNum; j++)
+					{
+						bm = new Bitmap();
+						_canvas.addChild(bm);
+						bm.x = i * tileWidth;
+						bm.y = j * tileHeight;
+						
+						_bitmapMatrix[i][j] = bm;
+						
+						bm.bitmapData = _cachedTiles[i][j];
+					}
+				}
+				
+				_totalBitmapWidth = (tileXNum) * tileWidth;
+				_totalBitmapHeight = (tileYNum) * tileHeight;
+			}
+			
+			this.addEventListener(Event.ENTER_FRAME, handlerFrame);
+		}
+		
+		
+		private function renderMap():void
+		{
+			var i:int, j:int;
+			
+			var t:Number;
+			
+			trace("++++++++++++++++++++++++++++++++++++++++");
+			for(i = 0; i < _bitmapMatrix.length; i++)
+			{
+				trace("-------------------------------------");
+				
+				for(j = 0; j < _bitmapMatrix[i].length; j++)
+				{
+					t = _worldX + i * _bitmapMatrix[i][j].width;
+					
+					if(t >= 0) _bitmapMatrix[i][j].x = t % _totalBitmapWidth - _bitmapMatrix[i][j].width;
+					else _bitmapMatrix[i][j].x = t % _totalBitmapWidth - _bitmapMatrix[i][j].width + _totalBitmapWidth;
+					
+					t = _worldY + j * _bitmapMatrix[i][j].height;
+					
+					if(t >= 0) _bitmapMatrix[i][j].y = t % _totalBitmapHeight - _bitmapMatrix[i][j].height;
+					else _bitmapMatrix[i][j].y = t % _totalBitmapHeight - _bitmapMatrix[i][j].height + _totalBitmapHeight;
+					
+				}
+			}
+		}
+		
+		private function handlerFrame(e:Event):void
+		{
+			//_worldX-= 5;
+			//_worldY += 10;
+			
+			//trace(_worldY)
+			//renderMap();
+		}
+		
 		public function setMapSource(map:DisplayObjectContainer):void
 		{
 			_map = map;
 			_canvas.addChild( _map );
 			
-			_canvas.addEventListener(MouseEvent.MOUSE_DOWN, handlerMouseDown);
-			_canvas.addEventListener(MouseEvent.MOUSE_UP, handlerMouseUp);
-			_canvas.addEventListener(MouseEvent.MOUSE_MOVE, handlerMoveMove);
+			
 			
 		}
 		
@@ -111,8 +246,8 @@ package main.view.application.game.map
 		{
 			if(_movable)
 			{
-				_mapStartX = _map.x;
-				_mapStartY = _map.y;
+				_mapStartX = _worldX;
+				_mapStartY = _worldY;
 				
 				_mouseStartX = _canvas.mouseX;
 				_mouseStartY = _canvas.mouseY;
@@ -133,14 +268,19 @@ package main.view.application.game.map
 				var deltaX:Number = _canvas.mouseX - _mouseStartX;
 				var deltaY:Number = _canvas.mouseY - _mouseStartY;
 				
-				moveCameraToPosition( _mapStartX + deltaX, _mapStartY + deltaY, true);
+				moveCameraToPosition( _mapStartX + deltaX, _mapStartY + deltaY, false);
 			}
 		}
 		
 		
 		private function moveCameraToPosition(posX:Number, posY:Number, animated:Boolean):void
 		{
-			if(posX > 0) posX = 0;
+			_worldX = posX;
+			_worldY = posY;
+			
+			renderMap();
+			
+			/*if(posX > 0) posX = 0;
 			if(posY > 0) posY = 0;
 			
 			if(posX < _viewport.x + _viewport.width - _map.width ) posX = _viewport.x + _viewport.width - _map.width;
@@ -156,6 +296,7 @@ package main.view.application.game.map
 				if(_tweener) _tweener.kill();
 				_tweener = new TweenLite(_map, 0.2, {x:posX, y:posY});
 			}
+			*/
 		}
 	}
 }

@@ -8,6 +8,7 @@ package main.view.application.game
 	import flash.geom.Rectangle;
 	import flash.utils.Dictionary;
 	
+	import main.data.MapInfo;
 	import main.view.AppSprite;
 	import main.view.ApplicationMainLayout;
 	import main.view.application.asset.AssetManager;
@@ -34,6 +35,8 @@ package main.view.application.game
 		
 		private var _windowLayout:		GameWindowLayout;
 		
+		private var _map:				MapInfo;
+		
 		public function GameLayout()
 		{
 			super();
@@ -49,9 +52,13 @@ package main.view.application.game
 		}
 		
 		
-		public function load():void
+		public function load( map:MapInfo ):void
 		{
-			var classRef:Class = AssetManager.getClass("ui","game.map_01");
+			_map = map;
+			
+			_mapView.loadMap(map.tileXNum, map.tileXNum, true);
+			
+			/*var classRef:Class = AssetManager.getClass("ui","game.map_01");
 			
 			if(classRef)
 			{
@@ -65,7 +72,7 @@ package main.view.application.game
 				_regionController = new RegionController();
 				_regionController.setMap( _mapView );
 				_regionController.resetAllRegions();
-			}
+			}*/
 			
 			_hud = new GameHUD();
 			_hud.initialize();
@@ -78,7 +85,7 @@ package main.view.application.game
 		
 		public function addCivilization(civ:CivilizationView):void
 		{
-			civ.setRegionController(_regionController);
+			//civ.setRegionController(_regionController);
 		}
 		
 		public function getHUD():GameHUD

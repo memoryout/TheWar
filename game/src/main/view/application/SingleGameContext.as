@@ -8,6 +8,7 @@ package main.view.application
 	import main.broadcast.Module;
 	import main.broadcast.message.MessageData;
 	import main.data.ProvinceInfo;
+	import main.view.ApplicationMainLayout;
 	import main.view.ViewEvent;
 	import main.view.application.data.StartupGameConfiguration;
 	import main.view.application.game.GameViewController;
@@ -20,7 +21,7 @@ package main.view.application
 		private const MODULE_NAME:		String = "single_game_context";
 		
 		private var _menu:				MenuViewStack;
-		private var _canvas:			Sprite;
+		private var _canvas:			ApplicationMainLayout;
 		
 		private var _gameContext:		GameViewController;
 		
@@ -34,12 +35,12 @@ package main.view.application
 		}
 		
 		
-		public function init(menu:MenuViewStack, action:String, canvas:Sprite):void
+		public function init(menu:MenuViewStack, action:String, roolLayout:ApplicationMainLayout):void
 		{
 			_gameConfiguration = new StartupGameConfiguration();
 			
 			_menu = menu;
-			_canvas = canvas;
+			_canvas = roolLayout;
 			
 			if(action == "new_game")
 			{
@@ -67,8 +68,8 @@ package main.view.application
 			if(!_gameContext)
 			{
 				_gameContext = new GameViewController();
-				_gameContext.initialize( _canvas, _menu );
-				_gameContext.start(civilizations);
+				_gameContext.initialize( _canvas, _menu, civilizations );
+				_gameContext.start();
 			}
 		}
 		

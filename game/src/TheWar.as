@@ -11,6 +11,7 @@ package
 	
 	import main.ApplicationModule;
 	
+	[SWF(frameRate="30")]
 	public class TheWar extends Sprite
 	{
 		private var applicationModule:ApplicationModule;

@@ -44,9 +44,6 @@ package main.view
 					_mainLayout.initialize();
 					
 					loadUIAsset();
-					
-					//createRootContext();
-					
 					break;
 				}
 			}
@@ -78,7 +75,7 @@ package main.view
 		private function createRootContext():void
 		{
 			_rootContext = new ApplicationRootContext();
-			_rootContext.init( _mainLayout.canvas );
+			_rootContext.init( _mainLayout );
 		}
 	}
 }

@@ -36,5 +36,27 @@ package main.data
 		{
 			return maps;
 		}
+		
+		public function getScenario(id:uint):ScenarioInfo
+		{
+			var i:int;
+			for(i = 0; i < scenarios.length; i++)
+			{
+				if( scenarios[i].id == id ) return scenarios[i];
+			}
+			
+			return null;
+		}
+		
+		public function getMap(id:uint):MapInfo
+		{
+			var i:int;
+			for(i = 0; i < maps.length; i++)
+			{
+				if( maps[i].id == id ) return maps[i];
+			}
+			
+			return null;
+		}
 	}
 }

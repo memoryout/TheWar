@@ -4,8 +4,10 @@ package main.view.application.game
 	import core.logic.data.StateOfCivilization;
 	import core.logic.events.CoreEvents;
 	
+	import flash.display.LoaderInfo;
 	import flash.display.Sprite;
 	import flash.events.Event;
+	import flash.events.IOErrorEvent;
 	import flash.events.MouseEvent;
 	
 	import main.broadcast.Module;
@@ -14,13 +16,16 @@ package main.view.application.game
 	import main.data.MapInfo;
 	import main.data.ProvinceInfo;
 	import main.game.GameStep;
+	import main.view.ApplicationMainLayout;
 	import main.view.ViewEvent;
+	import main.view.application.asset.AssetManager;
 	import main.view.application.data.GameDataProvider;
 	import main.view.application.game.civilization.CivilizationView;
 	import main.view.application.game.windows.action.MakeActionWindowController;
 	import main.view.application.menu.IMenuPageResultReceiver;
 	import main.view.application.menu.MenuViewStack;
 	import main.view.application.menu.PageList;
+	import main.view.application.preloader.ScreenPreloader;
 	import main.view.input.IInputHandler;
 	import main.view.input.UserInputSystem;
 	
@@ -28,7 +33,7 @@ package main.view.application.game
 	{
 		private const MODULE_NAME:		String = "game_context";
 		
-		private var _gameLayout:		GameLayout;
+		private var _gameView:			GameLayout;
 		private var _menuView:			MenuViewStack;
 		
 		private var _civilizations:		Vector.<CivilizationView>;
@@ -37,6 +42,14 @@ package main.view.application.game
 		
 		private var _provinces:			Vector.<ProvinceInfo>;
 		private var _currentMapData:	MapInfo;
+		
+		private var _rootLayout:		ApplicationMainLayout;
+		private var _gameLayout:		Sprite;
+		private var _civStateList:		Vector.<StateOfCivilization>;
+		
+		
+		
+		private var _preloader:			ScreenPreloader;
 				
 		public function GameViewController()
 		{
@@ -46,57 +59,105 @@ package main.view.application.game
 		}
 		
 		
-		public function initialize(layout:Sprite, menu:MenuViewStack):void
+		public function initialize(rootLayout:ApplicationMainLayout, menu:MenuViewStack, civList:Vector.<StateOfCivilization>):void
 		{
+			_rootLayout = rootLayout;
 			_menuView = menu;
+			_gameLayout = _rootLayout.gameLayout;
+			_civStateList = civList;
 			
-			_gameLayout = new GameLayout();
-			layout.addChildAt( _gameLayout, 0);
-			_gameLayout.init();
-			_gameLayout.load();
+			initializeDataProvider();
 			
-			checkCurrentStep();
 			
-			_gameLayout.getHUD().addEventListener(GameHUD.CLICK_ON_NEXT_STEP, handlerUserClickNext);
-			
-			_lastSelectedRegion = -1;
-			
-			var maps:Vector.<MapInfo> = DataContainer.Get().getMapsList();
-			
-			var i:int;
-			for(i = 0; i < maps.length; i++)
-			{
-				if(maps[i].id == 0)
-				{
-					GameDataProvider.Get().initializeCurrentGame( maps[i] );
-					
-					_provinces = maps[i].provinces;
-					_currentMapData = maps[i];
-					break;
-				}
-			}
 		}
 		
 		
-		public function start(civList:Vector.<StateOfCivilization>):void
+		public function start():void
 		{
-			GameDataProvider.Get().setCivilizationList(civList, 0);
+			loadGameResources();
+		}
+		
+		
+		private function initializeDataProvider():void
+		{
 			
-			var i:int;
+			var map:MapInfo = DataContainer.Get().getMap( LogicData.Get().mapId );
+			
+			if(map)
+			{
+				GameDataProvider.Get().initializeCurrentGame( map );
+			}
+			
+						
+			GameDataProvider.Get().setCivilizationList(_civStateList, LogicData.Get().selectedCivilization );
+		}
+		
+		private function loadGameResources():void
+		{
+			var map:MapInfo = DataContainer.Get().getMap( LogicData.Get().mapId );
+			
+			if(map)
+			{
+				_preloader = new ScreenPreloader();
+				_preloader.init();
+				_rootLayout.elementsLayout.addChild( _preloader );
+				
+				var loaderInfo:LoaderInfo = AssetManager.loadAsset( map.sourceLink, "game");
+				_preloader.setLoaderInfo( loaderInfo );
+				
+				loaderInfo.addEventListener(Event.INIT, handlerResourceLoaded);
+				loaderInfo.addEventListener(IOErrorEvent.IO_ERROR, handlerErrorLoad);				
+			}
+		}
+		
+		private function handlerResourceLoaded(e:Event):void
+		{
+			var loaderInfo:LoaderInfo = e.currentTarget as LoaderInfo;
+			loaderInfo.removeEventListener(Event.INIT, handlerResourceLoaded);
+			loaderInfo.removeEventListener(IOErrorEvent.IO_ERROR, handlerErrorLoad);
+			
+			buildGameElements();
+			
+			_rootLayout.elementsLayout.removeChild( _preloader );
+			_preloader = null;
+		}
+		
+		private function handlerErrorLoad(e:IOErrorEvent):void
+		{
+			var loaderInfo:LoaderInfo = e.currentTarget as LoaderInfo;
+			loaderInfo.removeEventListener(Event.INIT, handlerResourceLoaded);
+			loaderInfo.removeEventListener(IOErrorEvent.IO_ERROR, handlerErrorLoad);
+		}
+		
+		
+		private function buildGameElements():void
+		{
+			var map:MapInfo = DataContainer.Get().getMap( LogicData.Get().mapId );
+			
+			_gameView = new GameLayout();
+			_gameLayout.addChild( _gameView );
+			_gameView.init();
+			_gameView.load( map );
+			
+			_gameView.getHUD().addEventListener(GameHUD.CLICK_ON_NEXT_STEP, handlerUserClickNext);
+			
 			var civ:CivilizationView;
+			var i:int;
+			
 			_civilizations = new Vector.<CivilizationView>();
-			for(i = 0; i < civList.length; i++)
+			for(i = 0; i < _civStateList.length; i++)
 			{
 				civ = new CivilizationView();
-				civ.initialize(civList[i]);
-				_gameLayout.addCivilization(civ);
+				civ.initialize(_civStateList[i]);
+				_gameView.addCivilization(civ);
 				
 				_civilizations.push( civ );
 			}
 			
+			checkCurrentStep();
+			
 			UserInputSystem.get().registerInputActionHandler(this);
 		}
-		
 		
 		private function checkCurrentStep():void
 		{
@@ -105,29 +166,29 @@ package main.view.application.game
 				case CoreEvents.USER_ACTIVITY:
 				{
 					_menuView.hideCurrentPage();
-					_gameLayout.getHUD().setUserActivitySkin();
-					_gameLayout.getHUD().writeMessage("You turn!");
+					_gameView.getHUD().setUserActivitySkin();
+					_gameView.getHUD().writeMessage("You turn!");
 					break;
 				}
 					
 				case CoreEvents.CIVILIZATION_ORDER:
 				{
 					_menuView.showPage(PageList.GAME_CIV_ORDER, this, null);
-					_gameLayout.getHUD().setGameInfoSkin();
+					_gameView.getHUD().setGameInfoSkin();
 					break;
 				}
 					
 				case CoreEvents.TREASURE:
 				{
 					_menuView.showPage(PageList.GAME_TREASURE, this, null);
-					_gameLayout.getHUD().setGameInfoSkin();
+					_gameView.getHUD().setGameInfoSkin();
 					break;
 				}
 					
 				case CoreEvents.STATISTIC:
 				{
 					_menuView.showPage(PageList.GAME_STEP_STATISTICS, this, null);
-					_gameLayout.getHUD().setGameInfoSkin();
+					_gameView.getHUD().setGameInfoSkin();
 					break;
 				}
 			}
@@ -223,7 +284,7 @@ package main.view.application.game
 		{
 			var arr:Array = button.split(".");
 			
-			_gameLayout.getHUD().showContextInfo(button);
+			_gameView.getHUD().showContextInfo(button);
 			
 			if(arr.length == 2)
 			{
@@ -251,7 +312,7 @@ package main.view.application.game
 			if(civ) message += "Civilization: " + civ.name		
 			if(province) message += "  Region: " + province.id;
 			
-			_gameLayout.getHUD().writeMessage(message);
+			_gameView.getHUD().writeMessage(message);
 			
 			
 			if(civ)
@@ -259,7 +320,7 @@ package main.view.application.game
 				if(civ.id == 0) // типа моя цивилизация
 				{
 					_lastSelectedRegion = provinceId;
-					_gameLayout.getRegionController().highlightRegionLikeSelected( provinceId );
+					_gameView.getRegionController().highlightRegionLikeSelected( provinceId );
 					showNeighboors(provinceId);
 				}
 				else
@@ -272,7 +333,7 @@ package main.view.application.game
 					else
 					{
 						_lastSelectedRegion = -1;
-						_gameLayout.getRegionController().removeSelection();
+						_gameView.getRegionController().removeSelection();
 					}
 				}
 			}
@@ -287,7 +348,7 @@ package main.view.application.game
 				{
 					// reset last selected region
 					_lastSelectedRegion = -1;
-					_gameLayout.getRegionController().removeSelection();
+					_gameView.getRegionController().removeSelection();
 				}
 			}
 		}
@@ -300,13 +361,16 @@ package main.view.application.game
 			
 			for(i = 0; i < province.neighboringRegions.length; i++)
 			{
-				_gameLayout.getRegionController().highlightRegionLikeNeighbor( province.neighboringRegions[i] );
+				_gameView.getRegionController().highlightRegionLikeNeighbor( province.neighboringRegions[i] );
 			}
 		}
 		
 		
 		private function showMoveArmyInterface(regionId:int):void
 		{
+			return;
+			
+			/*
 			var regions:Vector.<ProvinceInfo> = _provinces;
 			var i:int;
 			var region:ProvinceInfo;
@@ -341,15 +405,15 @@ package main.view.application.game
 				else
 				{
 					_lastSelectedRegion = -1;
-					_gameLayout.getRegionController().removeSelection();
+					_gameView.getRegionController().removeSelection();
 				}
 			}
 			else
 			{
 				_lastSelectedRegion = -1;
-				_gameLayout.getRegionController().removeSelection();
+				_gameView.getRegionController().removeSelection();
 			}
-			
+			*/
 		}
 		
 		
@@ -369,7 +433,7 @@ package main.view.application.game
 		private function showMakeActionDialog():void
 		{
 			var win:MakeActionWindowController = new MakeActionWindowController();
-			_gameLayout.getWindowLayout().showWindow( win );
+			_gameView.getWindowLayout().showWindow( win );
 		}
 	}
 }

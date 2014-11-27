@@ -57,7 +57,18 @@ package core.logic
 		 */		
 		private function locateCivilizationOnPositions():void
 		{
-			var provincesList:Vector.<ProvinceInfo> = DataContainer.Get().getMapsList()[LogicData.Get().selectedScenario].provinces;			
+			var scenario:ScenarioInfo = DataContainer.Get().getScenario( LogicData.Get().selectedScenario );
+			
+			if(scenario == null)
+			{
+				// я запросил несуществующий сценарий.
+				return;
+			}
+			
+			LogicData.Get().mapId = scenario.mapId;
+			
+			
+			var provincesList:Vector.<ProvinceInfo> = DataContainer.Get().getMapsList()[scenario.mapId].provinces;			
 			var initScenarioCivilizations:Vector.<CivilizationInfo> = DataContainer.Get().getScenariousList()[LogicData.Get().selectedScenario].civilizations;
 			
 			for (var i:int = 0; i < initScenarioCivilizations.length; i++) 

@@ -2,7 +2,7 @@
 @table=maps
 @content=<xml>
 		<maps>
-			<map id = "0" name = "Europe" source_link="">			
+			<map id = "0" name = "world" source_link="data/world_4096_2048.swf" tile_x_num="3" tile_y_num="3">			
 				<province id = "0"  money_growth="10" neighboring_provinces="1,2,3,4,5"/>		
 				<province id = "1"  money_growth="10" neighboring_provinces="5,6,7,2,0"/>	
 				<province id = "2"  money_growth="10" neighboring_provinces="0,1,6,7,3"/>	
@@ -15,5 +15,18 @@
 				<province id = "9"  money_growth="10" neighboring_provinces="4,3,8"/>		
 				<province id = "10" money_growth="10" neighboring_provinces="5,6"/>				
 			</map>
+			<map_disabled_until_parser_will_be_fixed id = "1" name = "Europe" source_link="data/europe.swf">			
+				<province id = "0"  money_growth="10" neighboring_provinces="1,2,3,4,5"/>		
+				<province id = "1"  money_growth="10" neighboring_provinces="5,6,7,2,0"/>	
+				<province id = "2"  money_growth="10" neighboring_provinces="0,1,6,7,3"/>	
+				<province id = "3"  money_growth="10" neighboring_provinces="8,9,4,0,2,7"/>	
+				<province id = "4"  money_growth="10" neighboring_provinces="9,5,0,3"/>	
+				<province id = "5"  money_growth="10" neighboring_provinces="4,0,1,6,10"/>	
+				<province id = "6"  money_growth="10" neighboring_provinces="10,7,1,5"/>	 	
+				<province id = "7"  money_growth="10" neighboring_provinces="6,1,2,3,8"/>	
+				<province id = "8"  money_growth="10" neighboring_provinces="9,3,7"/>	
+				<province id = "9"  money_growth="10" neighboring_provinces="4,3,8"/>		
+				<province id = "10" money_growth="10" neighboring_provinces="5,6"/>				
+			</map_disabled_until_parser_will_be_fixed>
 		</maps>
 	</xml>

@@ -3,6 +3,7 @@ package main.view.application
 	import flash.display.Sprite;
 	
 	import main.broadcast.Module;
+	import main.view.ApplicationMainLayout;
 	import main.view.application.menu.IMenuPageResultReceiver;
 	import main.view.application.menu.MenuViewStack;
 	import main.view.application.menu.PageList;
@@ -11,6 +12,7 @@ package main.view.application
 	{
 		private const MODULE_NAME:			String = "view.app.root_context";
 		
+		private var _rootLayout:			ApplicationMainLayout;
 		private var _canvas:				Sprite;
 		private var _menu:					MenuViewStack;
 		
@@ -23,12 +25,14 @@ package main.view.application
 		}
 		
 		
-		public function init(canvas:Sprite):void
+		public function init(rootLayout:ApplicationMainLayout):void
 		{
-			_canvas = canvas;
+			_rootLayout = rootLayout;
+			
+			_canvas = rootLayout.canvas;
 			
 			_menu = new MenuViewStack();
-			_canvas.addChild( _menu );
+			_rootLayout.menuLayout.addChild( _menu );
 			
 			createStartPage();
 		}
@@ -56,7 +60,7 @@ package main.view.application
 		private function createSingleGameContext():void
 		{
 			var context:SingleGameContext = new SingleGameContext();
-			context.init(_menu, "new_game", _canvas);
+			context.init(_menu, "new_game", _rootLayout );
 		}
 	}
 }
