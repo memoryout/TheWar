@@ -15,7 +15,7 @@
 				<province id = "9"  money_growth="10" neighboring_provinces="4,3,8"/>		
 				<province id = "10" money_growth="10" neighboring_provinces="5,6"/>				
 			</map>
-			<map_disabled_until_parser_will_be_fixed id = "1" name = "Europe" source_link="data/europe.swf">			
+			<map id = "1" name = "Europe" source_link="data/europe.swf">			
 				<province id = "0"  money_growth="10" neighboring_provinces="1,2,3,4,5"/>		
 				<province id = "1"  money_growth="10" neighboring_provinces="5,6,7,2,0"/>	
 				<province id = "2"  money_growth="10" neighboring_provinces="0,1,6,7,3"/>	
@@ -27,6 +27,6 @@
 				<province id = "8"  money_growth="10" neighboring_provinces="9,3,7"/>	
 				<province id = "9"  money_growth="10" neighboring_provinces="4,3,8"/>		
 				<province id = "10" money_growth="10" neighboring_provinces="5,6"/>				
-			</map_disabled_until_parser_will_be_fixed>
+			</map>
 		</maps>
 	</xml>

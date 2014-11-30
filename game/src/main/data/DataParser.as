@@ -96,78 +96,73 @@ package main.data
 		
 		private function parseRegionsXMLData(str:String):void
 		{
-			
-			/* 
-			Ты не правильно парсишь данные.
-			Даные сохраняются только по первой карте в списке.
-			Надо проходится по ноде xml.maps.* так как это список, а не ссылаться напрямую на xml.maps.map - первый елемент в списке.
-			*/
-			
 			var xml:XML = new XML(str);
+			var mapPar:String;
 			
-			var par:String, provinces:XMLList, provincesList:XML, provinceItem:ProvinceInfo, map:MapInfo = new MapInfo();
-						
-			map.id   = xml.maps.map.@id;
-			map.name = xml.maps.map.@name;
-			map.sourceLink = xml.maps.map.@source_link;
-			map.tileXNum = xml.maps.map.@tile_x_num;
-			map.tileYNum = xml.maps.map.@tile_y_num;
-			
-			provinces = xml.maps.map;
-			
-			for(par in provinces.*)
+			for(mapPar in xml.maps.*)
 			{
-				provincesList = provinces.*[par];
+				var par:String, provinces:XMLList, provincesList:XML, provinceItem:ProvinceInfo, map:MapInfo = new MapInfo();
+							
+				map.id   		= xml.maps.map[mapPar].@id;
+				map.name 		= xml.maps.map[mapPar].@name;
+				map.sourceLink 	= xml.maps.map[mapPar].@source_link;
+				map.tileXNum 	= xml.maps.map[mapPar].@tile_x_num;
+				map.tileYNum 	= xml.maps.map[mapPar].@tile_y_num;
 				
-				provinceItem 					= new ProvinceInfo();
+				provinces = xml.maps.map[mapPar].province;
 				
-				provinceItem.id 				= Number( provincesList.@id );
-				provinceItem.moneyGrowth 		= Number( provincesList.@money_growth );				
+				for(par in provinces)
+				{
+					provincesList = provinces[par];
+					
+					provinceItem 					= new ProvinceInfo();
+					
+					provinceItem.id 				= Number( provincesList.@id );
+					provinceItem.moneyGrowth 		= Number( provincesList.@money_growth );				
+					
+					provinceItem.neighboringRegions = provincesList.@neighboring_provinces.split(",");
+					
+					map.provinces.push(provinceItem);
+				}
 				
-				provinceItem.neighboringRegions = provincesList.@neighboring_provinces.split(",");
-				
-				map.provinces.push(provinceItem);
-			}
-			
-			DataContainer.Get().addMap(map);			
+				DataContainer.Get().addMap(map);	
+			}					
 		}
 		
 		private function parseScenariosXMLData(str:String):void
-		{
-			/* 
-				Ты не правильно парсишь данные.
-				Даные сохраняются только по первому сценарию в списке.
-				Надо проходится по ноде xml.scenarios.* так как это список, а не ссылаться напрямую на xml.scenarios.scenario - первый елемент в списке.
-			*/
-			
-			
+		{			
 			var xml:XML = new XML(str);
+			var scenarioPar:String;
 			
-			var par:String, civilization:XMLList, civilizationList:XML, civilizationItem:CivilizationInfo, scenario:ScenarioInfo = new ScenarioInfo();
-			
-			scenario.id		= xml.scenarios.scenario.@id;
-			scenario.name	= xml.scenarios.scenario.@name;
-			scenario.mapId 	= xml.scenarios.scenario.@nmap_id;
-			
-			civilization = xml.scenarios.scenario;
-			
-			for(par in civilization.*)
+			for(scenarioPar in xml.scenarios.*)
 			{
-				civilizationList = civilization.*[par];
+				var par:String, civilization:XMLList, civilizationList:XML, civilizationItem:CivilizationInfo, scenario:ScenarioInfo = new ScenarioInfo();
 				
-				civilizationItem 					= new CivilizationInfo();
-				civilizationItem.id 				= Number( civilizationList.@id );
-				civilizationItem.money 				= Number( civilizationList.@money );
-				civilizationItem.population 		= Number( civilizationList.@population );	
-				civilizationItem.flag				= String( civilizationList.@flag);		
-				civilizationItem.name				= String( civilizationList.@name);	
+				scenario.id		= xml.scenarios.scenario[scenarioPar].@id;
+				scenario.name	= xml.scenarios.scenario[scenarioPar].@name;
+				scenario.mapId 	= xml.scenarios.scenario[scenarioPar].@nmap_id;
 				
-				civilizationItem.province 			= civilizationList.@region.split(",");
+				civilization = xml.scenarios.scenario[scenarioPar].civilization;
 				
-				scenario.civilizations.push(civilizationItem);
-			}
+				for(par in civilization)
+				{
+					civilizationList = civilization[par];
+					
+					civilizationItem 					= new CivilizationInfo();
+					civilizationItem.id 				= Number( civilizationList.@id );
+					civilizationItem.money 				= Number( civilizationList.@money );
+					civilizationItem.population 		= Number( civilizationList.@population );	
+					civilizationItem.flag				= String( civilizationList.@flag);		
+					civilizationItem.name				= String( civilizationList.@name);	
+					
+					civilizationItem.province 			= civilizationList.@region.split(",");
+					
+					scenario.civilizations.push(civilizationItem);
+				}
+				
+				DataContainer.Get().addScenario(scenario);
+			}			
 			
-			DataContainer.Get().addScenario(scenario);
 		}
 		
 		override public function receiveMessage(message:MessageData):void
