@@ -1,14 +1,14 @@
-package core.logic.action
+package core.logic.action.diplomacy.union
 {
-	import core.logic.action.interfaces.IGameActionUnionStatusAnswer;
+	import core.logic.action.interfaces.IInGameUnionComplete;
+	import core.logic.action.GameAction;
 
-	public class GameActionUnionStatusAnswer extends GameAction implements IGameActionUnionStatusAnswer
-	{
+	public class InGameUnionComplete extends GameAction implements IInGameUnionComplete
+	{		
 		private var _targetCivilizationId:int;
 		private var _sourceCivilizationId:int;
-		private var _union:Boolean;
-		
-		public function GameActionUnionStatusAnswer()
+				
+		public function InGameUnionComplete()
 		{
 		}
 		
@@ -30,16 +30,6 @@ package core.logic.action
 		public function set sourceCivilizationId(val:int):void
 		{
 			_sourceCivilizationId = val;
-		}
-		
-		public function get union():Boolean
-		{
-			return _union;
-		}
-		
-		public function set union(val:Boolean):void
-		{
-			_union = val;
 		}
 	}
 }

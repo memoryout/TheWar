@@ -1,18 +1,18 @@
 package core.logic
 {
-	import core.logic.action.GameActionArmyMovementAnswer;
-	import core.logic.action.GameActionArmyMovementStatus;
+	import core.logic.action.diplomacy.movement.GameActionArmyMovementAnswer;
+	import core.logic.action.diplomacy.movement.InGameArmyMovementBroken;
 	import core.logic.action.GameActionAskForUnionStatus;
 	import core.logic.action.GameActionAttack;
 	import core.logic.action.GameActionBuild;
 	import core.logic.action.GameActionBuyTechnology;
 	import core.logic.action.GameActionByArmy;
 	import core.logic.action.GameActionMoveArmy;
-	import core.logic.action.GameActionTradingAnswer;
-	import core.logic.action.GameActionTradingOffer;
-	import core.logic.action.GameActionUnionAnswer;
-	import core.logic.action.GameActionUnionCancel;
-	import core.logic.action.GameActionUnionStatusAnswer;
+	import core.logic.action.diplomacy.trading.GameActionTradingAnswer;
+	import core.logic.action.diplomacy.trading.InGameTradingStatus;
+	import core.logic.action.diplomacy.union.InGameUnionComplete;
+	import core.logic.action.diplomacy.union.GameActionUnionStatusBroken;
+	import core.logic.action.diplomacy.union.GameActionUnionStatusAnswer;
 	import core.logic.data.CivilizationInListOfOrder;
 	import core.logic.data.StateOfCivilization;
 	import core.logic.data.StateOfProvince;
@@ -350,14 +350,14 @@ package core.logic
 			
 			}else if(action.type == ConstantParameters.TRADING_STATUS)
 			{
-				var gameTradeStatus:GameActionTradingOffer = new GameActionTradingOffer();
+				var gameTradeStatus:InGameTradingStatus = new InGameTradingStatus();
 				gameTradeStatus.type = ConstantParameters.TRADING_STATUS;
 				gameTradeStatus.id   = LogicData.Get().actionCounter;
 				
 				gameTradeStatus.sourceCivilizationId = action.targetCivilizationId;
 				gameTradeStatus.targetCivilizationId = action.sourceCivilizationId;
 				
-				gameTradeStatus.trading = action.trading;
+//				gameTradeStatus.trading = action.trading;
 				gameTradeStatus.stepsLeft = 1;
 				
 				sendMessage(ViewEvent.GET_ACTION_DATA, gameTradeStatus);
@@ -378,14 +378,14 @@ package core.logic
 			
 			}else if(action.type == ConstantParameters.ARMY_MOVEMENT_STATUS)
 			{
-				var gameArmyMovementStatus:GameActionArmyMovementStatus = new GameActionArmyMovementStatus();
+				var gameArmyMovementStatus:InGameArmyMovementBroken = new InGameArmyMovementBroken();
 				gameArmyMovementStatus.type = ConstantParameters.ARMY_MOVEMENT_STATUS;
 				gameArmyMovementStatus.id   = LogicData.Get().actionCounter;
 				
 				gameArmyMovementStatus.sourceCivilizationId = action.targetCivilizationId;
 				gameArmyMovementStatus.targetCivilizationId = action.sourceCivilizationId;
 				
-				gameArmyMovementStatus.accepted = action.trading;
+//				gameArmyMovementStatus.accepted = action.trading;
 				gameArmyMovementStatus.stepsLeft = 1;
 				
 				sendMessage(ViewEvent.GET_ACTION_DATA, gameArmyMovementStatus);

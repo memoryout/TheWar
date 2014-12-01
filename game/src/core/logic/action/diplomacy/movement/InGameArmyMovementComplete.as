@@ -1,14 +1,14 @@
-package core.logic.action
+package core.logic.action.diplomacy.movement
 {
-	import core.logic.action.interfaces.IGameActionTradingAnswerResult;
+	import core.logic.action.GameAction;
+	import core.logic.action.interfaces.IInGameArmyMovementComplete;
 
-	public class GameActionTradingAnswerResult extends GameAction implements IGameActionTradingAnswerResult
+	public class InGameArmyMovementComplete extends GameAction implements IInGameArmyMovementComplete
 	{
 		private var _targetCivilizationId:int;
 		private var _sourceCivilizationId:int;
-		private var _trading:Boolean;
 		
-		public function GameActionTradingAnswerResult()
+		public function InGameArmyMovementComplete()
 		{
 		}
 		
@@ -30,16 +30,6 @@ package core.logic.action
 		public function set sourceCivilizationId(val:int):void
 		{
 			_sourceCivilizationId = val;
-		}
-		
-		public function get trading():Boolean
-		{
-			return _trading;
-		}
-		
-		public function set trading(val:Boolean):void
-		{
-			_trading = val;
 		}
 	}
 }

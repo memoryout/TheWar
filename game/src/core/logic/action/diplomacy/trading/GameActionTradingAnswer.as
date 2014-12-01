@@ -1,14 +1,15 @@
-package core.logic.action
+package core.logic.action.diplomacy.trading
 {
-	import core.logic.action.interfaces.IGameActionTradingOffer;
+	import core.logic.action.interfaces.IGameActionTradingAnswer;
+	import core.logic.action.GameAction;
 
-	public class GameActionTradingOffer extends GameAction implements IGameActionTradingOffer
-	{
+	public class GameActionTradingAnswer extends GameAction implements IGameActionTradingAnswer
+	{		
 		private var _targetCivilizationId:int;
 		private var _sourceCivilizationId:int;
 		private var _trading:Boolean;
 		
-		public function GameActionTradingOffer()
+		public function GameActionTradingAnswer()
 		{
 		}
 		

@@ -1,14 +1,15 @@
-package core.logic.action
+package core.logic.action.diplomacy.union
 {
-	import core.logic.action.interfaces.IGameActionArmyMovementAnswerResult;
+	import core.logic.action.interfaces.IGameActionUnionStatusAnswer;
+	import core.logic.action.GameAction;
 
-	public class GameActionArmyMovementAnswerResult extends GameAction implements IGameActionArmyMovementAnswerResult
+	public class GameActionUnionStatusAnswer extends GameAction implements IGameActionUnionStatusAnswer
 	{
 		private var _targetCivilizationId:int;
 		private var _sourceCivilizationId:int;
-		private var _accepted:Boolean;
-		
-		public function GameActionArmyMovementAnswerResult()
+		private var _union:Boolean;
+		////////++++++
+		public function GameActionUnionStatusAnswer()
 		{
 		}
 		
@@ -32,14 +33,14 @@ package core.logic.action
 			_sourceCivilizationId = val;
 		}
 		
-		public function get accepted():Boolean
+		public function get union():Boolean
 		{
-			return _accepted;
+			return _union;
 		}
 		
-		public function set accepted(val:Boolean):void
+		public function set union(val:Boolean):void
 		{
-			_accepted = val;
-		}	
+			_union = val;
+		}
 	}
 }

@@ -1,14 +1,14 @@
-package core.logic.action
+package core.logic.action.diplomacy.movement
 {
-	import core.logic.action.interfaces.IGameActionArmyMovementStatus;
+	import core.logic.action.interfaces.IInGameArmyMovementBroken;
+	import core.logic.action.GameAction;
 
-	public class GameActionArmyMovementStatus extends GameAction implements IGameActionArmyMovementStatus
+	public class InGameArmyMovementBroken extends GameAction implements IInGameArmyMovementBroken
 	{
 		private var _targetCivilizationId:int;
 		private var _sourceCivilizationId:int;
-		private var _accepted:Boolean;
-		
-		public function GameActionArmyMovementStatus()
+				
+		public function InGameArmyMovementBroken()
 		{
 		}
 		
@@ -31,15 +31,5 @@ package core.logic.action
 		{
 			_sourceCivilizationId = val;
 		}
-		
-		public function get accepted():Boolean
-		{
-			return _accepted;
-		}
-		
-		public function set accepted(val:Boolean):void
-		{
-			_accepted = val;
-		}	
 	}
 }

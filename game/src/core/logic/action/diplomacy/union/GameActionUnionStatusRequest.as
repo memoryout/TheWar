@@ -1,14 +1,15 @@
-package core.logic.action
+package core.logic.action.diplomacy.union
 {
-	import core.logic.action.interfaces.IGameActionUnionStatusRequstResult;
+	import core.logic.action.interfaces.IGameActionRequestForUnionStatus;
+	import core.logic.action.GameAction;
 
-	public class GameActionUnionStatusRequstResult extends GameAction implements IGameActionUnionStatusRequstResult
+	public class GameActionUnionStatusRequest extends GameAction implements IGameActionRequestForUnionStatus
 	{
 		private var _targetCivilizationId:int;
 		private var _sourceCivilizationId:int;
 		private var _union:Boolean;
-		
-		public function GameActionUnionStatusRequstResult()
+		/////////////+++++++++
+		public function GameActionUnionStatusRequest()
 		{
 		}
 		

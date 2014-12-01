@@ -1,14 +1,15 @@
-package core.logic.action
+package core.logic.action.diplomacy.movement
 {
-	import core.logic.action.interfaces.IGameActionArmyMovementAnswer;
+	import core.logic.action.interfaces.IInGameArmyMovementRequest;
+	import core.logic.action.GameAction;
 
-	public class GameActionArmyMovementAnswer extends GameAction implements IGameActionArmyMovementAnswer
+	public class InGameArmyMovementRequest extends GameAction implements IInGameArmyMovementRequest
 	{
 		private var _targetCivilizationId:int;
 		private var _sourceCivilizationId:int;
 		private var _accepted:Boolean;
 		
-		public function GameActionArmyMovementAnswer()
+		public function InGameArmyMovementRequest()
 		{
 		}
 		

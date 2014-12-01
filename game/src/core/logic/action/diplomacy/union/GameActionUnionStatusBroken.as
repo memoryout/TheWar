@@ -1,15 +1,14 @@
-package core.logic.action
+package core.logic.action.diplomacy.union
 {
-	import core.logic.action.interfaces.IGameActionTradingOffer;
-	import core.logic.action.interfaces.IGameActionTradingRequest;
+	import core.logic.action.interfaces.IGameActionUnionCancel;
+	import core.logic.action.GameAction;
 
-	public class GameActionTradingRequest extends GameAction implements IGameActionTradingRequest
+	public class GameActionUnionStatusBroken  extends GameAction implements IGameActionUnionCancel
 	{
 		private var _targetCivilizationId:int;
 		private var _sourceCivilizationId:int;
-		private var _trading:Boolean;
-		
-		public function GameActionTradingRequest()
+		///////////++++++++
+		public function GameActionUnionStatusBroken()
 		{
 		}
 		
@@ -31,16 +30,6 @@ package core.logic.action
 		public function set sourceCivilizationId(val:int):void
 		{
 			_sourceCivilizationId = val;
-		}
-		
-		public function get trading():Boolean
-		{
-			return _trading;
-		}
-		
-		public function set trading(val:Boolean):void
-		{
-			_trading = val;
 		}
 	}
 }
