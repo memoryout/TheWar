@@ -1,11 +1,14 @@
 package main.data
 {
+	import core.logic.data.TechnologieInfo;
+
 	public class DataContainer
 	{
 		private static const _instance	:DataContainer = new DataContainer();
 		
-		private var maps:Vector.<MapInfo> 	 			= new Vector.<MapInfo>();
-		private var scenarios:Vector.<ScenarioInfo> 	= new Vector.<ScenarioInfo>();
+		private var maps:Vector.<MapInfo> 	 				= new Vector.<MapInfo>();
+		private var scenarios:Vector.<ScenarioInfo> 		= new Vector.<ScenarioInfo>();
+		private var technologies:Vector.<TechnologieInfo> 	= new Vector.<TechnologieInfo>();
 		
 		public function DataContainer()
 		{
@@ -30,6 +33,16 @@ package main.data
 		public function getScenariousList():Vector.<ScenarioInfo>
 		{
 			return scenarios;
+		}
+		
+		public function addTechnologie(val:TechnologieInfo):void
+		{
+			technologies.push(val);
+		}	
+		
+		public function getTechnologiesList():Vector.<TechnologieInfo>
+		{
+			return technologies;
 		}
 		
 		public function getMapsList():Vector.<MapInfo>

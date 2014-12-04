@@ -4,7 +4,7 @@
 		<technologies>
 			<technologie id = "0" name = "Army"     	 next_to_explore = "1,2" opportunities = "attack_army"  	value="+10"/>			
 			<technologie id = "1" name = "Archery"  	 next_to_explore = "3"   opportunities = "defence_army" 	value="+10"/>			
-			<technologie id = "2" name = "Iron Working"  next_to_explore = "3"   opportunities = "defence_army"    	value="-20">				
+			<technologie id = "2" name = "Iron Working"  next_to_explore = "3"   opportunities = "defence_army"    	value="-20"/>				
 			<technologie id = "3" name = "Trade" 		 next_to_explore = "3" 	 opportunities = "province_growth" 	value="+40"/>					
 		</technologies>
 	</xml>

@@ -1,6 +1,8 @@
 package main.data
 {
 	
+	import core.logic.data.TechnologieInfo;
+	
 	import main.broadcast.Module;
 	import main.broadcast.message.MessageData;
 	import main.events.ApplicationEvents;
@@ -88,6 +90,14 @@ package main.data
 						
 						break;
 					}
+						
+					case "technologies":
+					{
+						if(_type == "xml") 
+							parseTechnologiesXMLData(_content);		
+						
+						break;
+					}
 				}
 			}				
 			
@@ -161,6 +171,26 @@ package main.data
 				}
 				
 				DataContainer.Get().addScenario(scenario);
+			}			
+			
+		}
+		
+		private function parseTechnologiesXMLData(str:String):void
+		{			
+			var xml:XML = new XML(str);
+			var technologiePar:String;
+			
+			for(technologiePar in xml.technologies.*)
+			{
+				var par:String, technologiesList:XML, technologie:TechnologieInfo = new TechnologieInfo();
+				
+				technologie.id				= xml.technologies.technologie[technologiePar].@id;
+				technologie.name			= xml.technologies.technologie[technologiePar].@name;
+				technologie.nextToExplore 	= xml.technologies.technologie[technologiePar].@next_to_explore;
+				technologie.opportiunities  = xml.technologies.technologie[technologiePar].@opportunities;
+				technologie.value			= xml.technologies.technologie[technologiePar].@value;			
+				
+				DataContainer.Get().addTechnologie(technologie);
 			}			
 			
 		}
