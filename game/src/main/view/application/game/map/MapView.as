@@ -65,8 +65,8 @@ package main.view.application.game.map
 		
 		public function loadMap(tileX:uint, tileY:uint, looped:Boolean):void
 		{
-			_tileXNum = tileX;
-			_tileYNum = tileY;
+			_tileXNum = tileX + 1;
+			_tileYNum = tileY + 1;
 			
 			_cachedTiles = new Dictionary();
 			
@@ -74,11 +74,11 @@ package main.view.application.game.map
 			var j:int;
 			var classRef:Class;
 			
-			for(i = 0; i < tileX; i++)
+			for(i = 0; i < _tileXNum; i++)
 			{
 				_cachedTiles[i] = new Dictionary();
 				
-				for(j = 0; j < tileY; j++)
+				for(j = 0; j < _tileYNum; j++)
 				{
 					classRef = AssetManager.getClass("game", "tile_" + i.toString() + "_" + j.toString() );
 					
@@ -91,8 +91,8 @@ package main.view.application.game.map
 			
 			generateBitmapMatrix();
 			
-			_worldX = 100;
-			_worldY = 780;
+			_worldX = 0;
+			_worldY = 0;
 			
 			renderMap();
 			
@@ -149,14 +149,13 @@ package main.view.application.game.map
 		private function renderMap():void
 		{
 			var i:int, j:int;
-			
+			var tx:int, ty:int;
 			var t:Number;
 			
-			trace("++++++++++++++++++++++++++++++++++++++++");
+			trace("-------------------------------------");
 			for(i = 0; i < _bitmapMatrix.length; i++)
 			{
-				trace("-------------------------------------");
-				
+				trace("++++++++++++++++++++++++++++++++++++");
 				for(j = 0; j < _bitmapMatrix[i].length; j++)
 				{
 					t = _worldX + i * _bitmapMatrix[i][j].width;
@@ -164,10 +163,28 @@ package main.view.application.game.map
 					if(t >= 0) _bitmapMatrix[i][j].x = t % _totalBitmapWidth - _bitmapMatrix[i][j].width;
 					else _bitmapMatrix[i][j].x = t % _totalBitmapWidth - _bitmapMatrix[i][j].width + _totalBitmapWidth;
 					
+					var itemPosX:Number = _bitmapMatrix[i][j].x - _worldX + 10;
+					var index:int = Math.round(itemPosX /_bitmapMatrix[i][j].width);
+					index = index % _tileXNum;
+					if(index < 0) index = _tileXNum + index;
+					tx = index;
+					
+										
+					
 					t = _worldY + j * _bitmapMatrix[i][j].height;
 					
 					if(t >= 0) _bitmapMatrix[i][j].y = t % _totalBitmapHeight - _bitmapMatrix[i][j].height;
 					else _bitmapMatrix[i][j].y = t % _totalBitmapHeight - _bitmapMatrix[i][j].height + _totalBitmapHeight;
+					
+					itemPosX = _bitmapMatrix[i][j].y - _worldY + 10;
+					index = Math.round(itemPosX /_bitmapMatrix[i][j].height);
+					index = index % _tileYNum;
+					if(index < 0) index = _tileYNum + index;
+					ty = index;
+					
+					_bitmapMatrix[i][j].bitmapData = _cachedTiles[tx][ty];
+					
+					//trace(i, j, tx, ty);
 					
 				}
 			}
