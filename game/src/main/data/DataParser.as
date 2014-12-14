@@ -186,6 +186,7 @@ package main.data
 				
 				technologie.id				= xml.technologies.technologie[technologiePar].@id;
 				technologie.name			= xml.technologies.technologie[technologiePar].@name;
+				technologie.steps			= xml.technologies.technologie[technologiePar].@steps;
 				technologie.nextToExplore 	= xml.technologies.technologie[technologiePar].@next_to_explore;
 				technologie.opportiunities  = xml.technologies.technologie[technologiePar].@opportunities;
 				technologie.value			= xml.technologies.technologie[technologiePar].@value;			

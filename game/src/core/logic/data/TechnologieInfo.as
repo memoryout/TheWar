@@ -4,6 +4,7 @@ package core.logic.data
 	{
 		public var id:				Number = 0;
 		public var name:			String;
+		public var steps:			int;
 		public var nextToExplore:	int;
 		
 		public var opportiunities:	String;
