@@ -25,6 +25,10 @@ package core.logic
 		public var listOfOrder:				Vector.<CivilizationInListOfOrder>  = new Vector.<CivilizationInListOfOrder>();		
 		
 		public var currentStep:				String = "user_activity";
+		
+		public var stackActions:			Array = new Array();
+		
+		public var aiLogicContainer:		Array = new Array();
 				
 		public function LogicData()
 		{

@@ -68,8 +68,7 @@ package main.view.application.game
 				
 				handlerChanges();
 			}
-		}
-		
+		}		
 		
 		public function setUserActivitySkin():void
 		{
@@ -81,8 +80,7 @@ package main.view.application.game
 		{
 			_btNext.visible = true;
 			_btFinish.visible =false;
-		}
-		
+		}		
 		
 		public function writeMessage(message:String):void
 		{
@@ -101,8 +99,7 @@ package main.view.application.game
 				}
 				else setNoInfoState();
 			}
-		}
-		
+		}		
 		
 		private function handlerClickNext(e:MouseEvent):void
 		{
@@ -112,8 +109,7 @@ package main.view.application.game
 		private function handlerClickMakeAction(e:MouseEvent):void
 		{
 			UserInputSystem.get().processAction(MouseEvent.CLICK, "button.make_action");
-		}
-		
+		}		
 		
 		override public function handlerChanges():void
 		{
@@ -221,9 +217,7 @@ package main.view.application.game
 				{
 					if( GameDataProvider.Get().isUserCivilization( civilization.id) ) txt.text = "true";
 					else txt.text = "false";
-				}
-				
-				
+				}				
 			}
 			else
 			{
