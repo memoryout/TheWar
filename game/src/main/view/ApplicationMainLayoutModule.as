@@ -4,6 +4,7 @@ package main.view
 	import flash.display.Stage;
 	import flash.events.Event;
 	import flash.events.IOErrorEvent;
+	import flash.system.ApplicationDomain;
 	
 	import main.MainGlobalVariables;
 	import main.broadcast.Module;
@@ -12,7 +13,7 @@ package main.view
 	import main.view.application.ApplicationRootContext;
 	import main.view.application.asset.AssetManager;
 	
-	public class ApplicationMainLayoutModule extends Module
+	public class ApplicationMainLayoutModule extends Module implements IViewStartupProcess
 	{
 		public static const MODULE_NAME:		String = "app.view.main-layout";
 		
@@ -30,8 +31,6 @@ package main.view
 		{
 			_mainLayout = new ApplicationMainLayout();
 			stage.addChild( _mainLayout );
-			
-			
 		}
 		
 		

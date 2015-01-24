@@ -19,6 +19,9 @@ package main.view.application.data
 		
 		private var _userCivilization:	StateOfCivilization;
 		
+		
+		private var _provinceMapInfo:	Dictionary;
+		
 		public function GameDataProvider()
 		{
 		}
@@ -114,6 +117,40 @@ package main.view.application.data
 			}
 			
 			return null;
+		}
+		
+		
+		
+		public function parseGameMapData(data:String):void
+		{
+			var xml:XML = new XML(data);
+			
+			_provinceMapInfo = new Dictionary();
+			
+			var info:ProvinceMapInfo;
+			
+			var par:String;
+			for(par in xml.*) 
+			{
+				info = new ProvinceMapInfo();
+				info.id = uint( xml.*[par].@id );
+				info.x = uint( xml.*[par].@x );
+				info.y = uint( xml.*[par].@y );
+				info.scale = Number( xml.*[par].@scale );
+				info.mask = String( xml.*[par].@mask );
+				
+				_provinceMapInfo[info.id] = info;
+			}
+		}
+		
+		public function getProvinceMapInfo(id:uint):ProvinceMapInfo
+		{
+			return _provinceMapInfo[id];
+		}
+		
+		public function getProvinceMapInfoList():Dictionary
+		{
+			return _provinceMapInfo;
 		}
 	}
 }

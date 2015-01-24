@@ -23,6 +23,8 @@ package
 			stage.align = StageAlign.TOP_LEFT;
 			stage.scaleMode = StageScaleMode.NO_SCALE;
 			
+			stage.color = 0x0;
+			
 			this.addEventListener(Event.ADDED_TO_STAGE, handlerAddedToStage);
 		}
 		

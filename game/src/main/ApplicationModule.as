@@ -4,6 +4,7 @@ package main
 	
 	import flash.display.Stage;
 	import flash.events.Event;
+	import flash.system.ApplicationDomain;
 	
 	import main.boot.BootModule;
 	import main.broadcast.Module;
@@ -13,6 +14,8 @@ package main
 	import main.data.DataParser;
 	import main.events.ApplicationEvents;
 	import main.view.ApplicationMainLayoutModule;
+	import main.view.IViewStartupProcess;
+	import main.view.StarlingBootModule;
 	
 	import utils.updater.Updater;
 
@@ -23,7 +26,7 @@ package main
 		private var updater:Updater;
 		private var stageContainer:Stage;
 		
-		private var applicationLayout:ApplicationMainLayoutModule;
+		private var applicationLayout:IViewStartupProcess;
 		
 		private var logView:LogView;
 		
@@ -48,8 +51,17 @@ package main
 		
 		private function initModules():void
 		{
-			applicationLayout = new ApplicationMainLayoutModule();
-			applicationLayout.initialize( stageContainer );
+			if( ApplicationDomain.currentDomain.hasDefinition("flash.display.Stage3D") ) 
+			{
+				applicationLayout = new StarlingBootModule();
+				applicationLayout.initialize( stageContainer );
+			}
+			else
+			{
+				applicationLayout = new ApplicationMainLayoutModule();
+				applicationLayout.initialize( stageContainer );
+			}
+			
 			
 			logView = new LogView();
 			stageContainer.addChild(logView);	

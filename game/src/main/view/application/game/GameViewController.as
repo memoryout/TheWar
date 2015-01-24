@@ -80,7 +80,6 @@ package main.view.application.game
 		
 		private function initializeDataProvider():void
 		{
-			
 			var map:MapInfo = DataContainer.Get().getMap( LogicData.Get().mapId );
 			
 			if(map)
