@@ -53,9 +53,7 @@ package main.view.application.game
 				
 		public function GameViewController()
 		{
-			super();
-			
-			this.setSharedModule(MODULE_NAME, this);
+			super(this);
 		}
 		
 		
@@ -227,6 +225,15 @@ package main.view.application.game
 					break;
 				}
 			}
+		}
+		
+		override public function listNotificationInterests():Array
+		{
+			return [CoreEvents.SEND_CIVILIZATION_ORDER,
+				CoreEvents.SEND_STATISTIC,
+				CoreEvents.SEND_TREASURE,
+				ViewEvent.GET_ACTION_DATA
+			];
 		}
 		
 		override public function receiveMessage(message:MessageData):void

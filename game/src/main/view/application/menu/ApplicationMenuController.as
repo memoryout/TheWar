@@ -25,9 +25,7 @@ package main.view.application.menu
 		
 		public function ApplicationMenuController()
 		{
-			super();
-			
-			this.setSharedModule( MODULE_NAME, this );
+			super(this);
 		}
 		
 		

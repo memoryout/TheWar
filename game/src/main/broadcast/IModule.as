@@ -1,12 +1,11 @@
 package main.broadcast
 {
-	import flash.events.IEventDispatcher;
-	
 	import main.broadcast.message.MessageData;
 
 	public interface IModule
 	{
+		function sendMessage(messageId:String, data:* = null):MessageData;
 		function receiveMessage(message:MessageData):void;
-		function destroy():void;
+		function listNotificationInterests():Array;
 	}
 }

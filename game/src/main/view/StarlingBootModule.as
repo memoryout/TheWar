@@ -30,7 +30,7 @@ package main.view
 		
 		public function StarlingBootModule()
 		{
-			this.setSharedModule(MODULE_NAME, this);
+			super(this);
 			
 			_assetLoadStatus = 0;
 		}
@@ -89,12 +89,17 @@ package main.view
 				if(_assetLoadStatus > 0)
 				{
 					new ApplicationMainController().initialize( _rootLayout );
-					this.destroy();
+//					this.destroy();
 				}
 				else if(_assetLoadStatus < 0) trace("show error message");//show error message;
 			}
 		}
 		
+		override public function listNotificationInterests():Array
+		{
+			return [ApplicationEvents.BOOT_COMPLETE
+			];
+		}
 		
 		override public function receiveMessage(message:MessageData):void
 		{

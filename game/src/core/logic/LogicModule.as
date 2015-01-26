@@ -31,7 +31,9 @@ package core.logic
 		
 		public function LogicModule()
 		{
-			setSharedModule( MODULE_NAME, this );
+			super(this);
+		
+//			setSharedModule( MODULE_NAME, this );
 			
 			actionsCreator = new ActionsCreator(sendMessage);
 			actionsUpdater = new ActionsUpdater();
@@ -194,6 +196,20 @@ package core.logic
 					break;
 				}
 			}
+		}
+		
+		
+		
+		override public function listNotificationInterests():Array
+		{
+			return [ApplicationEvents.DATA_SAVED,
+					ViewEvent.START_SINGLE_GAME,
+					CoreEvents.GET_CIVILIZATION_ORDER,
+					CoreEvents.GET_TREASURE,
+					CoreEvents.GET_STATISTIC,
+					CoreEvents.FINISH_STEP,
+					ViewEvent.SET_ACTION
+			];
 		}
 		
 		override public function receiveMessage(message:MessageData):void

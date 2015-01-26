@@ -19,9 +19,7 @@ package main.view.application
 		
 		public function ApplicationRootContext()
 		{
-			super();
-			
-			setSharedModule(MODULE_NAME, this);
+			super(this);
 		}
 		
 		

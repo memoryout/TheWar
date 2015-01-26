@@ -15,7 +15,7 @@ package main.boot
 		
 		public function BootModule()
 		{
-			setSharedModule( MODULE_NAME, this );
+			super(this);
 			
 			//loadGameSource();
 			loadData();

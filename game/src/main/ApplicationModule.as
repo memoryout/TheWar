@@ -37,7 +37,7 @@ package main
 		
 		public function ApplicationModule()
 		{
-			setSharedModule( MODULE_NAME, this );
+			super(this);
 		}
 		
 		public function init(stage:Stage):void
@@ -83,6 +83,14 @@ package main
 		private function handlerEnterFrame(e:Event):void
 		{
 			Updater.get().update();
+		}
+		
+		override public function listNotificationInterests():Array
+		{
+			return [ApplicationEvents.CONFIG_LOADED,
+				ApplicationEvents.BOOT_COMPLETE,
+				ApplicationEvents.SHOW_MESSAGE
+			];
 		}
 		
 		override public function receiveMessage(message:MessageData):void

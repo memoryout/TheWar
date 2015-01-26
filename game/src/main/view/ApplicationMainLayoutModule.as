@@ -22,9 +22,7 @@ package main.view
 		
 		public function ApplicationMainLayoutModule()
 		{
-			super();
-			
-			setSharedModule( MODULE_NAME, this );
+			super(this);
 		}
 		
 		public function initialize(stage:Stage):void

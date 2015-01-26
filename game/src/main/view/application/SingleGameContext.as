@@ -29,9 +29,7 @@ package main.view.application
 		
 		public function SingleGameContext()
 		{
-			super();
-			
-			this.setSharedModule(MODULE_NAME, this);
+			super(this);
 		}
 		
 		
@@ -71,6 +69,12 @@ package main.view.application
 				_gameContext.initialize( _canvas, _menu, civilizations );
 				_gameContext.start();
 			}
+		}
+		
+		override public function listNotificationInterests():Array
+		{
+			return [CoreEvents.GAME_READY
+			];
 		}
 		
 		override public function receiveMessage(message:MessageData):void

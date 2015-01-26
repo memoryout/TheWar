@@ -23,9 +23,7 @@ package main.view.application
 		
 		public function ApplicationMainController()
 		{
-			super();
-			
-			this.setSharedModule( MODULE_NAME, this );
+			super(this);
 		}
 		
 		
@@ -65,6 +63,11 @@ package main.view.application
 			_gameController.initialize(_rootLayout);
 		}
 		
+		override public function listNotificationInterests():Array
+		{
+			return [CoreEvents.GAME_READY
+			];
+		}
 		
 		override public function receiveMessage(message:MessageData):void
 		{

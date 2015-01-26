@@ -23,9 +23,7 @@ package main.view.application.game
 		
 		public function GameController()
 		{
-			super();
-			
-			this.setSharedModule(MODULE_NAME, this);
+			super(this);
 		}
 		
 		public function initialize(layout:IRootLayout):void

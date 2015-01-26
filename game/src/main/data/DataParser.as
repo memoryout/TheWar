@@ -17,7 +17,8 @@ package main.data
 		
 		public function DataParser()
 		{
-			setSharedModule( MODULE_NAME, this );
+			super(this);
+//			setSharedModule( MODULE_NAME, this );
 		}
 		
 		private function readVariables(val:Object):void
@@ -194,6 +195,12 @@ package main.data
 				DataContainer.Get().addTechnologie(technologie);
 			}			
 			
+		}
+		
+		override public function listNotificationInterests():Array
+		{
+			return [ApplicationEvents.CONFIG_LOADED
+			];
 		}
 		
 		override public function receiveMessage(message:MessageData):void

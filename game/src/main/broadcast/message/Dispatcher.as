@@ -7,29 +7,29 @@ package main.broadcast.message
 	public class Dispatcher
 	{	
 		private var _messageList:				Object;
-		
-		
+				
 		public function Dispatcher()
 		{
 			_messageList = new Object();
 		}
 		
 		
-		/*public function addMessageListener(message:String, module:IBroadcastModule):void
+		public function addMessageListener(message:String, module:IModule):void
 		{
-			if(!_messageList[message]) _messageList[message] = new Vector.<IBroadcastModule>;
+			if(!_messageList[module]) 
+				_messageList[module] = message;
 			
-			var v:Vector.<IBroadcastModule> = _messageList[message];
+			var v:Vector.<IModule> = _messageList[message];
 			
 			if( v.indexOf(module) != -1) return;
 			
 			v.push(module);
 		}
-		*/
-		
+				
 		public function removeMessageListener(message:String, module:IModule):void
 		{
-			if(!_messageList[message]) return;
+			if(!_messageList[message]) 
+				return;
 			
 			var v:Vector.<IModule> = _messageList[message];
 			var index:int = v.indexOf(module)
@@ -39,17 +39,21 @@ package main.broadcast.message
 				v.splice(index, 1);
 			}
 			
-			if(v.length == 0) delete _messageList[message];
+			if(v.length == 0) 
+				delete _messageList[message];
 		}
 		
 		
-		public function sendMessage(message:String, modules:Vector.<Object>, data:* = null):MessageData
+		public function sendMessage(message:String, modules:Vector.<IModule>, data:* = null):MessageData
 		{				
-			var messageData:MessageData = new MessageData(message, data);
+			var messageData:MessageData = new MessageData(message, data);				
 
 			for (var key:* in modules) 
 			{
-				modules[key].receiveMessage( messageData );
+				if(modules[key].listNotificationInterests().indexOf(message) != -1)
+				{
+					modules[key].receiveMessage( messageData );
+				}				
 			}
 			
 			return messageData;
