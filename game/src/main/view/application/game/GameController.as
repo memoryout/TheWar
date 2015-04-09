@@ -3,12 +3,15 @@ package main.view.application.game
 	import core.logic.LogicData;
 	
 	import main.broadcast.Module;
+	import main.broadcast.message.MessageData;
 	import main.data.DataContainer;
 	import main.data.MapInfo;
 	import main.view.IRootLayout;
+	import main.view.application.ApplicationEvent;
 	import main.view.application.asset.AssetManager;
 	import main.view.application.data.GameDataProvider;
 	import main.view.application.game.map.MapController;
+	import main.view.application.game.ui.UIController;
 	import main.view.interfaces.game.IMainGameView;
 	
 	public class GameController extends Module
@@ -18,6 +21,7 @@ package main.view.application.game
 		private var _rootLayout:	IRootLayout;
 		
 		private var _mapController:	MapController;
+		private var _uiController:	UIController;
 		
 		private var _gameView:		IMainGameView;
 		
@@ -67,9 +71,31 @@ package main.view.application.game
 		{
 			_mapController = new MapController();
 			_mapController.initialize( _gameView.getMapView() );
+			
+			_uiController = new UIController();
+			_uiController.initialize( _gameView.getUIView() );
 		}
 		
+		override public function receiveMessage(message:MessageData):void
+		{
+			switch( message.message )
+			{
+				case ApplicationEvent.PROVINCE_SELECT:
+				{
+					
+					break;
+				}
+			}
+		}
 		
+		override public function listNotificationInterests():Array 
+		{
+			
+			return [
+						ApplicationEvent.PROVINCE_SELECT
+					];
+			
+		}
 		
 	}
 }

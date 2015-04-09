@@ -33,7 +33,7 @@ package main.view.starling.game.map
 		private var _mapYDistance:			Number;
 		
 		private var _dragAndDropEnabled:	Boolean;
-		
+		private var _mapPositionWasUpdated:	Boolean;
 		
 		private var _mapObjectList:			Vector.<IMapObject>;
 		
@@ -100,7 +100,7 @@ package main.view.starling.game.map
 			{
 				if(touch.phase == TouchPhase.BEGAN) startMapDragAndDrop(touch.globalX, touch.globalY);
 				else if(touch.phase == TouchPhase.MOVED) updateCursorAndMapPosition(touch.globalX, touch.globalY);
-				else if(touch.phase == TouchPhase.ENDED) stopMapDragAndDrop();
+				else if(touch.phase == TouchPhase.ENDED) stopMapDragAndDrop(e);
 			}
 		}
 		
@@ -108,6 +108,8 @@ package main.view.starling.game.map
 		{
 			_touchX = tx;
 			_touchY = ty;
+			
+			_mapPositionWasUpdated = false;
 		}
 		
 		private function updateCursorAndMapPosition(tx:Number, ty:Number):void
@@ -123,9 +125,18 @@ package main.view.starling.game.map
 			
 		}
 		
-		private function stopMapDragAndDrop():void
+		private function stopMapDragAndDrop(e:TouchEvent):void
 		{
 			_dragAndDropEnabled = false;
+			
+			if( !_mapPositionWasUpdated ) {
+				
+				var i:int;
+				for(i = 0; i < _mapObjectList.length; i++) 
+				{
+					_mapObjectList[i].handleTouchAction(e);
+				}
+			}
 		}
 		
 		
@@ -143,8 +154,12 @@ package main.view.starling.game.map
 			_mapXDistance = newX;
 			_mapYDistance = newY;
 			
+			if(_mapContainer.x != newX || _mapContainer.y != newY) _mapPositionWasUpdated = true;
+			
+			
 			_mapContainer.x = newX;
 			_mapContainer.y = newY;
+			
 		}
 	}
 }

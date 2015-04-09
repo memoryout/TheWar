@@ -2,13 +2,15 @@ package main.view.application.game.map
 {
 	import flash.utils.Dictionary;
 	
+	import main.broadcast.Module;
+	import main.view.application.ApplicationEvent;
 	import main.view.application.data.GameDataProvider;
 	import main.view.application.data.ProvinceMapInfo;
 	import main.view.application.game.region.ProvinceController;
 	import main.view.application.game.region.RegionController;
 	import main.view.interfaces.game.IMapView;
 
-	public class MapController
+	public class MapController extends Module
 	{
 		private var _mapView:			IMapView;
 		
@@ -17,6 +19,8 @@ package main.view.application.game.map
 		
 		public function MapController()
 		{
+			super(this);
+			
 			_regions = new Vector.<ProvinceController>();
 		}
 		
@@ -38,6 +42,7 @@ package main.view.application.game.map
 			{
 				controller = new ProvinceController();
 				controller.initialize( province, _mapView );
+				controller.setOnSelect( handleOnSelectProvince );
 			}
 		}
 		
@@ -51,6 +56,12 @@ package main.view.application.game.map
 		private function onMapLoaded():void
 		{
 			
+		}
+		
+		
+		private function handleOnSelectProvince(id:uint):void
+		{
+			this.sendMessage(ApplicationEvent.PROVINCE_SELECT, id);
 		}
 	}
 }

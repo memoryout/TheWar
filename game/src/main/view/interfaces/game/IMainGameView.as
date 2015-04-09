@@ -5,5 +5,6 @@ package main.view.interfaces.game
 	public interface IMainGameView extends IViewObject
 	{
 		function getMapView():IMapView;
+		function getUIView():IUIGameView;
 	}
 }

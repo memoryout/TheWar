@@ -8,5 +8,7 @@ package main.view.interfaces.game
 		function setY(y:Number):IProvinceMapView;
 		function setScale(scale:Number):IProvinceMapView;
 		
+		function setId(id:uint):void;
+		
 	}
 }
