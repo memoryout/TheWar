@@ -1,6 +1,5 @@
 package core.logic.data
 {
-	import core.logic.TechnologyTree;
 
 	public class StateOfCivilization
 	{

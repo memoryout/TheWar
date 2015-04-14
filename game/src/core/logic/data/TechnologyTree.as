@@ -1,4 +1,4 @@
-package core.logic
+package core.logic.data
 {
 	public class TechnologyTree
 	{

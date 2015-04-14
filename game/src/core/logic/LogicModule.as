@@ -21,10 +21,6 @@ package core.logic
 	{
 		public static const MODULE_NAME:		String = "CoreLogic";
 		
-		private var regionsData:Vector.<ProvinceInfo> = new Vector.<ProvinceInfo>();
-			
-		private var stackNotifications:	Array = new Array();
-		
 		private var actionsCreator:		ActionsCreator;
 		private var actionsUpdater:		ActionsUpdater;
 		
@@ -32,8 +28,6 @@ package core.logic
 		public function LogicModule()
 		{
 			super(this);
-		
-//			setSharedModule( MODULE_NAME, this );
 			
 			actionsCreator = new ActionsCreator(sendMessage);
 			actionsUpdater = new ActionsUpdater();
@@ -202,7 +196,8 @@ package core.logic
 		
 		override public function listNotificationInterests():Array
 		{
-			return [ApplicationEvents.DATA_SAVED,
+			return [
+					ApplicationEvents.DATA_SAVED,
 					ViewEvent.START_SINGLE_GAME,
 					CoreEvents.GET_CIVILIZATION_ORDER,
 					CoreEvents.GET_TREASURE,

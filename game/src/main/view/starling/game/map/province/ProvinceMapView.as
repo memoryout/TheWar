@@ -71,6 +71,9 @@ package main.view.starling.game.map.province
 		{
 			var touch:Touch = event.getTouch(this);
 			
+			if(touch)
+				trace(touch.phase);
+			
 			if(touch && touch.phase == TouchPhase.ENDED)
 			{
 				UserInputSystem.get().processAction(MouseEvent.CLICK, GameActionList.SELECT_REGION + "." + _id.toString() );
