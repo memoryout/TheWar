@@ -13,7 +13,6 @@ package main
 	import main.data.DataContainer;
 	import main.data.DataParser;
 	import main.events.ApplicationEvents;
-	import main.view.ApplicationMainLayoutModule;
 	import main.view.IViewStartupProcess;
 	import main.view.StarlingBootModule;
 	
@@ -54,11 +53,6 @@ package main
 			if( ApplicationDomain.currentDomain.hasDefinition("flash.display.Stage3D") ) 
 			{
 				applicationLayout = new StarlingBootModule();
-				applicationLayout.initialize( stageContainer );
-			}
-			else
-			{
-				applicationLayout = new ApplicationMainLayoutModule();
 				applicationLayout.initialize( stageContainer );
 			}
 			
