@@ -10,7 +10,8 @@ package main
 		public static const CONFIG_URL:			Vector.<String> = new <String>[
 			"data/maps.dat",
 			"data/scenarios.dat",
-			"data/technologies.dat"
+			"data/technologies.dat",
+			"data/civilizations.dat"
 		];
 	}
 }

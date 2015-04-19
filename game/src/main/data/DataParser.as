@@ -99,6 +99,14 @@ package main.data
 						
 						break;
 					}
+						
+					case "civilizations":
+					{
+						if(_type == "xml") 
+							parseCivilizationsXMLData(_content);		
+						
+						break;
+					}
 				}
 			}				
 			
@@ -195,6 +203,28 @@ package main.data
 				DataContainer.Get().addTechnologie(technologie);
 			}			
 			
+		}
+		
+		private function parseCivilizationsXMLData(str:String):void
+		{			
+			var xml:XML = new XML(str);
+			var technologiePar:String,  civilization:XMLList, civilizationList:XML, civilizationItem:CivilizationInfo;
+						
+			for(var par:String in xml.civilizations.*)
+			{
+				civilizationList =  xml.civilizations.civilization[par];
+				
+				civilizationItem 					= new CivilizationInfo();
+				civilizationItem.id 				= Number( civilizationList.@id );
+				civilizationItem.money 				= Number( civilizationList.@money );
+				civilizationItem.population 		= Number( civilizationList.@population );	
+				civilizationItem.flag				= String( civilizationList.@flag);		
+				civilizationItem.name				= String( civilizationList.@name);	
+				
+				civilizationItem.province 			= civilizationList.@region.split(",");
+				
+				DataContainer.Get().addCivilization(civilizationItem);		
+			}					
 		}
 		
 		override public function listNotificationInterests():Array

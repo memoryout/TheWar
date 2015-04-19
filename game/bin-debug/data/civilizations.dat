@@ -1,0 +1,11 @@
+@type=xml
+@table=civilizations
+@content=<xml>
+			<civilizations>
+			    <civilization id="0" name="Ukraine"  flag="" region="10" money="100" population="1000" army=""/>
+				<civilization id="1" name="Austrian" flag="" region="8"  money="100" population="1000" army=""/>
+				<civilization id="2" name="Poland"   flag="" region="3"  money="100" population="1000" army=""/>			
+				<civilization id="2" name="Romania"  flag="" region="2"  money="100" population="1000" army=""/>	
+				<civilization id="2" name="Hungary"  flag="" region="1"  money="100" population="1000" army=""/>						
+			</civilizations>
+		</xml>

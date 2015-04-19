@@ -8,11 +8,13 @@ package main.view.application.menu
 	import main.broadcast.message.MessageData;
 	import main.view.IRootLayout;
 	import main.view.ViewEvent;
+	import main.view.application.menu.civilizations.CivilizationsPageController;
 	import main.view.application.menu.interfaces.IMenuPageController;
 	import main.view.application.menu.level.LevelPageController;
 	import main.view.application.menu.map.MapPageController;
 	import main.view.application.menu.new_game.NewGamePageController;
 	import main.view.application.menu.scenario.ScenarioPageController;
+	import main.view.application.menu.scenario.ScenarioSettingsPageController;
 	import main.view.application.menu.start.StartPageController;
 	import main.view.interfaces.IApplicationMenu;
 	
@@ -26,6 +28,8 @@ package main.view.application.menu
 		private var _currentController:	IMenuPageController;
 		
 		private var _onStartGameCallback:Function;
+		
+		private var lastPage			:String;
 		
 		public function ApplicationMenuController()
 		{
@@ -74,7 +78,7 @@ package main.view.application.menu
 		{
 			_currentController = new NewGamePageController();
 			_currentController.initialize(onNewGameResult);
-			_currentController.setView( _menuView );
+			_currentController.setView( _menuView );			
 		}
 		
 		private function showScenarioPage():void
@@ -88,6 +92,20 @@ package main.view.application.menu
 		{
 			_currentController = new MapPageController();
 			_currentController.initialize(onMapResult);
+			_currentController.setView( _menuView );
+		}
+		
+		private function showCivilizationsPage():void
+		{
+			_currentController = new CivilizationsPageController();
+			_currentController.initialize(onCivResult);
+			_currentController.setView( _menuView );
+		}
+		
+		private function showScenarioSettingsPage():void
+		{
+			_currentController = new ScenarioSettingsPageController();
+			_currentController.initialize(onScenarioSettingsResult);
 			_currentController.setView( _menuView );
 		}
 		
@@ -144,6 +162,12 @@ package main.view.application.menu
 					showMapPage();
 					break;
 				}
+					
+				case MenuActionList.CIVILIZATION_BUTTON_CLICKED:
+				{
+					showCivilizationsPage();
+					break;
+				}	
 				
 				case MenuActionList.LEVEL_BUTTON_CLICKED:
 				{
@@ -158,8 +182,9 @@ package main.view.application.menu
 				}
 					
 				case MenuActionList.BACK_NEW_BUTTON_CLICKED:
-				{
+				{					
 					showStartPage();
+					
 					break;
 				}
 			}
@@ -174,7 +199,40 @@ package main.view.application.menu
 			{
 				case MenuActionList.SCENARIO_ITEM_BUTTON_CLICKED:
 				{
-//					showLevelPage();
+					showScenarioSettingsPage();
+					break;
+				}
+			}
+		}
+		
+		private function onScenarioSettingsResult(page:String):void
+		{			
+			_currentController.destroy();
+			_currentController = null;
+			
+			switch(page)
+			{
+				case MenuActionList.CIV_SETTINGS_BUTTON_CLICKED:
+				{
+					showCivilizationsPage();
+					break;
+				}
+					
+				case MenuActionList.LEVEL_SETTINGS_BUTTON_CLICKED:
+				{
+					showLevelPage();
+					break;
+				}
+					
+				case MenuActionList.START_SETTINGS_BUTTON_CLICKED:
+				{
+					sendMessage(ViewEvent.START_SINGLE_GAME);
+					break;
+				}
+					
+				case MenuActionList.BACK_SETTINGS_BUTTON_CLICKED:
+				{
+					showScenarioPage();
 					break;
 				}
 			}
@@ -197,6 +255,23 @@ package main.view.application.menu
 			}
 		}
 		
+		private function onCivResult(page:String):void
+		{			
+			_currentController.destroy();
+			_currentController = null;
+			
+			switch(page)
+			{
+				case MenuActionList.CIVILIZATION_ITEM_BUTTON_CLICKED:
+					
+//				case MenuActionList.BACK_MAP_BUTTON_CLICKED:	
+				{
+					showNewGamePage();
+					break;
+				}
+			}
+		}
+		
 		private function onLevelResult(page:String):void
 		{			
 			_currentController.destroy();
@@ -208,7 +283,8 @@ package main.view.application.menu
 				case MenuActionList.MIDDLE_LEVEL_BUTTON_CLICKED:
 				case MenuActionList.HIGH_LEVEL_BUTTON_CLICKED:					
 				case MenuActionList.BACK_LEVEL_BUTTON_CLICKED:
-				{
+				{					
+					trace(lastPage);			
 					showNewGamePage();
 					break;
 				}

@@ -8,12 +8,13 @@ package main.view.interfaces
 		function showBackground():void;
 		function unload():void;
 		
-		function showStartPage()		:IViewMenuStartPage;
-		function showNewGamePage()		:IViewMenuStartPage;
-		function showScenarioPage()		:IViewMenuStartPage;		
+		function showStartPage()				:IViewMenuStartPage;
+		function showNewGamePage()				:IViewMenuStartPage;
+		function showScenarioPage()				:IViewMenuStartPage;		
+		function showCivilizationsPage()		:IViewMenuStartPage;			
 		
-		
-		function showMapPage()		:IViewMenuStartPage;		
-		function showLevelPage():IViewMenuStartPage;		
+		function showMapPage()					:IViewMenuStartPage;		
+		function showLevelPage()				:IViewMenuStartPage;	
+		function showScenarioSettingsPage()		:IViewMenuStartPage;	
 	}
 }

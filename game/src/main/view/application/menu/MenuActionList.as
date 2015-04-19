@@ -20,9 +20,15 @@ package main.view.application.menu
 		
 		public static const SCENARIO_ITEM_BUTTON_CLICKED	:String = "menu.scenarion_item_button_clicked";	
 		public static const MAP_ITEM_BUTTON_CLICKED			:String = "menu.map_item_button_clicked";	
+		public static const CIVILIZATION_ITEM_BUTTON_CLICKED:String = "menu.civ_item_button_clicked";	
 		
 		public static const BACK_NEW_BUTTON_CLICKED			:String = "menu.back_new_button_clicked";	
 		public static const BACK_LEVEL_BUTTON_CLICKED		:String = "menu.back_level_button_clicked";	
 		public static const BACK_MAP_BUTTON_CLICKED			:String = "menu.back_map_button_clicked";	
+		public static const BACK_SETTINGS_BUTTON_CLICKED	:String = "menu.back_set_button_clicked";	
+		
+		public static const CIV_SETTINGS_BUTTON_CLICKED		:String = "menu.civ_settings_button_clicked";	
+		public static const LEVEL_SETTINGS_BUTTON_CLICKED	:String = "menu.level_settings_button_clicked";	
+		public static const START_SETTINGS_BUTTON_CLICKED	:String = "menu.start_settings_button_clicked";	
 	}
 }

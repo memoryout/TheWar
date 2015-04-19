@@ -9,6 +9,7 @@ package main.data
 		private var maps:Vector.<MapInfo> 	 				= new Vector.<MapInfo>();
 		private var scenarios:Vector.<ScenarioInfo> 		= new Vector.<ScenarioInfo>();
 		private var technologies:Vector.<TechnologieInfo> 	= new Vector.<TechnologieInfo>();
+		private var civilization:Vector.<CivilizationInfo>	= new Vector.<CivilizationInfo>();		
 		
 		public function DataContainer()
 		{
@@ -48,6 +49,16 @@ package main.data
 		public function getMapsList():Vector.<MapInfo>
 		{
 			return maps;
+		}
+		
+		public function addCivilization(val:CivilizationInfo):void
+		{
+			civilization.push(val);
+		}	
+		
+		public function getCivilizationList():Vector.<CivilizationInfo>
+		{
+			return civilization;
 		}
 		
 		public function getScenario(id:uint):ScenarioInfo

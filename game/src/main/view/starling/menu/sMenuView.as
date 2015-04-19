@@ -88,13 +88,29 @@ package main.view.starling.menu
 			return levelPage;
 		}
 		
+		public function showCivilizationsPage():IViewMenuStartPage
+		{
+			var levelPage:sMenuCivilizationsPage = new sMenuCivilizationsPage();
+			levelPage.setLayout( this );
+			
+			return levelPage;
+		}
+		
 		public function showLevelPage():IViewMenuStartPage
 		{
 			var levelPage:sMenuLevelPage = new sMenuLevelPage();
 			levelPage.setLayout( this );
 			
 			return levelPage;
-		}	
+		}
+		
+		public function showScenarioSettingsPage():IViewMenuStartPage
+		{
+			var levelPage:sMenuScenarioSettingsPage = new sMenuScenarioSettingsPage();
+			levelPage.setLayout( this );
+			
+			return levelPage;
+		}
 		
 		public function unload():void
 		{
