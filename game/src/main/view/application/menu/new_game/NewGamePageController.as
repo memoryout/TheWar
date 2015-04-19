@@ -1,6 +1,5 @@
 package main.view.application.menu.new_game
 {
-	import main.view.application.data.StartupGameConfiguration;
 	import main.view.application.menu.MenuActionList;
 	import main.view.application.menu.interfaces.IMenuPageController;
 	import main.view.input.IInputHandler;
@@ -10,7 +9,6 @@ package main.view.application.menu.new_game
 	
 	public class NewGamePageController implements IMenuPageController, IInputHandler
 	{
-		private var _startupConfig:		StartupGameConfiguration;
 		private var _menu:				IApplicationMenu;
 		
 		private var _pageView:			IViewMenuStartPage;
@@ -20,9 +18,8 @@ package main.view.application.menu.new_game
 		{
 		}
 		
-		public function initialize(data:StartupGameConfiguration, onCompleteCallback:Function):void
+		public function initialize(onCompleteCallback:Function):void
 		{
-			_startupConfig = data;
 			_onPageComplete = onCompleteCallback;
 		}
 		
@@ -80,7 +77,7 @@ package main.view.application.menu.new_game
 					break;
 				}
 					
-				case MenuActionList.BACK_GAME_BUTTON_CLICKED:
+				case MenuActionList.BACK_NEW_BUTTON_CLICKED:
 				{
 					_pageView.hidePage();
 					_onPageComplete(button);
@@ -91,13 +88,14 @@ package main.view.application.menu.new_game
 		
 		public function destroy():void
 		{
+			UserInputSystem.get().removeInputActionHandler(this);
+			
 			if(_pageView) 
 				_pageView.hidePage();
 			
 			_pageView 		= null;
 			_onPageComplete = null;
 			_menu 			= null;
-			_startupConfig 	= null;
 		}
 	}
 }

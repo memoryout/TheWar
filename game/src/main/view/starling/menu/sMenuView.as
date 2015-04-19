@@ -72,6 +72,22 @@ package main.view.starling.menu
 			return newGamePage;
 		}
 		
+		public function showScenarioPage():IViewMenuStartPage
+		{
+			var newGamePage:sMenuScenarioPage = new sMenuScenarioPage();
+			newGamePage.setLayout( this );
+			
+			return newGamePage;
+		}
+		
+		public function showMapPage():IViewMenuStartPage
+		{
+			var levelPage:sMenuMapPage = new sMenuMapPage();
+			levelPage.setLayout( this );
+			
+			return levelPage;
+		}
+		
 		public function showLevelPage():IViewMenuStartPage
 		{
 			var levelPage:sMenuLevelPage = new sMenuLevelPage();

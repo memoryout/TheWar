@@ -7,6 +7,7 @@ package main.view.starling.menu
 	import main.view.application.menu.MenuActionList;
 	import main.view.input.UserInputSystem;
 	import main.view.interfaces.menu.IViewMenuStartPage;
+	import main.view.starling.menu.simple.sButtonMenu;
 	import main.view.starling.sScreenUtils;
 	
 	import starling.display.Sprite;
@@ -16,16 +17,13 @@ package main.view.starling.menu
 	
 	public class sMenuLevelPage implements IViewMenuStartPage
 	{
-		private var _layout:		starling.display.Sprite;
+		private var _layout:		Sprite;
 		
 		private var _initCompleteCallback:Function;
 		
-		private var _btnLow:		sButtonMenu;
-		private var _btnMiddle:		sButtonMenu;
-		private var _btnHigh:		sButtonMenu;
-		
-		
-		private var buttonContainer:Array = new Array();
+		private var buttonsLable	:Array = ["Low", "Middle", "High", "Back"];		
+		private var buttonsAction	:Array = ["low_level_action", "middle_level_action", "high_level_action", "back_level_action"];				
+		private var buttonContainer	:Array = new Array();
 		
 		public function sMenuLevelPage()
 		{
@@ -77,35 +75,18 @@ package main.view.starling.menu
 		
 		private function addButtons():void
 		{
-			_btnLow = new sButtonMenu("");
-			_btnLow.createView("Low");
-			_btnLow.setAction("low_level");
-			
-			buttonContainer.push(_btnLow);
-			
-			_layout.addChild( _btnLow );
-			_btnLow.y = 4*_btnLow.height;
-			
-			_btnMiddle = new sButtonMenu("");
-			_btnMiddle.createView("Middle");
-			_btnMiddle.setAction("middle_level");
-			
-			buttonContainer.push(_btnMiddle);
-			
-			_layout.addChild( _btnMiddle );
-			
-			_btnMiddle.y = 5.5*_btnMiddle.height;
-			
-			_btnHigh = new sButtonMenu("");
-			_btnHigh.createView("High");
-			_btnHigh.setAction("high_level");
-			
-			buttonContainer.push(_btnHigh);
-			
-			
-			_layout.addChild(_btnHigh);
-			
-			_btnHigh.y = 7*_btnHigh.height;
+			for (var i:int = 0; i < buttonsLable.length; i++) 
+			{
+				var button:sButtonMenu = new sButtonMenu("");
+				button.createView(buttonsLable[i]);
+				button.setAction(buttonsAction[i]);
+				
+				buttonContainer.push(button);
+				
+				_layout.addChild( button );
+				
+				button.y = 4*button.height + 1.1*i*button.height;
+			}
 		}	
 		
 		private function showButtons():void
@@ -124,25 +105,24 @@ package main.view.starling.menu
 		
 		private function handlerTouch(e:TouchEvent):void
 		{
-			var touch:Touch = e.getTouch(_btnLow);
-			
-			if(touch && touch.phase == TouchPhase.ENDED) 
+			for (var i:int = 0; i < buttonContainer.length; i++) 
 			{
-				UserInputSystem.get().processAction(MouseEvent.CLICK, MenuActionList.LOW_LEVEL_BUTTON_CLICKED);
-			}
+				var touch:Touch = e.getTouch(buttonContainer[i]);
 			
-			touch = e.getTouch(_btnMiddle);
-			
-			if(touch && touch.phase == TouchPhase.ENDED) 
-			{
-				UserInputSystem.get().processAction(MouseEvent.CLICK, MenuActionList.MIDDLE_LEVEL_BUTTON_CLICKED);
-			}
-			
-			touch = e.getTouch(_btnHigh);
-			
-			if(touch && touch.phase == TouchPhase.ENDED) 
-			{
-				UserInputSystem.get().processAction(MouseEvent.CLICK, MenuActionList.HIGH_LEVEL_BUTTON_CLICKED);
+				if(touch && touch.phase == TouchPhase.ENDED) 
+				{
+					if(buttonContainer[i].getAction() == "low_level_action")
+						UserInputSystem.get().processAction(MouseEvent.CLICK, MenuActionList.LOW_LEVEL_BUTTON_CLICKED);
+					
+					else if(buttonContainer[i].getAction() == "middle_level_action")
+						UserInputSystem.get().processAction(MouseEvent.CLICK, MenuActionList.MIDDLE_LEVEL_BUTTON_CLICKED);
+					
+					else if(buttonContainer[i].getAction() == "high_level_action")
+						UserInputSystem.get().processAction(MouseEvent.CLICK, MenuActionList.HIGH_LEVEL_BUTTON_CLICKED);
+					
+					else if(buttonContainer[i].getAction() == "back_level_action")
+						UserInputSystem.get().processAction(MouseEvent.CLICK, MenuActionList.BACK_LEVEL_BUTTON_CLICKED);
+				}
 			}
 		}
 	}

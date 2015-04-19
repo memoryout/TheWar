@@ -13,6 +13,7 @@ package main.view.starling.menu
 	import starling.events.Touch;
 	import starling.events.TouchEvent;
 	import starling.events.TouchPhase;
+	import main.view.starling.menu.simple.sButtonMenu;
 
 	public class sMenuAppStartPage implements IViewMenuStartPage
 	{

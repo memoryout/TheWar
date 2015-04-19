@@ -1,4 +1,4 @@
-package main.view.starling.menu
+package main.view.starling.menu.simple
 {
 	import flash.display.MovieClip;
 	
@@ -66,13 +66,16 @@ package main.view.starling.menu
 				txt.y = /*_labelImage.y =*/ _upState.height - txt.height >> 1;				
 			}
 			
-			var classRef:Class = AssetManager.getClass("ui", "res.ui.menu_item");
+			/*var classRef:Class = AssetManager.getClass("ui", "res.ui.menu_item");
+			
 			if(classRef) 
 			{
 				var labelMc:MovieClip = new classRef();
 				var txt:TextField = labelMc.getChildByName("txt") as TextField;
-				if(txt) txt.text = _lable;
-			}
+				
+				if(txt)
+					txt.text = _lable;
+			}*/
 		}
 		
 		public function overState():void
@@ -106,6 +109,11 @@ package main.view.starling.menu
 		{
 			_action = action;
 		}
+		
+		public function getAction():String
+		{
+			return _action;
+		}		
 		
 		public function destroy():void
 		{

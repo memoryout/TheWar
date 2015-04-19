@@ -1,8 +1,8 @@
-package main.view.application.menu.new_game
+package main.view.application.menu.level
 {
 	import core.logic.LogicData;
 	
-	import main.view.application.data.StartupGameConfiguration;
+	import main.data.StartupGameConfiguration;
 	import main.view.application.menu.MenuActionList;
 	import main.view.application.menu.interfaces.IMenuPageController;
 	import main.view.input.IInputHandler;
@@ -12,7 +12,6 @@ package main.view.application.menu.new_game
 	
 	public class LevelPageController implements IMenuPageController, IInputHandler
 	{
-		private var _startupConfig:		StartupGameConfiguration;
 		private var _menu:				IApplicationMenu;
 		
 		private var _pageView:			IViewMenuStartPage;
@@ -22,9 +21,8 @@ package main.view.application.menu.new_game
 		{
 		}
 		
-		public function initialize(data:StartupGameConfiguration, onCompleteCallback:Function):void
+		public function initialize(onCompleteCallback:Function):void
 		{
-			_startupConfig = data;
 			_onPageComplete = onCompleteCallback;
 		}
 		
@@ -42,25 +40,14 @@ package main.view.application.menu.new_game
 		{
 			_pageView.showPage();
 		}
-		
-		public function destroy():void
-		{
-			if(_pageView) 
-				_pageView.hidePage();
-			
-			_pageView 		= null;
-			_onPageComplete = null;
-			_menu 			= null;
-			_startupConfig 	= null;
-		}
-		
+				
 		public function handlerInputAction(type:String, button:String):void
 		{
 			switch(button)
 			{
 				case MenuActionList.LOW_LEVEL_BUTTON_CLICKED:
 				{
-					_startupConfig.level = LogicData.Get().gameLevel = 0;						
+					StartupGameConfiguration.Get().level = 0;						
 					
 					_pageView.hidePage();
 					_onPageComplete(button);			
@@ -70,7 +57,7 @@ package main.view.application.menu.new_game
 					
 				case MenuActionList.MIDDLE_LEVEL_BUTTON_CLICKED:
 				{
-					_startupConfig.level = LogicData.Get().gameLevel = 1;					
+					StartupGameConfiguration.Get().level = 1;					
 					
 					_pageView.hidePage();
 					_onPageComplete(button);
@@ -80,7 +67,7 @@ package main.view.application.menu.new_game
 					
 				case MenuActionList.HIGH_LEVEL_BUTTON_CLICKED:
 				{
-					_startupConfig.level = LogicData.Get().gameLevel = 2;					
+					StartupGameConfiguration.Get().level = 2;					
 					
 					_pageView.hidePage();
 					_onPageComplete(button);
@@ -88,7 +75,26 @@ package main.view.application.menu.new_game
 					break;
 				}
 					
+				case MenuActionList.BACK_LEVEL_BUTTON_CLICKED:
+				{
+					_pageView.hidePage();
+					_onPageComplete(button);
+					
+					break;
+				}						
 			}
+		}
+		
+		public function destroy():void
+		{
+			UserInputSystem.get().removeInputActionHandler(this);
+			
+			if(_pageView) 
+				_pageView.hidePage();
+			
+			_pageView 		= null;
+			_onPageComplete = null;
+			_menu 			= null;
 		}
 	}
 }

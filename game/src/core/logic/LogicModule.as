@@ -14,6 +14,7 @@ package core.logic
 	import main.data.DataContainer;
 	import main.data.ProvinceInfo;
 	import main.data.ScenarioInfo;
+	import main.data.StartupGameConfiguration;
 	import main.events.ApplicationEvents;
 	import main.view.ViewEvent;
 	
@@ -33,13 +34,13 @@ package core.logic
 			actionsUpdater = new ActionsUpdater();
 		}
 		
-		private function setMainVariables(val:Object):void
+		private function setMainVariables():void
 		{
-			LogicData.Get().selectedScenario		= val.scenario;
-			LogicData.Get().selectedCivilization 	= val.civilization;
-			LogicData.Get().gameLevel 				= val.level;
-			LogicData.Get().randomFill 				= val.randomFill;
-			LogicData.Get().randomPlacement 		= val.randomPlacement;
+			LogicData.Get().selectedScenario		= StartupGameConfiguration.Get().scenario;
+			LogicData.Get().selectedCivilization 	= StartupGameConfiguration.Get().civilization
+			LogicData.Get().gameLevel 				= StartupGameConfiguration.Get().level;
+			LogicData.Get().randomFill 				= StartupGameConfiguration.Get().randomFill;
+			LogicData.Get().randomPlacement 		= StartupGameConfiguration.Get().randomPlacement;
 		}
 		
 		/**
@@ -219,7 +220,7 @@ package core.logic
 					
 				case ViewEvent.START_SINGLE_GAME:
 				{
-					setMainVariables(message.data);
+					setMainVariables();
 					locateCivilizationOnPositions();
 					break;
 				}

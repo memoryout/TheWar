@@ -9,9 +9,11 @@ package main.view.starling.menu
 	import main.data.DataContainer;
 	import main.data.MapInfo;
 	import main.data.ScenarioInfo;
+	import main.data.StartupGameConfiguration;
 	import main.view.application.menu.MenuActionList;
 	import main.view.input.UserInputSystem;
 	import main.view.interfaces.menu.IViewMenuStartPage;
+	import main.view.starling.menu.simple.sButtonMenu;
 	import main.view.starling.sScreenUtils;
 	
 	import starling.display.Sprite;
@@ -81,7 +83,7 @@ package main.view.starling.menu
 			
 			_layout.addChild( _btnMap );
 			
-			_btnMap.y = 2*_btnMap.height;
+			_btnMap.y = 2.5*_btnMap.height;
 						
 			_btnCivilization = new sButtonMenu("menu.civilization0000");
 			_btnCivilization.createView("Civiliazation:" + civName);
@@ -101,7 +103,7 @@ package main.view.starling.menu
 			
 			_layout.addChild( _btnEnemies );
 			
-			_btnEnemies.y = 5*_btnEnemies.height;
+			_btnEnemies.y = 4.5*_btnEnemies.height;
 			
 			_btnLevel = new sButtonMenu("menu.level0000");
 			_btnLevel.createView("Level:" + getLevelName());
@@ -111,7 +113,7 @@ package main.view.starling.menu
 			
 			_layout.addChild( _btnLevel );
 			
-			_btnLevel.y = 6.5*_btnLevel.height;
+			_btnLevel.y = 5.5*_btnLevel.height;
 			
 			_btnStartGame = new sButtonMenu("menu.start_game0000");
 			_btnStartGame.createView("Start Game");
@@ -121,7 +123,7 @@ package main.view.starling.menu
 			
 			_layout.addChild( _btnStartGame );
 			
-			_btnStartGame.y = 8*_btnStartGame.height;			
+			_btnStartGame.y = 6.5*_btnStartGame.height;			
 			
 			_btnBack = new sButtonMenu("menu.back0000");
 			_btnBack.createView("Back");
@@ -131,18 +133,18 @@ package main.view.starling.menu
 			
 			_layout.addChild( _btnBack );
 			
-			_btnBack.y = 9.5*_btnBack.height;			
+			_btnBack.y = 7.5*_btnBack.height;					
 		}
 		
 		private function getLevelName():String
 		{
-			if(LogicData.Get().gameLevel == 0)
+			if(StartupGameConfiguration.Get().level == 0)
 				return "Low";
 			
-			else if(LogicData.Get().gameLevel == 1)
+			else if(StartupGameConfiguration.Get().level == 1)
 				return "Middle";
 			
-			else if(LogicData.Get().gameLevel == 2)
+			else if(StartupGameConfiguration.Get().level == 2)
 				return "High";				
 			
 			return "Middle";
@@ -213,7 +215,7 @@ package main.view.starling.menu
 			touch = e.getTouch(_btnBack);
 			
 			if(touch && touch.phase == TouchPhase.ENDED) 			
-				UserInputSystem.get().processAction(MouseEvent.CLICK, MenuActionList.BACK_GAME_BUTTON_CLICKED);
+				UserInputSystem.get().processAction(MouseEvent.CLICK, MenuActionList.BACK_NEW_BUTTON_CLICKED);
 			
 		}
 	}

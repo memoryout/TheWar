@@ -8,9 +8,12 @@ package main.view.interfaces
 		function showBackground():void;
 		function unload():void;
 		
-		function showStartPage():IViewMenuStartPage;
-		function showNewGamePage():IViewMenuStartPage;
+		function showStartPage()		:IViewMenuStartPage;
+		function showNewGamePage()		:IViewMenuStartPage;
+		function showScenarioPage()		:IViewMenuStartPage;		
 		
+		
+		function showMapPage()		:IViewMenuStartPage;		
 		function showLevelPage():IViewMenuStartPage;		
 	}
 }

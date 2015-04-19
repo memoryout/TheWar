@@ -1,24 +1,22 @@
-package main.view.application.menu.start
+package main.view.application.menu.map
 {
-	import main.view.application.menu.interfaces.IMenuPageController;
 	import main.view.application.menu.MenuActionList;
+	import main.view.application.menu.interfaces.IMenuPageController;
 	import main.view.input.IInputHandler;
 	import main.view.input.UserInputSystem;
 	import main.view.interfaces.IApplicationMenu;
 	import main.view.interfaces.menu.IViewMenuStartPage;
-
-	public class StartPageController implements IMenuPageController, IInputHandler
+	
+	public class MapPageController implements IMenuPageController, IInputHandler
 	{
 		private var _menu:				IApplicationMenu;
 		
 		private var _pageView:			IViewMenuStartPage;
 		private var _onPageComplete:	Function;
 		
-		public function StartPageController()
+		public function MapPageController()
 		{
-			
 		}
-		
 		public function initialize(onCompleteCallback:Function):void
 		{
 			_onPageComplete = onCompleteCallback;
@@ -28,7 +26,7 @@ package main.view.application.menu.start
 		{
 			_menu = menu;
 			
-			_pageView = _menu.showStartPage();
+			_pageView = _menu.showMapPage();
 			_pageView.initialize(onViewInitComplete);
 			
 			UserInputSystem.get().registerInputActionHandler(this);
@@ -39,35 +37,19 @@ package main.view.application.menu.start
 			_pageView.showPage();
 		}
 		
-		
-		
 		public function handlerInputAction(type:String, button:String):void
 		{
 			switch(button)
 			{
-				case MenuActionList.NEW_GAME_BUTTON_CLICKED:
-				{
+				case MenuActionList.MAP_ITEM_BUTTON_CLICKED:
+				{						
 					_pageView.hidePage();
-					_onPageComplete(button);
-					break;
-				}
+					_onPageComplete(button);			
 					
-				case MenuActionList.LOAD_GAME_BUTTON_CLICKED:
-				{
-					_pageView.hidePage();
-					_onPageComplete(button);
 					break;
-				}
-					
-				case MenuActionList.SCENARIO_BUTTON_CLICKED:
-				{
-					_pageView.hidePage();
-					_onPageComplete(button);
-					break;
-				}
+				}					
 			}
 		}
-		
 		
 		public function destroy():void
 		{
