@@ -1,4 +1,4 @@
-package main.view.application.menu
+package main.view.application.menu.interfaces
 {
 	public interface IMenuPageResultReceiver
 	{

@@ -9,6 +9,8 @@ package main.view.interfaces
 		function unload():void;
 		
 		function showStartPage():IViewMenuStartPage;
+		function showNewGamePage():IViewMenuStartPage;
 		
+		function showLevelPage():IViewMenuStartPage;		
 	}
 }

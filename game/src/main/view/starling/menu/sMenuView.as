@@ -46,12 +46,14 @@ package main.view.starling.menu
 				scaleBg.dispose();
 			}
 			
-			if(_onInitializeComplete != null) _onInitializeComplete();
+			if(_onInitializeComplete != null) 
+				_onInitializeComplete();
 		}
 		
 		public function showBackground():void
 		{
-			if(!this.contains(_background)) this.addChildAt(_background, 0);
+			if(!this.contains(_background)) 
+				this.addChildAt(_background, 0);
 		}
 		
 		public function showStartPage():IViewMenuStartPage
@@ -62,20 +64,35 @@ package main.view.starling.menu
 			return startPage;
 		}
 		
+		public function showNewGamePage():IViewMenuStartPage
+		{
+			var newGamePage:sMenuNewGamePage = new sMenuNewGamePage();
+			newGamePage.setLayout( this );
+			
+			return newGamePage;
+		}
+		
+		public function showLevelPage():IViewMenuStartPage
+		{
+			var levelPage:sMenuLevelPage = new sMenuLevelPage();
+			levelPage.setLayout( this );
+			
+			return levelPage;
+		}	
+		
 		public function unload():void
 		{
 			if( _background )
 			{
-				if( this.contains(_background) ) this.removeChild( _background );
+				if( this.contains(_background) ) 
+					this.removeChild( _background );
 				
 				_background.dispose();
 			}
 			
-			if(_bgTexture)
-			{
+			if(_bgTexture)			
 				_bgTexture.dispose();
-			}
-			
+						
 			_onInitializeComplete = null;
 			_background = null;
 			_bgTexture = null;

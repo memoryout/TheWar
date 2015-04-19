@@ -33,26 +33,32 @@ package main.view.starling
 		
 		public function getMenuView():IApplicationMenu
 		{
-			if(!_menuView) _menuView = new sMenuView();
+			if(!_menuView) 
+				_menuView = new sMenuView();
+			
 			return _menuView;
 		}		
 		
 		public function showApplicationMenu():void
 		{
-			if( !this.contains(_menuView) ) this.addChild(_menuView);
+			if( !this.contains(_menuView) ) 
+				this.addChild(_menuView);
 		}
 		
 		public function hideApplicationMenu():void
 		{
-			if( this.contains(_menuView) ) this.removeChild(_menuView);
+			if( this.contains(_menuView) ) 
+				this.removeChild(_menuView);
 		}
 		
 		
 		public function getMainGameView():IMainGameView
 		{
-			if( !_gameView ) _gameView = new MainGameView();
+			if( !_gameView ) 
+				_gameView = new MainGameView();
 			
-			if( !this.contains(_gameView) ) this.addChild(_gameView);
+			if( !this.contains(_gameView) ) 
+				this.addChild(_gameView);
 			
 			return _gameView;
 		}
@@ -61,9 +67,11 @@ package main.view.starling
 		
 		public function getLoaderScreen():IGamePreloaderScreenView
 		{
-			if(!_gamePreloader) _gamePreloader = new PreloaderScreen();
+			if(!_gamePreloader) 
+				_gamePreloader = new PreloaderScreen();
 			
-			if( !this.contains(_gamePreloader) ) this.addChild(_gamePreloader);
+			if( !this.contains(_gamePreloader) ) 
+				this.addChild(_gamePreloader);
 			
 			return _gamePreloader;
 		}
@@ -71,7 +79,8 @@ package main.view.starling
 		
 		public function removeLoaderScreen():void
 		{
-			if( _gamePreloader && this.contains(_gamePreloader) ) this.removeChild(_gamePreloader);
+			if( _gamePreloader && this.contains(_gamePreloader) ) 
+				this.removeChild(_gamePreloader);
 			
 			_gamePreloader.destroy();
 			

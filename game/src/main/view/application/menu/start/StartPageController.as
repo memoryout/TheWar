@@ -1,7 +1,7 @@
 package main.view.application.menu.start
 {
 	import main.view.application.data.StartupGameConfiguration;
-	import main.view.application.menu.IMenuPageController;
+	import main.view.application.menu.interfaces.IMenuPageController;
 	import main.view.application.menu.MenuActionList;
 	import main.view.input.IInputHandler;
 	import main.view.input.UserInputSystem;
@@ -48,10 +48,24 @@ package main.view.application.menu.start
 		{
 			switch(button)
 			{
-				case MenuActionList.START_NEW_GAME:
+				case MenuActionList.NEW_GAME_BUTTON_CLICKED:
 				{
 					_pageView.hidePage();
-					_onPageComplete();
+					_onPageComplete(button);
+					break;
+				}
+					
+				case MenuActionList.LOAD_GAME_BUTTON_CLICKED:
+				{
+					_pageView.hidePage();
+					_onPageComplete(button);
+					break;
+				}
+					
+				case MenuActionList.SCENARIO_BUTTON_CLICKED:
+				{
+					_pageView.hidePage();
+					_onPageComplete(button);
 					break;
 				}
 			}
@@ -60,12 +74,13 @@ package main.view.application.menu.start
 		
 		public function destroy():void
 		{
-			if(_pageView) _pageView.hidePage();
+			if(_pageView) 
+				_pageView.hidePage();
 			
-			_pageView = null;
+			_pageView 		= null;
 			_onPageComplete = null;
-			_menu = null;
-			_startupConfig = null;
+			_menu 			= null;
+			_startupConfig 	= null;
 		}
 	}
 }

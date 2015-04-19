@@ -27,7 +27,9 @@ package main.view.starling.game
 			_uiView = new UIGameView();
 			this.addChild( _uiView );
 			
-			if(onInitComplete != null) onInitComplete();
+			if(onInitComplete != null) 
+				onInitComplete();
+			
 			onInitComplete = null;
 		}
 		

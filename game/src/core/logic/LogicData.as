@@ -14,7 +14,7 @@ package core.logic
 		
 		public var selectedScenario:		uint;
 		public var selectedCivilization:	uint;
-		public var gameLevel:				uint;
+		public var gameLevel:				uint = 1;
 		public var randomFill:				Boolean;
 		public var randomPlacement:			Boolean;
 		public var mapId:					uint;

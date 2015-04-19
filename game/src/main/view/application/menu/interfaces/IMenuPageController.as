@@ -1,4 +1,4 @@
-package main.view.application.menu
+package main.view.application.menu.interfaces
 {
 	import main.view.application.data.StartupGameConfiguration;
 	import main.view.interfaces.IApplicationMenu;
