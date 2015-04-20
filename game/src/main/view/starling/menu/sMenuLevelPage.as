@@ -85,7 +85,7 @@ package main.view.starling.menu
 				
 				_layout.addChild( button );
 				
-				button.y = 4*button.height + 1.1*i*button.height;
+				button.y = /*4*button.height + */ 1.1*i*button.height;
 			}
 		}	
 		

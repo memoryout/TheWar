@@ -129,6 +129,7 @@ package main.view.starling.menu
 					if(touch && touch.phase == TouchPhase.ENDED) 
 					{
 						StartupGameConfiguration.Get().map = int(splited[3]);
+						StartupGameConfiguration.Get().mapName = splited[0];
 						
 						UserInputSystem.get().processAction(MouseEvent.CLICK, MenuActionList.MAP_ITEM_BUTTON_CLICKED);
 					}

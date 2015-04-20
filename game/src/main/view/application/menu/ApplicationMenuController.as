@@ -74,9 +74,9 @@ package main.view.application.menu
 			_currentController.setView( _menuView );
 		}
 		
-		private function showNewGamePage():void
+		private function showNewGamePage(fillType:String):void
 		{
-			_currentController = new NewGamePageController();
+			_currentController = new NewGamePageController(fillType);
 			_currentController.initialize(onNewGameResult);
 			_currentController.setView( _menuView );			
 		}
@@ -125,7 +125,7 @@ package main.view.application.menu
 			{
 				case MenuActionList.NEW_GAME_BUTTON_CLICKED:
 				{
-					showNewGamePage();
+					showNewGamePage("random");
 					break;
 				}
 					
@@ -210,6 +210,8 @@ package main.view.application.menu
 			_currentController.destroy();
 			_currentController = null;
 			
+			lastPage = "onScenarioSettingsResult";
+			
 			switch(page)
 			{
 				case MenuActionList.CIV_SETTINGS_BUTTON_CLICKED:
@@ -249,7 +251,7 @@ package main.view.application.menu
 					
 				case MenuActionList.BACK_MAP_BUTTON_CLICKED:	
 				{
-					showNewGamePage();
+					showNewGamePage("config");
 					break;
 				}
 			}
@@ -265,8 +267,13 @@ package main.view.application.menu
 				case MenuActionList.CIVILIZATION_ITEM_BUTTON_CLICKED:
 					
 //				case MenuActionList.BACK_MAP_BUTTON_CLICKED:	
-				{
-					showNewGamePage();
+				{					
+					if(lastPage == "onScenarioSettingsResult")
+						showScenarioSettingsPage();
+						
+					else
+						showNewGamePage("config");
+					
 					break;
 				}
 			}
@@ -283,9 +290,13 @@ package main.view.application.menu
 				case MenuActionList.MIDDLE_LEVEL_BUTTON_CLICKED:
 				case MenuActionList.HIGH_LEVEL_BUTTON_CLICKED:					
 				case MenuActionList.BACK_LEVEL_BUTTON_CLICKED:
-				{					
-					trace(lastPage);			
-					showNewGamePage();
+				{						
+					if(lastPage == "onScenarioSettingsResult")
+						showScenarioSettingsPage();
+					
+					else
+						showNewGamePage("config");
+					
 					break;
 				}
 			}

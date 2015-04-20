@@ -26,15 +26,10 @@ package main.view.starling.menu
 		private var _layout:		starling.display.Sprite;
 		
 		private var _initCompleteCallback:Function;
-		
-		private var _btnMap:			sButtonMenu;
-		private var _btnCivilization:	sButtonMenu;
-		private var _btnEnemies:		sButtonMenu;
-		private var _btnLevel:			sButtonMenu;
-		private var _btnStartGame:		sButtonMenu;
-		private var _btnBack:			sButtonMenu;
-		
-		private var buttonContainer:Array = new Array();
+				
+		private var buttonsLable	:Array = [];		
+		private var buttonsAction	:Array = [];				
+		private var buttonContainer	:Array = new Array();
 		
 		public function sMenuNewGamePage()
 		{
@@ -58,82 +53,48 @@ package main.view.starling.menu
 		
 		public function showPage():void
 		{
-			initVariables();			
+			initVariables();
+			addButtons();
 			showButtons();
 			
 			_layout.addEventListener(TouchEvent.TOUCH, handlerTouch);
 		}
 		
 		private function initVariables():void
-		{
-			var randScenarion:ScenarioInfo = DataContainer.Get().getScenariousList()[(Math.floor(Math.random() * DataContainer.Get().getScenariousList().length))];
-			var mapName:String = DataContainer.Get().getMapsList()[randScenarion.mapId].name;
-			var civName:String = randScenarion.civilizations[Math.floor(Math.random() * randScenarion.civilizations.length)].name;
+		{				
+			buttonsLable.push("Map:" + StartupGameConfiguration.Get().mapName);
+			buttonsAction.push("map_new_game_action");
 			
-			addButtons(mapName, civName, randScenarion);
+			buttonsLable.push("Civiliazation:" + StartupGameConfiguration.Get().civilizationName);
+			buttonsAction.push("civ_new_game_action");
+			
+			buttonsLable.push("Enemies:" + StartupGameConfiguration.Get().enemies);
+			buttonsAction.push("enemies_new_game_action");
+			
+			buttonsLable.push("Level:" + getLevelName());
+			buttonsAction.push("level_new_game_action");
+			
+			buttonsLable.push("Start Game");
+			buttonsAction.push("start_new_game_action");
+			
+			buttonsLable.push("Back");
+			buttonsAction.push("back_new_game_action");
 		}
 		
-		private function addButtons(maName:String, civName:String, scenario:ScenarioInfo):void
+		private function addButtons():void
 		{
-			_btnMap = new sButtonMenu("menu.map0000");		
-			_btnMap.createView("Map:" + maName);
-			_btnMap.setAction("map");
-			
-			buttonContainer.push(_btnMap);
-			
-			_layout.addChild( _btnMap );
-			
-			_btnMap.y = 2.5*_btnMap.height;
-						
-			_btnCivilization = new sButtonMenu("menu.civilization0000");
-			_btnCivilization.createView("Civiliazation:" + civName);
-			_btnCivilization.setAction("civiliazation");
-		
-			buttonContainer.push(_btnCivilization);
-			
-			_layout.addChild( _btnCivilization );
-			
-			_btnCivilization.y = 3.5*_btnCivilization.height;
-			
-			_btnEnemies = new sButtonMenu("menu.enemies0000");
-			_btnEnemies.createView("Enemies:" + scenario.civilizations.length);
-			_btnEnemies.setAction("enemies");
-			
-			buttonContainer.push(_btnEnemies);
-			
-			_layout.addChild( _btnEnemies );
-			
-			_btnEnemies.y = 4.5*_btnEnemies.height;
-			
-			_btnLevel = new sButtonMenu("menu.level0000");
-			_btnLevel.createView("Level:" + getLevelName());
-			_btnLevel.setAction("level");
-			
-			buttonContainer.push(_btnLevel);
-			
-			_layout.addChild( _btnLevel );
-			
-			_btnLevel.y = 5.5*_btnLevel.height;
-			
-			_btnStartGame = new sButtonMenu("menu.start_game0000");
-			_btnStartGame.createView("Start Game");
-			_btnStartGame.setAction("start_game");
-			
-			buttonContainer.push(_btnStartGame);
-			
-			_layout.addChild( _btnStartGame );
-			
-			_btnStartGame.y = 6.5*_btnStartGame.height;			
-			
-			_btnBack = new sButtonMenu("menu.back0000");
-			_btnBack.createView("Back");
-			_btnBack.setAction("back_game");
-			
-			buttonContainer.push(_btnBack);
-			
-			_layout.addChild( _btnBack );
-			
-			_btnBack.y = 7.5*_btnBack.height;					
+			for (var i:int = 0; i < buttonsLable.length; i++) 
+			{
+				var button:sButtonMenu = new sButtonMenu("");
+				button.createView(buttonsLable[i]);
+				button.setAction(buttonsAction[i]);
+				
+				buttonContainer.push(button);
+				
+				_layout.addChild( button );
+				
+				button.y = /*4*button.height + */ 1.1*i*button.height;
+			}
 		}
 		
 		private function getLevelName():String
@@ -186,37 +147,31 @@ package main.view.starling.menu
 		}
 		
 		private function handlerTouch(e:TouchEvent):void
-		{			
-			var touch:Touch = e.getTouch(_btnMap);
-			
-			if(touch && touch.phase == TouchPhase.ENDED) 			
-				UserInputSystem.get().processAction(MouseEvent.CLICK, MenuActionList.MAP_BUTTON_CLICKED);
+		{				
+			for (var i:int = 0; i < buttonContainer.length; i++) 
+			{
+				var touch:Touch = e.getTouch(buttonContainer[i]);
+				if(touch && touch.phase == TouchPhase.ENDED) 
+				{
+					if(buttonContainer[i].getAction() == "map_new_game_action")
+						UserInputSystem.get().processAction(MouseEvent.CLICK, MenuActionList.MAP_BUTTON_CLICKED);
 						
-			touch = e.getTouch(_btnCivilization);
-			
-			if(touch && touch.phase == TouchPhase.ENDED) 			
-				UserInputSystem.get().processAction(MouseEvent.CLICK, MenuActionList.CIVILIZATION_BUTTON_CLICKED);
+					else if(buttonContainer[i].getAction() == "civ_new_game_action")
+						UserInputSystem.get().processAction(MouseEvent.CLICK, MenuActionList.CIVILIZATION_BUTTON_CLICKED);
 						
-			touch = e.getTouch(_btnEnemies);
-			
-			if(touch && touch.phase == TouchPhase.ENDED) 			
-				UserInputSystem.get().processAction(MouseEvent.CLICK, MenuActionList.ENEMIES_BUTTON_CLICKED);
-			
-			touch = e.getTouch(_btnLevel);
-			
-			if(touch && touch.phase == TouchPhase.ENDED) 			
-				UserInputSystem.get().processAction(MouseEvent.CLICK, MenuActionList.LEVEL_BUTTON_CLICKED);
-			
-			touch = e.getTouch(_btnStartGame);
-			
-			if(touch && touch.phase == TouchPhase.ENDED) 			
-				UserInputSystem.get().processAction(MouseEvent.CLICK, MenuActionList.START_GAME_BUTTON_CLICKED);
-			
-			touch = e.getTouch(_btnBack);
-			
-			if(touch && touch.phase == TouchPhase.ENDED) 			
-				UserInputSystem.get().processAction(MouseEvent.CLICK, MenuActionList.BACK_NEW_BUTTON_CLICKED);
-			
+					else if(buttonContainer[i].getAction() == "enemies_new_game_action")
+						UserInputSystem.get().processAction(MouseEvent.CLICK, MenuActionList.ENEMIES_BUTTON_CLICKED);
+						
+					else if(buttonContainer[i].getAction() == "level_new_game_action")
+						UserInputSystem.get().processAction(MouseEvent.CLICK, MenuActionList.LEVEL_BUTTON_CLICKED);
+					
+					else if(buttonContainer[i].getAction() == "start_new_game_action")
+						UserInputSystem.get().processAction(MouseEvent.CLICK, MenuActionList.START_GAME_BUTTON_CLICKED);
+					
+					else if(buttonContainer[i].getAction() == "back_new_game_action")
+						UserInputSystem.get().processAction(MouseEvent.CLICK, MenuActionList.BACK_NEW_BUTTON_CLICKED);
+				}
+			}			
 		}
 	}
 }

@@ -20,14 +20,12 @@ package main.view.starling.menu
 		private var _layout:		Sprite;
 		
 		private var _initCompleteCallback:Function;
-
-		private var _btnNewGame:	sButtonMenu;
-		private var _btnLoadGame:	sButtonMenu;
-		private var _btnScenarious:	sButtonMenu;
-		private var _btnCredits:	sButtonMenu;
 		
-		private var buttonContainer:Array = new Array();
+		private var buttonsLable	:Array = ["New Game", "LoadGame", "Scenarios", "Credits"];		
+		private var buttonsAction	:Array = ["new_game_action", "load_game_action", "scenarios_action", "credits_action"];				
 		
+		private var buttonContainer	:Array = new Array();
+				
 		public function sMenuAppStartPage()
 		{
 			
@@ -57,40 +55,19 @@ package main.view.starling.menu
 		}
 		
 		private function addButtons():void
-		{
-			_btnNewGame = new sButtonMenu("menu.start_new_game0000");
-			_btnNewGame.createView("New Game");
-			_btnNewGame.setAction("new_game");
-			
-			buttonContainer.push(_btnNewGame);
-			
-			_layout.addChild( _btnNewGame );
-			
-			//			_btnNewGame.x = sScreenUtils.getScreenRect().width - _btnNewGame.width >> 1;
-			_btnNewGame.y = 4*_btnNewGame.height;
-			
-			_btnLoadGame = new sButtonMenu("menu.load_game0000");
-			_btnLoadGame.createView("Load Game");
-			_btnLoadGame.setAction("load_game");
-			
-			buttonContainer.push(_btnLoadGame);
-			
-			_layout.addChild( _btnLoadGame );
-			
-			//			_btnLoadGame.x = sScreenUtils.getScreenRect().width - _btnLoadGame.width >> 1;
-			_btnLoadGame.y = 5.5*_btnNewGame.height;
-			
-			_btnScenarious = new sButtonMenu("menu.scenarios0000");
-			_btnScenarious.createView("Scenarios");
-			_btnScenarious.setAction("scenarios_game");
-			
-			buttonContainer.push(_btnScenarious);
-
-			
-			_layout.addChild( _btnScenarious );
-			
-			//			_btnScenarious.x = sScreenUtils.getScreenRect().width - _btnScenarious.width >> 1;
-			_btnScenarious.y = 7*_btnNewGame.height;
+		{		
+			for (var i:int = 0; i < buttonsLable.length; i++) 
+			{
+				var button:sButtonMenu = new sButtonMenu("");
+				button.createView(buttonsLable[i]);
+				button.setAction(buttonsAction[i]);
+				
+				buttonContainer.push(button);
+				
+				_layout.addChild( button );
+				
+				button.y =/* 4*button.height + */1.1*i*button.height;
+			}
 		}
 		
 		private function showButtons():void
@@ -129,30 +106,27 @@ package main.view.starling.menu
 		}
 		
 		private function handlerTouch(e:TouchEvent):void
-		{
-			var touch:Touch = e.getTouch(_btnNewGame);
-			
-			if(touch) 
+		{			
+			for (var i:int = 0; i < buttonContainer.length; i++) 
 			{
-				if( touch.phase == TouchPhase.ENDED)
-					UserInputSystem.get().processAction(MouseEvent.CLICK, MenuActionList.NEW_GAME_BUTTON_CLICKED);
+				var touch:Touch = e.getTouch(buttonContainer[i]);
 				
-				else if(touch.phase == TouchPhase.HOVER)				
-					_btnNewGame.overState();
-			}
-			
-			touch = e.getTouch(_btnLoadGame);
-			
-			if(touch && touch.phase == TouchPhase.ENDED) 
-			{
-				UserInputSystem.get().processAction(MouseEvent.CLICK, MenuActionList.LOAD_GAME_BUTTON_CLICKED);
-			}
-			
-			touch = e.getTouch(_btnScenarious);
-			
-			if(touch && touch.phase == TouchPhase.ENDED) 
-			{
-				UserInputSystem.get().processAction(MouseEvent.CLICK, MenuActionList.SCENARIO_BUTTON_CLICKED);
+				if(touch && touch.phase == TouchPhase.ENDED) 
+				{
+					if(buttonContainer[i].getAction() == "new_game_action")
+						UserInputSystem.get().processAction(MouseEvent.CLICK, MenuActionList.NEW_GAME_BUTTON_CLICKED);
+						
+					else if(buttonContainer[i].getAction() == "load_game_action")
+						UserInputSystem.get().processAction(MouseEvent.CLICK, MenuActionList.LOAD_GAME_BUTTON_CLICKED);
+						
+					else if(buttonContainer[i].getAction() == "scenarios_action")
+						UserInputSystem.get().processAction(MouseEvent.CLICK, MenuActionList.SCENARIO_BUTTON_CLICKED);
+						
+					else if(buttonContainer[i].getAction() == "credits_action")
+					{
+						
+					}						
+				}
 			}
 		}
 	}

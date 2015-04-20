@@ -128,6 +128,7 @@ package main.view.starling.menu
 					if(touch && touch.phase == TouchPhase.ENDED) 
 					{
 						StartupGameConfiguration.Get().civilization = int(splited[3]);
+						StartupGameConfiguration.Get().civilizationName = splited[0];
 						
 						UserInputSystem.get().processAction(MouseEvent.CLICK, MenuActionList.CIVILIZATION_ITEM_BUTTON_CLICKED);
 					}

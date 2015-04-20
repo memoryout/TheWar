@@ -1,5 +1,10 @@
 package main.view.application.menu.new_game
 {
+	import main.data.CivilizationInfo;
+	import main.data.DataContainer;
+	import main.data.MapInfo;
+	import main.data.ScenarioInfo;
+	import main.data.StartupGameConfiguration;
 	import main.view.application.menu.MenuActionList;
 	import main.view.application.menu.interfaces.IMenuPageController;
 	import main.view.input.IInputHandler;
@@ -14,8 +19,28 @@ package main.view.application.menu.new_game
 		private var _pageView:			IViewMenuStartPage;
 		private var _onPageComplete:	Function;
 		
-		public function NewGamePageController()
+		public function NewGamePageController(fillType:String)
 		{
+			setConfig(fillType);
+		}
+		
+		private function setConfig(fillType:String):void
+		{
+			if(fillType == "random")
+			{
+				var randScenario:ScenarioInfo = DataContainer.Get().getScenariousList()[(Math.floor(Math.random() * DataContainer.Get().getScenariousList().length))];
+				
+				var mapInfo:MapInfo = DataContainer.Get().getMapsList()[randScenario.mapId];								
+				var civInfo:CivilizationInfo = randScenario.civilizations[Math.floor(Math.random() * randScenario.civilizations.length)];
+				
+				StartupGameConfiguration.Get().scenario 	= randScenario.id;
+				StartupGameConfiguration.Get().civilization = civInfo.id;
+				StartupGameConfiguration.Get().map 			= mapInfo.id;
+				StartupGameConfiguration.Get().enemies		= randScenario.civilizations.length;
+				
+				StartupGameConfiguration.Get().civilizationName = civInfo.name;
+				StartupGameConfiguration.Get().mapName 			= mapInfo.name;
+			}
 		}
 		
 		public function initialize(onCompleteCallback:Function):void
