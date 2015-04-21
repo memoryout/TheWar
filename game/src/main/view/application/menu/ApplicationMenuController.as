@@ -9,6 +9,7 @@ package main.view.application.menu
 	import main.view.IRootLayout;
 	import main.view.ViewEvent;
 	import main.view.application.menu.civilizations.CivilizationsPageController;
+	import main.view.application.menu.enemies.EnemiesPageController;
 	import main.view.application.menu.interfaces.IMenuPageController;
 	import main.view.application.menu.level.LevelPageController;
 	import main.view.application.menu.map.MapPageController;
@@ -116,6 +117,13 @@ package main.view.application.menu
 			_currentController.setView( _menuView );
 		}
 		
+		private function showEnemiesPage():void
+		{
+			_currentController = new EnemiesPageController();
+			_currentController.initialize(onEnemiesResult);
+			_currentController.setView( _menuView );
+		}
+		
 		private function onStartPageResult(page:String):void
 		{			
 			_currentController.destroy();
@@ -187,6 +195,14 @@ package main.view.application.menu
 					
 					break;
 				}
+					
+				case MenuActionList.ENEMIES_BUTTON_CLICKED:
+				{					
+					showEnemiesPage();
+					
+					break;
+				}
+					
 			}
 		}
 		
@@ -302,6 +318,26 @@ package main.view.application.menu
 			}
 		}
 		
+		private function onEnemiesResult(page:String):void
+		{			
+			_currentController.destroy();
+			_currentController = null;
+			
+			switch(page)
+			{								
+				case MenuActionList.BACK_ENEMIES_BUTTON_CLICKED:
+				{						
+					showNewGamePage("config");
+					
+					break;
+				}
+					
+				case MenuActionList.ENEMIES_ITEM_BUTTON_CLICKED:
+				{						
+					break;
+				}
+			}
+		}
 		override public function receiveMessage(message:MessageData):void
 		{		
 			switch(message.message)

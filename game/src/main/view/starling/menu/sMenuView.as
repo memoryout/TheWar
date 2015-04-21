@@ -112,6 +112,14 @@ package main.view.starling.menu
 			return levelPage;
 		}
 		
+		public function showEnemiesPage():IViewMenuStartPage
+		{
+			var levelPage:sMenuEnemiesPage = new sMenuEnemiesPage();
+			levelPage.setLayout( this );
+			
+			return levelPage;
+		}
+		
 		public function unload():void
 		{
 			if( _background )

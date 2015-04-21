@@ -26,6 +26,11 @@ package main.view.starling.menu.simple
 		
 		private var overActive		:Boolean;
 		
+		private var _enableState:	Image;
+		private var _disableState:	Image;
+		
+		public var selectedCheckBox:Boolean = true;
+		
 		public function sButtonMenu(label_texture:String)
 		{
 			super();
@@ -103,6 +108,52 @@ package main.view.starling.menu.simple
 				this.removeChild(_downState);
 			
 			overActive = false;
+		}
+		
+		public function setEnableCheckBox():void
+		{
+			selectedCheckBox = true;
+			
+			if(_disableState && this.contains( _disableState ))
+				this.removeChild( _disableState );
+			
+			var atlas:TextureAtlas = sResourceAsset.getAtlas("ui_library");
+			
+			if(atlas) 
+			{
+				_enableState = new Image(atlas.getTexture("checkbox_enable.png"));
+//				_disableState = new Image(atlas.getTexture("checkbox_disable.png"));
+				
+				_enableState.scaleX = _enableState.scaleY 		= sScreenUtils.getResourceScaleFactor();
+				
+				_enableState.y = _upState.y + _upState.height/2 -_enableState.height/2;
+				_enableState.x = _upState.x + _upState.width - _enableState.width*2;
+				
+				this.addChild( _enableState );
+			}
+		}
+		
+		public function setDisableCheckBox():void
+		{
+			selectedCheckBox = false;
+			
+			if(_enableState && this.contains( _enableState ))
+				this.removeChild( _enableState );
+			
+			var atlas:TextureAtlas = sResourceAsset.getAtlas("ui_library");
+			
+			if(atlas) 
+			{
+				_disableState = new Image(atlas.getTexture("checkbox_disable.png"));
+				//				_disableState = new Image(atlas.getTexture("checkbox_disable.png"));
+				
+				_disableState.scaleX = _disableState.scaleY 		= sScreenUtils.getResourceScaleFactor();
+				
+				_disableState.y = _upState.y + _upState.height/2 -_disableState.height/2;
+				_disableState.x = _upState.x + _upState.width - _disableState.width*2;
+				
+				this.addChild( _disableState );
+			}
 		}
 		
 		public function setAction(action:String):void

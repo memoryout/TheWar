@@ -33,10 +33,11 @@ package main.view.application.menu.new_game
 				var mapInfo:MapInfo = DataContainer.Get().getMapsList()[randScenario.mapId];								
 				var civInfo:CivilizationInfo = randScenario.civilizations[Math.floor(Math.random() * randScenario.civilizations.length)];
 				
-				StartupGameConfiguration.Get().scenario 	= randScenario.id;
-				StartupGameConfiguration.Get().civilization = civInfo.id;
-				StartupGameConfiguration.Get().map 			= mapInfo.id;
-				StartupGameConfiguration.Get().enemies		= randScenario.civilizations.length;
+				StartupGameConfiguration.Get().scenario 		= randScenario.id;
+				StartupGameConfiguration.Get().civilization 	= civInfo.id;
+				StartupGameConfiguration.Get().map 				= mapInfo.id;
+				StartupGameConfiguration.Get().enemies			= DataContainer.Get().getCivilizationList().length;
+				StartupGameConfiguration.Get().enemiesList		= DataContainer.Get().getCivilizationList().concat();
 				
 				StartupGameConfiguration.Get().civilizationName = civInfo.name;
 				StartupGameConfiguration.Get().mapName 			= mapInfo.name;

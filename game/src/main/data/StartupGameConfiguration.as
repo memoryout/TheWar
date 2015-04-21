@@ -10,6 +10,8 @@ package main.data
 		public var map:					uint = 0;
 		public var enemies:				uint = 0;
 		
+		public var enemiesList:			Vector.<CivilizationInfo> = new Vector.<CivilizationInfo>();
+				
 		public var civilizationName:	String;
 		public var mapName:				String;
 		

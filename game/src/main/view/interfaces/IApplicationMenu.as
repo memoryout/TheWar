@@ -15,6 +15,8 @@ package main.view.interfaces
 		
 		function showMapPage()					:IViewMenuStartPage;		
 		function showLevelPage()				:IViewMenuStartPage;	
+		function showEnemiesPage()				:IViewMenuStartPage;	
+		
 		function showScenarioSettingsPage()		:IViewMenuStartPage;	
 	}
 }

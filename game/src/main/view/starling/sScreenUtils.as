@@ -52,6 +52,34 @@ package main.view.starling
 			
 			_resourceRect.x = (_screenRect.width - canvasWidth) >> 1;
 			_resourceRect.y = (_screenRect.height - canvasHeight) >> 1;
+			
+			
+			/*var guiSize			:Rectangle = new Rectangle(0, 0, 1280, 720); 
+			
+			_screenRect.width 	= Math.max(stage.fullScreenWidth, stage.fullScreenHeight);
+			_screenRect.height 	= Math.min(stage.fullScreenWidth, stage.fullScreenHeight); 
+			
+			_resourceRect.x  	 = guiSize.y; 
+			_resourceRect.x 	 = guiSize.y;
+			_resourceRect.width  = guiSize.width; 
+			_resourceRect.height = guiSize.height;
+			
+			var appLeftOffset	:Number = 0; 
+			
+			// if device is wider than GUI's aspect ratio, height determines scale 
+			if ((_screenRect.width/_screenRect.height) > (guiSize.width/guiSize.height)) 
+			{ 
+				_resourceScaleFactor = _screenRect.height / guiSize.height; 
+				_resourceRect.width = _screenRect.width / _resourceScaleFactor; 
+				appLeftOffset = Math.round((_resourceRect.width - guiSize.width) / 2); } 
+				// if device is taller than GUI's aspect ratio, width determines scale 
+			else 
+			{ 
+				_resourceScaleFactor = _screenRect.width / guiSize.width; 
+				_resourceRect.height = _screenRect.height / _resourceScaleFactor; 
+				appLeftOffset = 0; 
+			} */
+			
 		}
 		
 		public static function getResourceRect():Rectangle
