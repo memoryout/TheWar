@@ -20,6 +20,9 @@ package main.view.starling.game.map.province
 		private var _image:			Image;
 		private var _id:			uint;
 		
+		private var _defaultColor:	uint;
+		private var _currentColor:	uint;
+		
 		public function ProvinceMapView()
 		{
 			super();
@@ -78,6 +81,38 @@ package main.view.starling.game.map.province
 			{
 				UserInputSystem.get().processAction(MouseEvent.CLICK, GameActionList.SELECT_REGION + "." + _id.toString() );
 			}
+		}
+		
+		
+		public function resetProvinceColorSettings():void
+		{
+			_image.alpha = 0;
+			_image.color = 0xffffff;
+		}
+		
+		public function setProvinceDefaultColor(color:uint):void
+		{
+			_defaultColor = _currentColor = color;
+			
+			_image.alpha = 0.3;
+			_image.color = _currentColor;
+		}
+		
+		
+		public function set selected(b:Boolean):void
+		{
+			if(b)
+				_currentColor = _defaultColor | 0x555555;
+			else 
+				_currentColor = _defaultColor;
+			
+			updateColor();
+		}
+		
+		
+		private function updateColor():void
+		{
+			_image.color = _currentColor;
 		}
 	}
 }

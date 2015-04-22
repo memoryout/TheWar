@@ -63,6 +63,7 @@ package main.view.application.data
 			}
 		}
 		
+		
 		public function isUserCivilization(id:int):Boolean
 		{
 			if(_userCivilization.id == id) return true;

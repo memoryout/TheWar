@@ -1,6 +1,5 @@
 package main.view.application.menu
 {
-	import avm2.intrinsics.memory.casi32;
 	
 	import core.logic.events.CoreEvents;
 	

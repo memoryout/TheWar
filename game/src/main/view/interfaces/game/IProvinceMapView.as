@@ -10,5 +10,9 @@ package main.view.interfaces.game
 		
 		function setId(id:uint):void;
 		
+		function setProvinceDefaultColor(color:uint):void;
+		function resetProvinceColorSettings():void;
+		function set selected(b:Boolean):void
+		
 	}
 }

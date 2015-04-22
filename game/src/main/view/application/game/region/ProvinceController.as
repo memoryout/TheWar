@@ -22,6 +22,8 @@ package main.view.application.game.region
 		
 		private var _onSelectCallback:	Function;
 		
+		private var _selected:			Boolean;
+		
 		public function ProvinceController()
 		{
 			
@@ -47,6 +49,7 @@ package main.view.application.game.region
 			_province = _mapView.createProvince();
 			_province.setMaskName(_provinceMapInfo.mask);
 			_province.setId(_provinceMapInfo.id);
+			_province.setProvinceDefaultColor( 0xff0000 );
 			
 			_province.setX(_provinceMapInfo.x)
 				.setY(_provinceMapInfo.y)
@@ -64,6 +67,16 @@ package main.view.application.game.region
 			if(type == MouseEvent.CLICK && button == GameActionList.SELECT_REGION + "." + _provinceMapInfo.id.toString() )
 			{
 				_onSelectCallback( _provinceMapInfo.id );
+				_province.selected = true;
+				_selected = true;
+			}
+			else
+			{
+				if(_selected)
+				{
+					_selected = false;
+					_province.selected = false;
+				}
 			}
 		}
 	}
