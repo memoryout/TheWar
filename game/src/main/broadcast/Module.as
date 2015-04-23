@@ -28,7 +28,8 @@ package main.broadcast
 			
 		
 		public function receiveMessage(message:MessageData):void
-		{			
+		{
+			
 		}
 		
 		public function listNotificationInterests():Array 

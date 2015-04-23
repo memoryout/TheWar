@@ -64,6 +64,7 @@ package main.view.application.game
 			buildComponents();
 			
 			_mapController.createProvinces();
+			
 		}
 		
 		
