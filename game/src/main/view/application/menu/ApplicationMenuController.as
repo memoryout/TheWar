@@ -213,6 +213,12 @@ package main.view.application.menu
 			
 			switch(page)
 			{
+				case MenuActionList.BACK_SCENARIO_BUTTON_CLICKED:
+				{
+					showStartPage();
+					break;
+				}
+				
 				case MenuActionList.SCENARIO_ITEM_BUTTON_CLICKED:
 				{
 					showScenarioSettingsPage();
@@ -282,7 +288,7 @@ package main.view.application.menu
 			{
 				case MenuActionList.CIVILIZATION_ITEM_BUTTON_CLICKED:
 					
-//				case MenuActionList.BACK_MAP_BUTTON_CLICKED:	
+				case MenuActionList.BACK_CIV_BUTTON_CLICKED:	
 				{					
 					if(lastPage == "onScenarioSettingsResult")
 						showScenarioSettingsPage();

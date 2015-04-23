@@ -41,6 +41,7 @@ package main.view.application.menu.map
 		{
 			switch(button)
 			{
+				case MenuActionList.BACK_MAP_BUTTON_CLICKED:
 				case MenuActionList.MAP_ITEM_BUTTON_CLICKED:
 				{						
 					_pageView.hidePage();

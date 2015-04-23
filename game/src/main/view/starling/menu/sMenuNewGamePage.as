@@ -31,6 +31,8 @@ package main.view.starling.menu
 		private var buttonsAction	:Array = [];				
 		private var buttonContainer	:Array = new Array();
 		
+		private var _btnBack:			sButtonMenu;
+		
 		public function sMenuNewGamePage()
 		{
 			
@@ -75,10 +77,7 @@ package main.view.starling.menu
 			buttonsAction.push("level_new_game_action");
 			
 			buttonsLable.push("Start Game");
-			buttonsAction.push("start_new_game_action");
-			
-			buttonsLable.push("Back");
-			buttonsAction.push("back_new_game_action");
+			buttonsAction.push("start_new_game_action");			
 		}
 		
 		private function addButtons():void
@@ -95,6 +94,18 @@ package main.view.starling.menu
 				
 				button.y = /*4*button.height + */ 1.1*i*button.height;
 			}
+			
+			_btnBack = new sButtonMenu("");
+			
+			_btnBack.createView("Back");
+			_btnBack.setAction("back_new_game_action");
+			
+			_btnBack.alpha = 0;
+			
+			_layout.addChild( _btnBack );
+			
+			_btnBack.x = sScreenUtils.getScreenRect().width - _btnBack.width;
+
 		}
 		
 		private function getLevelName():String
@@ -123,6 +134,8 @@ package main.view.starling.menu
 				
 				_delay += 0.1;
 			}
+			
+			TweenLite.to(_btnBack, 0.7, {alpha:1});
 		}
 		
 		public function hidePage():void
@@ -141,6 +154,14 @@ package main.view.starling.menu
 						buttonContainer[i] = null;
 					}
 				}
+				
+				if(_btnBack && _layout.contains( _btnBack))
+				{
+					_layout.removeChild( _btnBack );					
+					
+					_btnBack.destroy();
+					_btnBack = null;
+				}
 			}
 			
 			_layout = null;
@@ -148,9 +169,11 @@ package main.view.starling.menu
 		
 		private function handlerTouch(e:TouchEvent):void
 		{				
+			var touch:Touch;
+			
 			for (var i:int = 0; i < buttonContainer.length; i++) 
 			{
-				var touch:Touch = e.getTouch(buttonContainer[i]);
+				touch = e.getTouch(buttonContainer[i]);
 				if(touch && touch.phase == TouchPhase.ENDED) 
 				{
 					if(buttonContainer[i].getAction() == "map_new_game_action")
@@ -166,12 +189,16 @@ package main.view.starling.menu
 						UserInputSystem.get().processAction(MouseEvent.CLICK, MenuActionList.LEVEL_BUTTON_CLICKED);
 					
 					else if(buttonContainer[i].getAction() == "start_new_game_action")
-						UserInputSystem.get().processAction(MouseEvent.CLICK, MenuActionList.START_GAME_BUTTON_CLICKED);
-					
-					else if(buttonContainer[i].getAction() == "back_new_game_action")
-						UserInputSystem.get().processAction(MouseEvent.CLICK, MenuActionList.BACK_NEW_BUTTON_CLICKED);
+						UserInputSystem.get().processAction(MouseEvent.CLICK, MenuActionList.START_GAME_BUTTON_CLICKED);				
 				}
-			}			
+			}
+								
+			touch = e.getTouch(_btnBack);
+			
+			if(touch && touch.phase == TouchPhase.ENDED) 
+			{
+				UserInputSystem.get().processAction(MouseEvent.CLICK, MenuActionList.BACK_NEW_BUTTON_CLICKED);
+			}
 		}
 	}
 }

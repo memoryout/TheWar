@@ -74,12 +74,12 @@ package main.view.starling.menu
 			_btnBack = new sButtonMenu("menu.back0000");
 			_btnBack.createView("Back");
 			_btnBack.setAction("back_game");
-			
-			buttonContainer.push(_btnBack);
-			
+						
 			_layout.addChild( _btnBack );
 			
-			_btnBack.y = 1.1*civ.length*_btnBack.height;		
+			_btnBack.alpha = 0;
+			
+			_btnBack.x = sScreenUtils.getScreenRect().width - _btnBack.width;
 		}	
 		
 		private function showButtons():void
@@ -94,6 +94,8 @@ package main.view.starling.menu
 				
 				_delay += 0.1;
 			}
+			
+			TweenLite.to(_btnBack, 0.7, {alpha:1});
 		}
 		public function hidePage():void
 		{
@@ -111,6 +113,14 @@ package main.view.starling.menu
 						buttonContainer[i] = null;
 					}
 				}
+				
+				if(_btnBack && _layout.contains( _btnBack))
+				{
+					_layout.removeChild( _btnBack );					
+					
+					_btnBack.destroy();
+					_btnBack = null;
+				}
 			}
 			
 			_layout = null;
@@ -118,11 +128,13 @@ package main.view.starling.menu
 		
 		private function handlerTouch(e:TouchEvent):void
 		{
+			var touch:Touch;
+			
 			for (var i:int = 0; i < buttonContainer.length; i++) 
 			{
 				if(buttonContainer[i])
 				{
-					var touch:Touch = e.getTouch(buttonContainer[i]);
+					touch = e.getTouch(buttonContainer[i]);
 					var splited:Array = (buttonContainer[i].getAction() as String).split("_");
 					
 					if(touch && touch.phase == TouchPhase.ENDED) 
@@ -133,6 +145,14 @@ package main.view.starling.menu
 						UserInputSystem.get().processAction(MouseEvent.CLICK, MenuActionList.CIVILIZATION_ITEM_BUTTON_CLICKED);
 					}
 				}				
+			}
+			
+			
+			touch = e.getTouch(_btnBack);
+			
+			if(touch && touch.phase == TouchPhase.ENDED) 
+			{
+				UserInputSystem.get().processAction(MouseEvent.CLICK, MenuActionList.BACK_CIV_BUTTON_CLICKED);
 			}
 		}
 	}

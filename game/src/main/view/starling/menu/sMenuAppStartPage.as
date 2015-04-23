@@ -111,6 +111,9 @@ package main.view.starling.menu
 			{
 				var touch:Touch = e.getTouch(buttonContainer[i]);
 				
+				if(touch)
+					trace(touch.phase);
+				
 				if(touch && touch.phase == TouchPhase.ENDED) 
 				{
 					if(buttonContainer[i].getAction() == "new_game_action")
@@ -126,6 +129,19 @@ package main.view.starling.menu
 					{
 						
 					}						
+				}
+				
+				else if(touch && touch.phase == TouchPhase.HOVER)
+				{					
+					if(buttonContainer[i] && buttonContainer[i].overActive)
+					{
+//						buttonContainer[i].outState();		
+					}
+						
+					else if(buttonContainer[i] && !buttonContainer[i].overActive)
+					{
+//						buttonContainer[i].overState();
+					}
 				}
 			}
 		}

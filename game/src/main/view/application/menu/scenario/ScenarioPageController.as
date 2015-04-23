@@ -42,6 +42,7 @@ package main.view.application.menu.scenario
 		{
 			switch(button)
 			{
+				case MenuActionList.BACK_SCENARIO_BUTTON_CLICKED:
 				case MenuActionList.SCENARIO_ITEM_BUTTON_CLICKED:
 				{						
 					_pageView.hidePage();

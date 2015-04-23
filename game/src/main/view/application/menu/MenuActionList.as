@@ -27,6 +27,8 @@ package main.view.application.menu
 		public static const BACK_MAP_BUTTON_CLICKED			:String = "menu.back_map_button_clicked";	
 		public static const BACK_SETTINGS_BUTTON_CLICKED	:String = "menu.back_set_button_clicked";	
 		public static const BACK_ENEMIES_BUTTON_CLICKED		:String = "menu.back_enemies_button_clicked";	
+		public static const BACK_CIV_BUTTON_CLICKED			:String = "menu.back_civ_button_clicked";	
+		public static const BACK_SCENARIO_BUTTON_CLICKED	:String = "menu.back_scenario_button_clicked";
 		
 		public static const CIV_SETTINGS_BUTTON_CLICKED		:String = "menu.civ_settings_button_clicked";	
 		public static const LEVEL_SETTINGS_BUTTON_CLICKED	:String = "menu.level_settings_button_clicked";	

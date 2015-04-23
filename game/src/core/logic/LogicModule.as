@@ -37,7 +37,7 @@ package core.logic
 		private function setMainVariables():void
 		{
 			LogicData.Get().selectedScenario		= StartupGameConfiguration.Get().scenario;
-			LogicData.Get().selectedCivilization 	= StartupGameConfiguration.Get().civilization
+			LogicData.Get().selectedCivilization 	= StartupGameConfiguration.Get().civilization;
 			LogicData.Get().gameLevel 				= StartupGameConfiguration.Get().level;
 			LogicData.Get().randomFill 				= StartupGameConfiguration.Get().randomFill;
 			LogicData.Get().randomPlacement 		= StartupGameConfiguration.Get().randomPlacement;

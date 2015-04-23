@@ -42,6 +42,7 @@ package main.view.application.menu.civilizations
 		{
 			switch(button)
 			{
+				case MenuActionList.BACK_CIV_BUTTON_CLICKED:
 				case MenuActionList.CIVILIZATION_ITEM_BUTTON_CLICKED:
 				{						
 					_pageView.hidePage();

@@ -24,7 +24,7 @@ package main.view.starling.menu.simple
 		
 		private var txt				:TextField;
 		
-		private var overActive		:Boolean;
+		public var overActive		:Boolean;
 		
 		private var _enableState:	Image;
 		private var _disableState:	Image;
@@ -58,6 +58,8 @@ package main.view.starling.menu.simple
 				txt.autoSize = "center";
 								
 				txt.text = name;
+				
+				txt.touchable = false;
 				
 				_upState.scaleX 	= _upState.scaleY 		= sScreenUtils.getResourceScaleFactor();
 //				_labelImage.scaleX 	= _labelImage.scaleY 	= sScreenUtils.getResourceScaleFactor();
