@@ -7,7 +7,6 @@ package main.view.application.game.map
 	import main.view.application.data.GameDataProvider;
 	import main.view.application.data.ProvinceMapInfo;
 	import main.view.application.game.region.ProvinceController;
-	import main.view.application.game.region.RegionController;
 	import main.view.interfaces.game.IMapView;
 
 	public class MapController extends Module

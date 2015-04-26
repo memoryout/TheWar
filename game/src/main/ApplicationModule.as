@@ -93,13 +93,13 @@ package main
 			{
 				case ApplicationEvents.CONFIG_LOADED:
 				{
-					logView.addMessage("CONFIG_LOADED");
+//					logView.addMessage("CONFIG_LOADED");
 					break;
 				}
 					
 				case ApplicationEvents.BOOT_COMPLETE:
 				{
-					logView.addMessage("BOOT_COMPLETE");
+//					logView.addMessage("BOOT_COMPLETE");
 					break;
 				}
 					

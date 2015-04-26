@@ -41,19 +41,18 @@ package core.logic
 			LogicData.Get().gameLevel 				= StartupGameConfiguration.Get().level;
 			LogicData.Get().randomFill 				= StartupGameConfiguration.Get().randomFill;
 			LogicData.Get().randomPlacement 		= StartupGameConfiguration.Get().randomPlacement;
+			LogicData.Get().mapId 					= StartupGameConfiguration.Get().map;
+			
+//			LogicData.Get().civilizationList		= StartupGameConfiguration.Get().enemiesList;
 		}
 		
 		/**
 		 * Creation of civilization object with province wich contains. 
 		 */		
 		private function locateCivilizationOnPositions():void
-		{
-			var scenario:ScenarioInfo = DataContainer.Get().getScenario(LogicData.Get().selectedScenario);
-			
-			LogicData.Get().mapId = scenario.mapId;			
-			
-			var provincesList:Vector.<ProvinceInfo> = DataContainer.Get().getMapsList()[scenario.mapId].provinces;			
-			var initScenarioCivilizations:Vector.<CivilizationInfo> = DataContainer.Get().getScenariousList()[LogicData.Get().selectedScenario].civilizations;
+		{			
+			var provincesList:Vector.<ProvinceInfo> = DataContainer.Get().getMapsList()[LogicData.Get().mapId].provinces;			
+			var initScenarioCivilizations:Vector.<CivilizationInfo> = StartupGameConfiguration.Get().enemiesList;
 			
 			for (var i:int = 0; i < initScenarioCivilizations.length; i++) 
 			{

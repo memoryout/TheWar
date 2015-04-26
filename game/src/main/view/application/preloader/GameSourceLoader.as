@@ -35,8 +35,9 @@ package main.view.application.preloader
 		private function handlerInitViewLayoutComplete():void
 		{
 			_resourceLoader = new ResourceLoader();
-			_resourceLoader.addToLoadList("data/starling/europe/map.xml", "game_map", ResourceType.ATLAS);
-			_resourceLoader.addToLoadList("data/starling/europe/data.xml", "game_map_data", ResourceType.TEXT);
+			_resourceLoader.addToLoadList("data/starling/europe/map.xml",	"game_map", 	 ResourceType.ATLAS);
+			_resourceLoader.addToLoadList("data/starling/game_ui.xml", 		"game_ui",  	 ResourceType.ATLAS);
+			_resourceLoader.addToLoadList("data/starling/europe/data.xml", 	"game_map_data", ResourceType.TEXT);
 			
 			_resourceLoader.startLoad(onResourceLoadComplete, onErrorLoadResource);
 		}
